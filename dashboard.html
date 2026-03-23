@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UYEN - Dashboard</title>
+    <!-- Fonts: Inter and Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-logo">
+                <img src="Item/Group%20466.png" alt="logo" style="height: 40px;"
+                    onerror="this.src='https://cdn-icons-png.flaticon.com/512/3214/3214341.png'">
+            </div>
+            <ul class="nav-links">
+                <li><a href="receive-print.html">รับงานพิมพ์</a></li>
+                <li class="active"><a href="dashboard.html">จัดการผู้ใช้</a></li>
+                <li><a href="inventory.html">จัดการคลัง</a></li>
+                <li><a href="withdraw.html">เบิก / รับวัสดุ</a></li>
+                <li><a href="add-material.html">เพิ่มวัสดุ</a></li>
+                <li><a href="report.html">รายงานข้อมูล</a></li>
+            </ul>
+        </div>
+        <div class="nav-right" style="display: flex; align-items: center; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="username" style="margin: 0; font-weight: 500;">User_Genrate</span>
+                <span class="role-badge"
+                    style="background-color: #6236FF; color: white; padding: 4px 12px; border-radius: 8px; font-size: 14px; font-weight: 600;">Employee</span>
+            </div>
+            <div style="width: 1px; height: 28px; background-color: #ADADAD;"></div>
+            <button class="btn-logout" onclick="window.location.href='index.html'">ออกจากระบบ</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <!-- Header -->
+        <div class="page-header">
+            <h1 id="page-title">จัดการผู้ใช้งาน</h1>
+        </div>
+
+        <!-- Controls (Tabs + Search) -->
+        <div class="page-controls">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab(1)" id="tab1-btn">จัดการข้อมูลผู้ใช้งาน</button>
+                <button class="tab-btn" onclick="switchTab(2)" id="tab2-btn">จัดการข้อมูลพนักงาน</button>
+            </div>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="ค้นหา USER ID หรือ ชื่อผู้ใช้งาน"
+                    onkeyup="filterUsers()">
+            </div>
+        </div>
+
+        <!-- Table View 1 (Users) -->
+        <div class="table-container" id="view-users">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">USER ID</th>
+                        <th style="width: 30%;">ชื่อผู้ใช้</th>
+                        <th style="width: 20%;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                สถานะ
+                                <div style="display: flex; flex-direction: column; gap: 2px;">
+                                    <button class="sort-up" onclick="filterByStatus('ปกติ')" title="ปกติ">▲</button>
+                                    <button class="sort-down" onclick="filterByStatus('Blacklist')"
+                                        title="Blacklist">▼</button>
+                                </div>
+                            </div>
+                        </th>
+                        <th style="width: 30%;">ดำเนินการ</th>
+                    </tr>
+                </thead>
+                <tbody id="users-tbody">
+                    <!-- Javascript will render rows here from state -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Table View 2 (Employees) -->
+        <div class="table-container" id="view-employees" style="display: none;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">USER ID</th>
+                        <th style="width: 25%;">ชื่อผู้ใช้</th>
+                        <th style="width: 20%;">ตำแหน่ง</th>
+                        <th style="width: 15%;">เบอร์</th>
+                        <th style="width: 25%;">ดำเนินการ</th>
+                    </tr>
+                </thead>
+                <tbody id="employees-tbody">
+                    <!-- Javascript will render rows here from state -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Modals -->
+
+    <!-- Delete Modal -->
+    <div class="modal-overlay" id="modal-delete" style="display: none;">
+        <div class="modal delete-modal">
+            <div class="modal-header modal-header-red">
+                <h2>ยืนยันการลบ</h2>
+            </div>
+            <div class="modal-body delete-body">
+                <p>คุณต้องการลบ ชื่อผู้ใช้ : <span id="delete-username-text" style="font-weight: 700;"></span> หรือไม่?
+                </p>
+                <div class="modal-actions-right">
+                    <button class="btn-action btn-delete btn-delete-confirm" onclick="confirmDelete()">🗑 ลบ</button>
+                    <button class="btn-action btn-cancel" onclick="closeModal('modal-delete')">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="modal-edit" style="display: none;">
+        <div class="modal" style="padding: 0; max-width: 600px;">
+            <div class="modal-header modal-header-blue" style="background-color: #4f87ff; padding: 25px 30px; color: white;">
+                <h2 id="edit-modal-title" style="font-size: 28px; font-weight: 700; margin-bottom: 5px;">Somyot</h2>
+                <p id="edit-modal-subtitle" style="font-size: 14px; font-weight: 500;">แก้ไขข้อมูลผู้ใช้งาน</p>
+            </div>
+            <div class="modal-body" style="padding: 30px;">
+                <form class="form-grid" style="align-items: end;">
+                    <div class="input-group">
+                        <label>Username</label>
+                        <input type="text" id="edit-username" value="Somyot" placeholder="Username">
+                    </div>
+                    <div class="input-group" id="group-role">
+                        <label>ตำแหน่งงาน</label>
+                        <div class="select-wrapper">
+                            <select id="edit-role">
+                                <option value="" disabled selected hidden>เลือกตำแหน่งงาน</option>
+                                <option value="Admin">Admin</option>
+                                <option value="พนักงาน">พนักงาน</option>
+                                <option value="เจ้าของร้าน">เจ้าของร้าน</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" value="ssomyot@bumail.net" id="edit-email" placeholder="example@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Phone No.</label>
+                        <input type="tel" value="062-236-0567" id="edit-phone" maxlength="16"
+                            placeholder="000 - 000 - 0000">
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="text" value="Ssomyot1122!" id="edit-password" placeholder="Password">
+                    </div>
+
+                    <div class="edit-footer" style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 15px; height: 100%;">
+                        <div class="input-group" id="status-group-container" style="gap: 12px; margin-right: auto; flex-direction: row; align-items: center; display: none;">
+                            <label style="font-size: 14px; color: #333; margin: 0;">สถานะ</label>
+                            <div class="toggle-container" style="margin: 0;">
+                                <button type="button" class="toggle-btn toggle-normal active" onclick="setToggle(this)">ปกติ</button>
+                                <button type="button" class="toggle-btn toggle-blacklist" onclick="setToggle(this)">Blacklist</button>
+                            </div>
+                        </div>
+
+                        <div class="modal-actions-right" style="margin-top: 0; display: flex; gap: 10px;">
+                            <button type="button" class="btn-action" onclick="saveUserData()" style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 20px; font-weight: 700; font-size: 13px;">บันทึกข้อมูล</button>
+                            <button type="button" class="btn-action" onclick="closeModal('modal-edit')" style="background-color: #fee2e2; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 20px; font-weight: 700; font-size: 13px;">ปิด</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Scripts for Tab and Modal functionality -->
+    <script src="dashboard.js"></script>
+    <script>
+        function switchTab(tabIndex) {
+            const btn1 = document.getElementById('tab1-btn');
+            const btn2 = document.getElementById('tab2-btn');
+            const view1 = document.getElementById('view-users');
+            const view2 = document.getElementById('view-employees');
+            const title = document.getElementById('page-title');
+
+            if (tabIndex === 1) {
+                btn1.classList.add('active');
+                btn2.classList.remove('active');
+                view1.style.display = 'block';
+                view2.style.display = 'none';
+                title.innerText = 'จัดการผู้ใช้งาน';
+            } else {
+                btn2.classList.add('active');
+                btn1.classList.remove('active');
+                view2.style.display = 'block';
+                view1.style.display = 'none';
+                title.innerText = 'จัดการข้อมูลพนักงาน';
+            }
+        }
+
+        function openModal(modalId, username = '', role = '') {
+            document.getElementById(modalId).style.display = 'flex';
+
+            if (modalId === 'modal-delete' && username) {
+                document.getElementById('delete-username-text').innerText = username;
+            }
+        }
+
+        function setToggle(btn) {
+            const container = btn.parentElement;
+            const buttons = container.querySelectorAll('.toggle-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function formatPhoneNumber(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 10) {
+                value = value.substring(0, 10);
+            }
+            let formatted = '';
+            if (value.length > 0) formatted += value.substring(0, 3);
+            if (value.length > 3) formatted += '-' + value.substring(3, 6);
+            if (value.length > 6) formatted += '-' + value.substring(6, 10);
+            input.value = formatted;
+        }
+
+        let activeStatusFilter = '';
+
+        function filterByStatus(status) {
+            if (activeStatusFilter === status) {
+                activeStatusFilter = '';
+                document.querySelectorAll('.sort-up, .sort-down').forEach(btn => btn.classList.remove('active'));
+            } else {
+                activeStatusFilter = status;
+                document.querySelectorAll('.sort-up, .sort-down').forEach(btn => btn.classList.remove('active'));
+                if (status === 'ปกติ') document.querySelector('.sort-up').classList.add('active');
+                if (status === 'Blacklist') document.querySelector('.sort-down').classList.add('active');
+            }
+            filterUsers();
+        }
+
+        function filterUsers() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            // Filter users table
+            const userRows = document.querySelectorAll('#view-users tbody tr');
+            userRows.forEach(row => {
+                const userId = row.cells[0].textContent.toLowerCase();
+                const userName = row.cells[1].textContent.toLowerCase();
+                const status = row.cells[2].textContent.trim();
+
+                const matchesSearch = userId.includes(searchTerm) || userName.includes(searchTerm);
+                const matchesStatus = (activeStatusFilter === '') || (status === activeStatusFilter);
+
+                if (matchesSearch && matchesStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Filter employees table
+            const employeeRows = document.querySelectorAll('#view-employees tbody tr');
+            employeeRows.forEach(row => {
+                const userId = row.cells[0].textContent.toLowerCase();
+                const userName = row.cells[1].textContent.toLowerCase();
+                if (userId.includes(searchTerm) || userName.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

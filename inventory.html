@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UYEN - Inventory</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="inventory.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-logo">
+                <img src="Item/Group%20466.png" alt="logo" style="height: 40px;"
+                    onerror="this.src='https://cdn-icons-png.flaticon.com/512/3214/3214341.png'">
+            </div>
+            <ul class="nav-links">
+                <li><a href="receive-print.html">รับงานพิมพ์</a></li>
+                <li><a href="dashboard.html">จัดการผู้ใช้</a></li>
+                <li class="active"><a href="inventory.html">จัดการคลัง</a></li>
+                <li><a href="withdraw.html">เบิก / รับวัสดุ</a></li>
+                <li><a href="add-material.html">เพิ่มวัสดุ</a></li>
+                <li><a href="report.html">รายงานข้อมูล</a></li>
+            </ul>
+        </div>
+        <div class="nav-right" style="display: flex; align-items: center; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="username" style="margin: 0; font-weight: 500;">User_Genrate</span>
+                <span class="role-badge"
+                    style="background-color: #6236FF; color: white; padding: 4px 12px; border-radius: 8px; font-size: 14px; font-weight: 600;">Employee</span>
+            </div>
+            <div style="width: 1px; height: 28px; background-color: #ADADAD;"></div>
+            <button class="btn-logout" onclick="window.location.href='index.html'">ออกจากระบบ</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <!-- Header -->
+        <div class="page-header" style="flex-direction: column; align-items: flex-start; margin-bottom: 25px;">
+            <h1 id="page-title" style="font-size: 40px; margin-bottom: 5px; font-weight: 800; color: #1a1a1a;">
+                จัดการคลังวัสดุ</h1>
+            <p style="font-size: 13px; color: #6b7280; font-weight: 500;">วัสดุ (จำนวนรายการของทั้งหมด) รายการ</p>
+        </div>
+
+        <!-- Summary & Search Row -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div style="display: flex; align-items: baseline; gap: 8px;">
+                <span style="font-size: 24px; font-weight: 800; color: #1a1a1a;">สินค้า</span>
+                <div
+                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; top: 3px;">
+                    <span id="total-item-count"
+                        style="font-size: 32px; font-weight: 800; color: #0088ff; line-height: 0.9;">7</span>
+                </div>
+                <span style="font-size: 24px; font-weight: 800; color: #1a1a1a;">รายการ</span>
+            </div>
+
+            <div class="search-box" style="position: relative; flex: 1; max-width: 380px;">
+                <span class="search-icon"
+                    style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #9ca3af;">🔍</span>
+                <input type="text" id="inventory-search" placeholder="ค้นหา วัสดุ หรือ ประเภท"
+                    onkeyup="searchInventory()"
+                    style="padding: 10px 15px 10px 40px; width: 100%; background-color: #f8fafc; border: 1px solid #e5e7eb; border-radius: 20px; outline: none; font-size: 14px; box-sizing: border-box;">
+            </div>
+        </div>
+
+        <!-- Controls (Filter Bar) -->
+        <div class="filter-bar"
+            style="background-color: #f8fafc; border: none; border-radius: 8px; padding: 12px 20px; margin-bottom: 25px;">
+            <div class="sort-section">
+                <span>เรียงตาม :</span>
+                <span class="sort-item">คลัง <span class="sort-arrows">↕</span></span>
+                <span class="sort-item">สถานะ <span class="sort-arrows">↕</span></span>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrapper"
+            style="width: 100%; border: 1px solid #bae6fd; border-radius: 8px; overflow: hidden; background-color: #fff;">
+            <table class="data-table inventory-table"
+                style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+                <thead style="background-color: #f0f9ff; border-bottom: 1px solid #bae6fd;">
+                    <tr>
+                        <th style="width: 10%;">รูปภาพ</th>
+                        <th style="width: 15%; text-align: center;">วัสดุ</th>
+                        <th style="width: 15%;">ประเภทวัสดุ</th>
+                        <th style="width: 12%;">คลังคงเหลือ</th>
+                        <th style="width: 10%;">หน่วย</th>
+                        <th style="width: 12%;">ราคา / หน่วย</th>
+                        <th style="width: 12%;">สถานะ</th>
+                        <th style="width: 8%;">ลบสินค้า</th>
+                        <th style="width: 6%;">ตั้งค่า</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/128/2916/2916315.png" class="item-img"
+                                alt="A4 ธรรมดา"></td>
+                        <td class="item-name">A4</td>
+                        <td class="item-type">ธรรมดา</td>
+                        <td class="qty-remaining">22</td>
+                        <td class="item-unit">รีม</td>
+                        <td class="item-price">5</td>
+                        <td><span class="status-instock text-status-blue">มีสินค้า</span></td>
+                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
+                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/128/1973/1973871.png" class="item-img"
+                                alt="หมึก ดำ"></td>
+                        <td class="item-name">หมึก</td>
+                        <td class="item-type">ดำ</td>
+                        <td class="qty-remaining">3</td>
+                        <td class="item-unit">ขวด</td>
+                        <td class="item-price">3</td>
+                        <td><span class="status-low text-status-red">สินค้าใกล้หมด</span></td>
+                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
+                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/128/2916/2916315.png" class="item-img"
+                                alt="A4 แผ่นปกใส" style="filter: hue-rotate(180deg) brightness(1.2);"></td>
+                        <td class="item-name">A4</td>
+                        <td class="item-type">แผ่นปกใส</td>
+                        <td class="qty-remaining">22</td>
+                        <td class="item-unit">รีม</td>
+                        <td class="item-price">6</td>
+                        <td><span class="status-instock text-status-blue">มีสินค้า</span></td>
+                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
+                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/128/3305/3305943.png" class="item-img"
+                                alt="คลิปหนีบกระดาษ"></td>
+                        <td class="item-name">คลิปหนีบกระดาษ</td>
+                        <td class="item-type">อันเล็ก</td>
+                        <td class="qty-remaining">300</td>
+                        <td class="item-unit">ขวด</td>
+                        <td class="item-price">7</td>
+                        <td><span class="status-instock text-status-blue">มีสินค้า</span></td>
+                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
+                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/128/10499/10499881.png" class="item-img"
+                                alt="เทป"></td>
+                        <td class="item-name">เทป</td>
+                        <td class="item-type">ชนิดใส</td>
+                        <td class="qty-remaining">2</td>
+                        <td class="item-unit">ม้วน</td>
+                        <td class="item-price">10</td>
+                        <td><span class="status-low text-status-red">สินค้าใกล้หมด</span></td>
+                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
+                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/128/8991/8991730.png" class="item-img"
+                                alt="ลวด เย็บ กระดาษ"></td>
+                        <td class="item-name">ลวด เย็บ กระดาษ</td>
+                        <td class="item-type">35 MM</td>
+                        <td class="qty-remaining">70</td>
+                        <td class="item-unit">ม้วน</td>
+                        <td class="item-price">22</td>
+                        <td><span class="status-instock text-status-blue">มีสินค้า</span></td>
+                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
+                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://cdn-icons-png.flaticon.com/128/1932/1932594.png" class="item-img"
+                                alt="กรรไกร"></td>
+                        <td class="item-name">กรรไกร</td>
+                        <td class="item-type">ใหญ่</td>
+                        <td class="qty-remaining">3</td>
+                        <td class="item-unit">ม้วน</td>
+                        <td class="item-price">45</td>
+                        <td><span class="status-low text-status-red">สินค้าใกล้หมด</span></td>
+                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
+                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="modal-settings" style="display: none;">
+        <div class="modal">
+            <div class="modal-header modal-header-blue" style="padding: 15px 25px;">
+                <h2 style="font-size: 22px; margin-bottom: 0;">ตั้งค่าวัสดุ</h2>
+            </div>
+            <div class="modal-body inventory-modal-body">
+                <!-- Image Upload Box -->
+                <div class="img-upload-box" id="upload-box-container" onclick="showStatusModal('error-upload')">
+                    <img id="edit-img-preview" src="" alt="preview"
+                        style="display: none; max-width: 80px; max-height: 80px; margin-bottom: 8px;">
+                    <button class="btn-upload-edit" id="btn-edit-img" style="display: none;">แก้ใขรูปภาพ</button>
+
+                    <div id="upload-placeholder">
+                        <div style="font-size: 45px; color: #cbd5e1; margin-bottom: 2px; line-height: 1;">⬆</div>
+                        <div class="img-upload-text">เพิ่มรูปภาพวัสดุ</div>
+                    </div>
+                    <div class="img-upload-subtext">*ขนาดไฟล์สูงสุดห้ามเกิน 50 MB</div>
+                </div>
+
+                <div class="inventory-form-group">
+                    <label>วัสดุ</label>
+                    <input type="text" id="edit-material-name" value="" class="blue-input">
+                </div>
+                <div class="inventory-form-group">
+                    <label>ประเภทวัสดุ</label>
+                    <input type="text" id="edit-material-type" value="" class="blue-input">
+                </div>
+                <div class="inventory-form-group">
+                    <label>หน่วย</label>
+                    <input type="text" id="edit-material-unit" value="" class="blue-input">
+                </div>
+                <div class="inventory-form-group">
+                    <label>ราคา/หน่วย</label>
+                    <input type="text" id="edit-material-price" value="" class="blue-input">
+                </div>
+                <div class="inventory-form-group">
+                    <label>คลังวัสดุคงเหลือ</label>
+                    <input type="text" id="edit-material-qty" value="" class="gray-input" readonly>
+                </div>
+
+                <div class="modal-actions-center"
+                    style="margin-top: 15px; gap: 15px; display: flex; justify-content: center;">
+                    <button class="btn-action btn-outline-green" style="padding: 10px 30px; font-weight: 600;"
+                        onclick="showStatusModal('success')">บันทึกข้อมูลวัสดุ</button>
+                    <button class="btn-action btn-outline-red" style="padding: 10px 30px; font-weight: 600;"
+                        onclick="closeModal('modal-settings')">ยกเลิก</button>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 5px;">
+                    <!-- Test buttons to show the error modals -->
+                    <button onclick="showStatusModal('error-upload')"
+                        style="background:none; border:none; text-decoration:underline; font-size:12px; color:#ef4444; cursor:pointer;">Test
+                        Upload Error</button>
+                    <button onclick="showStatusModal('error-save')"
+                        style="background:none; border:none; text-decoration:underline; font-size:12px; color:#ef4444; cursor:pointer;">Test
+                        Save Error</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Modals -->
+    <!-- Success -->
+    <div class="modal-overlay" id="modal-success" style="display: none; z-index: 2000;">
+        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
+            <div style="background-color: #22c55e; padding: 25px; color: white;">
+                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">ตั้งค่าวัสดุสำเร็จ</h2>
+            </div>
+            <div
+                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                <!-- Custom Check Icon -->
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #22c55e; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+                    <div
+                        style="width: 25px; height: 45px; border: solid white; border-width: 0 6px 6px 0; transform: rotate(45deg); margin-bottom: 10px;">
+                    </div>
+                </div>
+                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">
+                    ข้อมูลได้รับการบันทึกแล้ว</h3>
+                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Upload -->
+    <div class="modal-overlay" id="modal-error-upload" style="display: none; z-index: 2000;">
+        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
+            <div style="background-color: #ef4444; padding: 25px; color: white;">
+                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">อัพโหลดรูปภาพไม่สำเร็จ</h2>
+            </div>
+            <div
+                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #ef4444; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+                    <div style="font-size: 80px; font-weight: bold; line-height: 1; padding-bottom: 20px;">⬆</div>
+                </div>
+                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">
+                    ไม่สามารถอัพโหลดรูปภาพได้</h3>
+                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Save -->
+    <div class="modal-overlay" id="modal-error-save" style="display: none; z-index: 2000;">
+        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
+            <div style="background-color: #ef4444; padding: 25px; color: white;">
+                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">บันทึกวัสดุไม่สำเร็จ</h2>
+            </div>
+            <div
+                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #ef4444; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+                    <div style="font-size: 60px; font-weight: bold; line-height: 1;">♻</div>
+                </div>
+                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">
+                    ไม่สามารถบันทึกข้อมูลได้</h3>
+                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Material Modal -->
+    <div class="modal-overlay" id="modal-delete-material" style="display: none;">
+        <div class="modal">
+            <div class="modal-header modal-header-red" style="padding: 15px 25px;">
+                <h2 style="font-size: 22px; margin-bottom: 0;">ต้องการลบวัสดุใช่หรือไม่</h2>
+            </div>
+            <div class="modal-body inventory-modal-body">
+                <!-- Image Display Box -->
+                <div class="img-upload-box"
+                    style="cursor: default; background-color: #fff; border: 1px solid #cbd5e1; border-radius: 12px; min-height: 100px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
+                    <img id="delete-img-preview" src="" alt="preview" style="max-width: 80px; max-height: 80px;">
+                </div>
+
+                <div class="inventory-form-group">
+                    <label>วัสดุ</label>
+                    <input type="text" id="delete-material-name" class="gray-input" readonly>
+                </div>
+                <div class="inventory-form-group">
+                    <label>ประเภทวัสดุ</label>
+                    <input type="text" id="delete-material-type" class="gray-input" readonly>
+                </div>
+                <div class="inventory-form-group">
+                    <label>หน่วย</label>
+                    <input type="text" id="delete-material-unit" class="gray-input" readonly>
+                </div>
+                <div class="inventory-form-group">
+                    <label>ราคา/หน่วย</label>
+                    <input type="text" id="delete-material-price" class="gray-input" readonly>
+                </div>
+                <div class="inventory-form-group">
+                    <label>คลังวัสดุคงเหลือ</label>
+                    <input type="text" id="delete-material-qty" class="gray-input" readonly>
+                </div>
+
+                <div class="modal-actions-center"
+                    style="margin-top: 15px; gap: 15px; display: flex; justify-content: center;">
+                    <button class="btn-action btn-outline-red" style="padding: 10px 30px; font-weight: 600;"
+                        onclick="confirmDelete()">ยืนยันลบข้อมูลวัสดุ</button>
+                    <button class="btn-action btn-outline-gray" style="padding: 10px 30px; font-weight: 600;"
+                        onclick="closeModal('modal-delete-material')">ยกเลิก</button>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 5px;">
+                    <!-- Test Error Button -->
+                    <button onclick="showStatusModal('delete-error')"
+                        style="background:none; border:none; text-decoration:underline; font-size:12px; color:#ef4444; cursor:pointer;">Test
+                        Delete Error</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Success (RED theme based on mockup) -->
+    <div class="modal-overlay" id="modal-delete-success" style="display: none; z-index: 2000;">
+        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
+            <div style="background-color: #ef4444; padding: 25px; color: white;">
+                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">ลบวัสดุสำเร็จ</h2>
+            </div>
+            <div
+                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #ef4444; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+                    <div style="font-size: 60px; font-weight: bold; line-height: 1;">♻</div>
+                </div>
+                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">
+                    ข้อมูลถูกลบสำเร็จแล้ว</h3>
+                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Error (ORANGE theme based on mockup) -->
+    <div class="modal-overlay" id="modal-delete-error" style="display: none; z-index: 2000;">
+        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
+            <div style="background-color: #f59e0b; padding: 25px; color: white;">
+                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">ลบวัสดุไม่สำเร็จ</h2>
+            </div>
+            <div
+                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #f59e0b; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+                    <div style="font-size: 60px; font-weight: bold; line-height: 1;">♻</div>
+                </div>
+                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">ข้อมูลถูกลบไม่สำเร็จ
+                </h3>
+                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRowToDelete = null;
+        let currentRowToEdit = null;
+
+        function updateItemCount() {
+            const tbody = document.querySelector('.inventory-table tbody');
+            const count = tbody ? Array.from(tbody.querySelectorAll('tr')).filter(row => row.style.display !== 'none').length : 0;
+            const countEl = document.getElementById('total-item-count');
+            if (countEl) countEl.innerText = count;
+        }
+
+        function searchInventory() {
+            const input = document.getElementById("inventory-search").value.toLowerCase();
+            const table = document.querySelector(".inventory-table tbody");
+            const rows = table.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                const nameCell = rows[i].querySelector('.item-name');
+                const typeCell = rows[i].querySelector('.item-type');
+
+                if (nameCell || typeCell) {
+                    const materialName = nameCell.textContent || nameCell.innerText;
+                    const materialType = typeCell.textContent || typeCell.innerText;
+
+                    if (materialName.toLowerCase().indexOf(input) > -1 || materialType.toLowerCase().indexOf(input) > -1) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+            updateItemCount();
+        }
+
+        function openSettingsModal(btn) {
+            currentRowToEdit = btn.closest('tr');
+            const cells = currentRowToEdit.querySelectorAll('td');
+
+            const imgSrc = cells[0].querySelector('img').src;
+            const name = cells[1].innerText.trim();
+            const type = cells[2].innerText.trim();
+            const qty = cells[3].innerText.trim();
+            const unit = cells[4].innerText.trim();
+            const price = cells[5].innerText.trim();
+
+            document.getElementById('edit-material-name').value = name;
+            document.getElementById('edit-material-type').value = type;
+            document.getElementById('edit-material-qty').value = qty;
+            document.getElementById('edit-material-unit').value = unit;
+            document.getElementById('edit-material-price').value = price;
+
+            const preview = document.getElementById('edit-img-preview');
+            const placeholder = document.getElementById('upload-placeholder');
+            const btnEdit = document.getElementById('btn-edit-img');
+
+            if (imgSrc && imgSrc.indexOf('noimage.png') === -1) {
+                preview.src = imgSrc;
+                preview.style.display = 'block';
+                btnEdit.style.display = 'inline-block';
+                placeholder.style.display = 'none';
+            } else {
+                preview.style.display = 'none';
+                btnEdit.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
+
+            document.getElementById('modal-settings').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function openDeleteMaterialModal(btn) {
+            currentRowToDelete = btn.closest('tr');
+            const cells = currentRowToDelete.querySelectorAll('td');
+
+            const imgSrc = cells[0].querySelector('img').src;
+            const name = cells[1].innerText.trim();
+            const type = cells[2].innerText.trim();
+            const qty = cells[3].innerText.trim();
+            const unit = cells[4].innerText.trim();
+            const price = cells[5].innerText.trim();
+
+            document.getElementById('delete-material-name').value = name;
+            document.getElementById('delete-material-type').value = type;
+            document.getElementById('delete-material-qty').value = qty;
+            document.getElementById('delete-material-unit').value = unit;
+            document.getElementById('delete-material-price').value = price;
+
+            const preview = document.getElementById('delete-img-preview');
+            preview.src = (imgSrc && imgSrc.indexOf('noimage.png') === -1) ? imgSrc : 'Item/noimage.png';
+
+            document.getElementById('modal-delete-material').style.display = 'flex';
+        }
+
+        function confirmDelete() {
+            if (currentRowToDelete) {
+                currentRowToDelete.remove();
+                currentRowToDelete = null;
+                showStatusModal('delete-success');
+                updateItemCount();
+            }
+        }
+
+        function showStatusModal(type) {
+            let modalId = '';
+            if (type === 'success') {
+                modalId = 'modal-success';
+                closeModal('modal-settings');
+            } else if (type === 'error-save') {
+                modalId = 'modal-error-save';
+            } else if (type === 'error-upload') {
+                modalId = 'modal-error-upload';
+            } else if (type === 'delete-success') {
+                modalId = 'modal-delete-success';
+                closeModal('modal-delete-material');
+            } else if (type === 'delete-error') {
+                modalId = 'modal-delete-error';
+            }
+
+            if (modalId) {
+                document.getElementById(modalId).style.display = 'flex';
+                // Close after 2 seconds roughly capturing the 2sec timeframe given in mockups
+                setTimeout(() => {
+                    closeModal(modalId);
+                }, 2000);
+            }
+        }
+
+        window.onload = function () {
+            updateItemCount();
+        };
+    </script>
+</body>
+
+</html>

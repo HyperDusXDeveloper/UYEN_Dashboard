@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UYEN - เพิ่มวัสดุ</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css?v=1.1">
+    <link rel="stylesheet" href="inventory.css?v=1.1">
+    <link rel="stylesheet" href="withdraw.css?v=1.1">
+    <link rel="stylesheet" href="add-material.css?v=1.1">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-logo">
+                <img src="Item/Group%20466.png" alt="logo" style="height: 40px;"
+                    onerror="this.src='https://cdn-icons-png.flaticon.com/512/3214/3214341.png'">
+            </div>
+            <ul class="nav-links">
+                <li><a href="receive-print.html">รับงานพิมพ์</a></li>
+                <li><a href="dashboard.html">จัดการผู้ใช้</a></li>
+                <li><a href="inventory.html">จัดการคลัง</a></li>
+                <li><a href="withdraw.html">เบิก / รับวัสดุ</a></li>
+                <li class="active"><a href="add-material.html">เพิ่มวัสดุ</a></li>
+                <li><a href="report.html">รายงานข้อมูล</a></li>
+            </ul>
+        </div>
+        <div class="nav-right" style="display: flex; align-items: center; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="username" style="margin: 0; font-weight: 500;">User_Genrate</span>
+                <span class="role-badge"
+                    style="background-color: #6236FF; color: white; padding: 4px 12px; border-radius: 8px; font-size: 14px; font-weight: 600;">Employee</span>
+            </div>
+            <div style="width: 1px; height: 28px; background-color: #ADADAD;"></div>
+            <button class="btn-logout" onclick="window.location.href='index.html'">ออกจากระบบ</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main withdraw-main"> <!-- Reuse layout from withdraw -->
+        <aside class="withdraw-sidebar"
+            style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; box-shadow: none;">
+            <h1 class="withdraw-title">เพิ่มวัสดุ</h1>
+
+            <div class="withdraw-form">
+                <div class="withdraw-form-group">
+                    <label>วัสดุ</label>
+                    <input type="text" id="add-material-name" class="withdraw-input blue-text">
+                </div>
+
+                <div class="withdraw-form-group">
+                    <label>ประเภทวัสดุ</label>
+                    <input type="text" id="add-material-type" class="withdraw-input blue-text">
+                </div>
+
+                <div class="withdraw-form-group">
+                    <label>ราคาต่อหน่วย</label>
+                    <input type="number" id="add-material-price" class="withdraw-input blue-text">
+                </div>
+
+                <div class="withdraw-form-group">
+                    <label>หน่วย</label>
+                    <input type="text" id="add-material-unit" class="withdraw-input blue-text">
+                </div>
+
+                <div class="withdraw-form-group">
+                    <label>เพิ่มรูปภาพวัสดุ</label>
+                    <input type="file" id="material-file-input" style="display: none;"
+                        accept="image/png, image/jpeg, image/jpg, application/pdf">
+                    <div class="upload-box" id="upload-box"
+                        onclick="document.getElementById('material-file-input').click()"
+                        style="border: 2px dashed #e2e8f0; border-radius: 12px; text-align: center; padding: 40px 20px; margin-top: 8px; cursor: pointer; transition: all 0.2s;">
+                        <img id="upload-preview-img" src="Item/Upload_Icon.png" alt="upload"
+                            style="height: 60px; opacity: 0.15; margin-bottom: 12px; max-width: 100%; object-fit: contain;">
+                        <div id="upload-text" style="font-size: 16px; color: #cbd5e1; font-weight: 600;">
+                            เพิ่มรูปภาพวัสดุ</div>
+                        <div style="font-size: 10px; color: #cbd5e1; margin-top: 4px;">*ขนาดไฟล์สูงสุดห้ามเกิน 50 MB
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; display: flex; justify-content: center;">
+                <button class="btn-submit-withdraw" onclick="openConfirmModal()"
+                    style="background-color: #e4fce5; color: #22c55e; border: 1px solid #4ade80; border-radius: 6px; padding: 12px 40px; font-weight: 700; width: 60%; font-size: 18px; box-shadow: none;">เพิ่มวัสดุ</button>
+            </div>
+        </aside>
+
+        <section class="withdraw-content" style="padding-left: 30px;">
+            <h1 class="withdraw-table-title">รายการเพิ่มวัสดุ</h1>
+            <div class="search-box withdraw-search" style="margin-bottom: 25px; width: 250px;">
+                <span class="search-icon" style="top:11px; left: 16px;">🔍</span>
+                <input type="text" id="search-input" placeholder="ค้นหา วัสดุ หรือ ประเภท" class="withdraw-search-input"
+                    style="background-color: #f8fafc; border: none; padding-left: 45px; border-radius: 8px;"
+                    onkeyup="searchMaterial()">
+            </div>
+
+            <div class="withdraw-table-container">
+                <table class="data-table withdraw-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">วัสดุ</th>
+                            <th style="width: 20%;">ประเภทวัสดุ</th>
+                            <th style="width: 15%;">ราคา/หน่วย</th>
+                            <th style="width: 15%;">หน่วย</th>
+                            <th style="width: 15%;">วันที่เพิ่ม</th>
+                            <th style="width: 20%; border-right: none;">ดำเนินการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="mat-id">A4</td>
+                            <td class="bold-text">สติ๊กเกอร์</td>
+                            <td class="bold-text">25</td>
+                            <td class="bold-text">แผ่น</td>
+                            <td class="bold-text">21/03/2026</td>
+                            <td class="add-material-actions">
+                                <button class="btn-outline-orange" style="min-width: 60px;"
+                                    onclick="openEditModal(this)">แก้ไข</button>
+                            </td>
+                        </tr>
+                        <tr class="alt-row">
+                            <td class="mat-id">A-4</td>
+                            <td class="bold-text">ร้อยปอนด์</td>
+                            <td class="bold-text">50</td>
+                            <td class="bold-text">แผ่น</td>
+                            <td class="bold-text">21/03/2026</td>
+                            <td class="add-material-actions">
+                                <button class="btn-outline-orange" style="min-width: 60px;"
+                                    onclick="openEditModal(this)">แก้ไข</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mat-id">A-3</td>
+                            <td class="bold-text">สติ๊กเกอร์</td>
+                            <td class="bold-text">23</td>
+                            <td class="bold-text">แผ่น</td>
+                            <td class="bold-text">21/03/2026</td>
+                            <td class="add-material-actions">
+                                <button class="btn-outline-orange" style="min-width: 60px;"
+                                    onclick="openEditModal(this)">แก้ไข</button>
+                            </td>
+                        </tr>
+                        <tr class="alt-row">
+                            <td class="mat-id">A-5</td>
+                            <td class="bold-text">ร้อยปอนด์</td>
+                            <td class="bold-text">64</td>
+                            <td class="bold-text">แผ่น</td>
+                            <td class="bold-text">21/03/2026</td>
+                            <td class="add-material-actions">
+                                <button class="btn-outline-orange" style="min-width: 60px;"
+                                    onclick="openEditModal(this)">แก้ไข</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mat-id">A-4</td>
+                            <td class="bold-text">สติ๊กเกอร์</td>
+                            <td class="bold-text">23</td>
+                            <td class="bold-text">แผ่น</td>
+                            <td class="bold-text">21/03/2026</td>
+                            <td class="add-material-actions">
+                                <button class="btn-outline-orange" style="min-width: 60px;"
+                                    onclick="openEditModal(this)">แก้ไข</button>
+                            </td>
+                        </tr>
+                        <tr class="alt-row">
+                            <td class="mat-id">A-3</td>
+                            <td class="bold-text">ร้อยปอนด์</td>
+                            <td class="bold-text">23</td>
+                            <td class="bold-text">แผ่น</td>
+                            <td class="bold-text">21/03/2026</td>
+                            <td class="add-material-actions">
+                                <button class="btn-outline-orange" style="min-width: 60px;"
+                                    onclick="openEditModal(this)">แก้ไข</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="mat-id">A-4</td>
+                            <td class="bold-text">สติ๊กเกอร์</td>
+                            <td class="bold-text">64</td>
+                            <td class="bold-text">แผ่น</td>
+                            <td class="bold-text">21/03/2026</td>
+                            <td class="add-material-actions">
+                                <button class="btn-outline-orange" style="min-width: 60px;"
+                                    onclick="openEditModal(this)">แก้ไข</button>
+                            </td>
+                        </tr>
+                        <tr class="alt-row">
+                            <td class="mat-id">A-3</td>
+                            <td class="bold-text">ร้อยปอนด์</td>
+                            <td class="bold-text">35</td>
+                            <td class="bold-text">แผ่น</td>
+                            <td class="bold-text">21/03/2026</td>
+                            <td class="add-material-actions">
+                                <button class="btn-outline-orange" style="min-width: 60px;"
+                                    onclick="openEditModal(this)">แก้ไข</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <!-- Confirm Add Material Modal -->
+    <div class="modal-overlay" id="modal-confirm-add" style="display: none; z-index: 1000;">
+        <div class="modal"
+            style="width: 450px; border-radius: 16px; overflow: hidden; padding: 0; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div style="background-color: #0088ff; color: white; padding: 20px; text-align: center;">
+                <h2 style="font-size: 22px; font-weight: 600; margin: 0; color: white;">ต้องการเพิ่มวัสดุใช่หรือไม่</h2>
+            </div>
+            <div class="bg-white" style="padding: 30px;">
+
+                <!-- Image Box -->
+                <div
+                    style="border: 1px solid #e2e8f0; border-radius: 12px; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px;">
+                    <!-- Placeholder binder clip image, user will upload real image via JS logic later or just mock it -->
+                    <img src="https://cdn-icons-png.flaticon.com/512/108/108181.png" alt="Preview"
+                        style="height: 100px; opacity: 0.8;" id="confirm-image-preview">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">วัสดุ</label>
+                    <input type="text" id="confirm-material"
+                        style="width:100%; height: 38px; background-color: #f1f5f9; border: none; border-radius: 6px; padding: 0 15px; font-size: 13px; color: #64748b;"
+                        readonly>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">ประเภทวัสดุ</label>
+                    <input type="text" id="confirm-type"
+                        style="width:100%; height: 38px; background-color: #f1f5f9; border: none; border-radius: 6px; padding: 0 15px; font-size: 13px; color: #64748b;"
+                        readonly>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">ราคา/หน่วย</label>
+                    <input type="text" id="confirm-price"
+                        style="width:100%; height: 38px; background-color: #f1f5f9; border: none; border-radius: 6px; padding: 0 15px; font-size: 13px; color: #64748b;"
+                        readonly>
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <label
+                        style="font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">หน่วย</label>
+                    <input type="text" id="confirm-unit"
+                        style="width:100%; height: 38px; background-color: #f1f5f9; border: none; border-radius: 6px; padding: 0 15px; font-size: 13px; color: #64748b;"
+                        readonly>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                    <button
+                        style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 30px; font-weight: 700; font-size: 14px; cursor: pointer;"
+                        onclick="showStatusModal('add-success')">บันทึก</button>
+                    <button
+                        style="background-color: white; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 30px; font-weight: 700; font-size: 14px; cursor: pointer;"
+                        onclick="closeModal('modal-confirm-add')">ยกเลิก</button>
+                    <!-- Hidden Test Error Button -->
+                    <button style="opacity: 0; position: absolute; pointer-events: none;"
+                        onclick="showStatusModal('add-error')">Test Error</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Modals -->
+    <!-- Success -->
+    <div class="modal-overlay" id="modal-add-success" style="display: none; z-index: 2000;">
+        <div class="modal"
+            style="width: 450px; border-radius: 12px; overflow: hidden; padding: 0; text-align: center; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div style="background-color: #22c55e; color: white; padding: 30px;">
+                <h2 style="font-size: 26px; font-weight: 700; margin: 0; color: white;">บันทึกวัสดุสำเร็จ</h2>
+            </div>
+            <div class="bg-white" style="padding: 40px 30px;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #22c55e; color: white; display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; margin: 0 auto 25px;">
+                    ✓
+                </div>
+                <h3 style="font-size: 22px; font-weight: 700; color: #000; margin-bottom: 10px;">
+                    ข้อมูลได้รับการบันทึกแล้ว</h3>
+                <p style="color: #94a3b8; font-size: 12px; margin: 0;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error -->
+    <div class="modal-overlay" id="modal-add-error" style="display: none; z-index: 2000;">
+        <div class="modal"
+            style="width: 450px; border-radius: 12px; overflow: hidden; padding: 0; text-align: center; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div style="background-color: #e60000; color: white; padding: 30px;">
+                <h2 style="font-size: 26px; font-weight: 700; margin: 0; color: white;">บันทึกวัสดุไม่สำเร็จ</h2>
+            </div>
+            <div class="bg-white" style="padding: 40px 30px;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #ff3333; color: white; display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; margin: 0 auto 25px;">
+                    ♻
+                </div>
+                <h3 style="font-size: 22px; font-weight: 700; color: #000; margin-bottom: 10px;">
+                    ไม่สามารถบันทึกข้อมูลวัสดุได้</h3>
+                <p style="color: #94a3b8; font-size: 12px; margin: 0;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Material Modal -->
+    <div class="modal-overlay" id="modal-edit-material" style="display: none; z-index: 1000;">
+        <div class="modal"
+            style="width: 450px; border-radius: 12px; overflow: hidden; padding: 0; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div style="background-color: #f59e0b; color: white; padding: 20px; text-align: center;">
+                <h2 style="font-size: 22px; font-weight: 600; margin: 0; color: white;">แก้ไขวัสดุ</h2>
+            </div>
+            <div class="bg-white" style="padding: 30px;">
+
+                <!-- Image Box -->
+                <div class="upload-box" id="edit-upload-box"
+                    onclick="document.getElementById('edit-file-input').click()"
+                    style="border: 2px dashed #e2e8f0; border-radius: 12px; text-align: center; padding: 25px 0; margin-bottom: 25px; cursor: pointer; transition: all 0.2s;">
+                    <img src="Item/Upload_Icon.png" alt="Preview"
+                        style="height: 60px; opacity: 0.15; margin-bottom: 15px; max-width: 100%; object-fit: contain;"
+                        id="edit-image-preview">
+                    <div id="edit-upload-text"
+                        style="font-size: 16px; color: #cbd5e1; font-weight: 600; margin-bottom: 5px;">แก้ไขรูปภาพ</div>
+                    <input type="file" id="edit-file-input" style="display: none;"
+                        accept="image/png, image/jpeg, image/jpg, application/pdf">
+                    <span style="font-size: 10px; color: #94a3b8; display: block;">*ขนาดไฟล์สูงสุดห้ามเกิน 50 MB</span>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">วัสดุ</label>
+                    <input type="text" id="edit-material"
+                        style="width:100%; height: 38px; background-color: #fff; border: 1px solid #f1f5f9; border-radius: 6px; padding: 0 15px; font-size: 13px; color: #3b82f6;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">ประเภทวัสดุ</label>
+                    <input type="text" id="edit-type"
+                        style="width:100%; height: 38px; background-color: #fff; border: 1px solid #f1f5f9; border-radius: 6px; padding: 0 15px; font-size: 13px; color: #3b82f6;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label
+                        style="font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">ราคา/หน่วย</label>
+                    <input type="text" id="edit-price"
+                        style="width:100%; height: 38px; background-color: #fff; border: 1px solid #f1f5f9; border-radius: 6px; padding: 0 15px; font-size: 13px; color: #3b82f6;">
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <label
+                        style="font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">หน่วย</label>
+                    <input type="text" id="edit-unit"
+                        style="width:100%; height: 38px; background-color: #fff; border: 1px solid #f1f5f9; border-radius: 6px; padding: 0 15px; font-size: 13px; color: #3b82f6;">
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 15px;">
+                    <button
+                        style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 30px; font-weight: 700; font-size: 14px; cursor: pointer;"
+                        onclick="showStatusModal('edit-success')">บันทึก</button>
+                    <button
+                        style="background-color: white; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 30px; font-weight: 700; font-size: 14px; cursor: pointer;"
+                        onclick="closeModal('modal-edit-material')">ยกเลิก</button>
+                    <!-- Hidden Test Error Button -->
+                    <button style="opacity: 0; position: absolute; pointer-events: none;"
+                        onclick="showStatusModal('edit-error')">Test Error</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Success Modal -->
+    <div class="modal-overlay" id="modal-edit-success" style="display: none; z-index: 2000;">
+        <div class="modal"
+            style="width: 450px; border-radius: 12px; overflow: hidden; padding: 0; text-align: center; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div style="background-color: #f59e0b; color: white; padding: 30px;">
+                <h2 style="font-size: 26px; font-weight: 700; margin: 0; color: white;">แก้ไขวัสดุสำเร็จ</h2>
+            </div>
+            <div class="bg-white" style="padding: 40px 30px;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #f59e0b; color: white; display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; margin: 0 auto 25px;">
+                    ✓
+                </div>
+                <h3 style="font-size: 22px; font-weight: 700; color: #000; margin-bottom: 10px;">
+                    ข้อมูลได้รับการบันทึกแล้ว</h3>
+                <p style="color: #94a3b8; font-size: 12px; margin: 0;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Error Modal -->
+    <div class="modal-overlay" id="modal-edit-error" style="display: none; z-index: 2000;">
+        <div class="modal"
+            style="width: 450px; border-radius: 12px; overflow: hidden; padding: 0; text-align: center; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div style="background-color: #e60000; color: white; padding: 30px;">
+                <h2 style="font-size: 26px; font-weight: 700; margin: 0; color: white;">แก้ไขวัสดุไม่สำเร็จ</h2>
+            </div>
+            <div class="bg-white" style="padding: 40px 30px;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #e60000; color: white; display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: bold; margin: 0 auto 25px;">
+                    ♻
+                </div>
+                <h3 style="font-size: 22px; font-weight: 700; color: #000; margin-bottom: 10px;">ไม่สามารถแก้ไขวัสดุได้
+                </h3>
+                <p style="color: #94a3b8; font-size: 12px; margin: 0;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Material Modal -->
+    <div class="modal-overlay" id="modal-delete-material" style="display: none; z-index: 1000;">
+        <div class="modal" style="width: 500px;">
+            <div class="modal-header modal-header-dark-red">
+                <h2 style="font-size: 24px; margin-bottom: 0;">ต้องการลบวัสดุใช่หรือไม่</h2>
+            </div>
+            <div class="modal-body confirm-modal-body bg-white">
+
+                <div class="inventory-form-group">
+                    <label>วัสดุ</label>
+                    <input type="text" id="delete-material" class="gray-input" style="width:100%;" readonly>
+                </div>
+                <div class="inventory-form-group">
+                    <label>ประเภทวัสดุ</label>
+                    <input type="text" id="delete-type" class="gray-input" style="width:100%;" readonly>
+                </div>
+                <div class="inventory-form-group">
+                    <label>ราคา/หน่วย</label>
+                    <input type="text" id="delete-price" class="gray-input" style="width:100%;" readonly>
+                </div>
+                <div class="inventory-form-group">
+                    <label>วัสดุคงเหลือ</label>
+                    <input type="text" id="delete-stock" class="gray-input" style="width:100%;" readonly>
+                </div>
+                <div class="inventory-form-group">
+                    <label>หน่วย</label>
+                    <input type="text" id="delete-unit" class="gray-input" style="width:100%;" readonly>
+                </div>
+
+                <div class="modal-actions-center" style="margin-top: 30px; gap: 15px;">
+                    <button class="btn-action btn-outline-red" style="padding: 10px 30px; font-weight: 600;"
+                        onclick="showStatusModal('delete-success')">ยืนยันลบข้อมูลวัสดุ</button>
+                    <button class="btn-action btn-outline-gray" style="padding: 10px 30px; font-weight: 600;"
+                        onclick="closeModal('modal-delete-material')">ยกเลิก</button>
+
+                    <button class="btn-action btn-outline-red"
+                        style="padding: 10px 15px; font-weight: 600; font-size: 12px; margin-left: 20px; opacity: 0.5;"
+                        title="Test Error" onclick="showStatusModal('delete-error')">Test Error</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Success -->
+    <div class="modal-overlay" id="modal-delete-success" style="display: none; z-index: 2000;">
+        <div class="modal status-modal">
+            <div class="status-header bg-green">
+                <h2 style="font-size: 24px;">ลบวัสดุสำเร็จ</h2>
+            </div>
+            <div class="status-body">
+                <div class="status-icon bg-green">✓</div>
+                <h3 style="font-size: 20px; font-weight: 700; color: #000; margin-bottom: 10px;">ข้อมูลถูกลบสำเร็จแล้ว
+                </h3>
+                <p style="color: #9ca3af; font-size: 12px;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Error -->
+    <div class="modal-overlay" id="modal-delete-error" style="display: none; z-index: 2000;">
+        <div class="modal status-modal">
+            <div class="status-header bg-red">
+                <h2 style="font-size: 24px;">ลบวัสดุไม่สำเร็จ</h2>
+            </div>
+            <div class="status-body">
+                <div class="status-icon bg-red">♻</div>
+                <h3 style="font-size: 20px; font-weight: 700; color: #000; margin-bottom: 10px;">ข้อมูลถูกลบไม่สำเร็จ
+                </h3>
+                <p style="color: #9ca3af; font-size: 12px;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateSummary() {
+            // Summary UI is removed
+        }
+
+        function flashError(element) {
+            const originalBorder = element.style.borderColor;
+            element.style.borderColor = '#ef4444'; // Red color
+            setTimeout(() => {
+                element.style.borderColor = originalBorder;
+            }, 2000);
+        }
+
+        function openConfirmModal() {
+            const elMat = document.getElementById('add-material-name');
+            const elType = document.getElementById('add-material-type');
+            const elPrice = document.getElementById('add-material-price');
+            const elUnit = document.getElementById('add-material-unit');
+
+            let isValid = true;
+
+            if (!elMat.value.trim()) { isValid = false; flashError(elMat); }
+            if (!elType.value.trim()) { isValid = false; flashError(elType); }
+            if (!elPrice.value.trim()) { isValid = false; flashError(elPrice); }
+            if (!elUnit.value.trim()) { isValid = false; flashError(elUnit); }
+
+            if (!isValid) return;
+
+            document.getElementById('confirm-material').value = elMat.value;
+            document.getElementById('confirm-type').value = elType.value;
+            document.getElementById('confirm-price').value = elPrice.value;
+            if (document.getElementById('confirm-stock')) document.getElementById('confirm-stock').value = '';
+            document.getElementById('confirm-unit').value = elUnit.value;
+
+            // Also pass image preview to the confirm modal
+            if (uploadedFileUrl) {
+                document.getElementById('confirm-image-preview').src = uploadedFileUrl;
+                document.getElementById('confirm-image-preview').style.opacity = '1';
+                document.getElementById('confirm-image-preview').style.objectFit = 'contain';
+                document.getElementById('confirm-image-preview').style.width = '100%';
+                document.getElementById('confirm-image-preview').style.height = '100%';
+                document.getElementById('confirm-image-preview').style.padding = '10px';
+                document.getElementById('confirm-image-preview').parentElement.style.padding = '0';
+            } else {
+                // default placeholder
+                document.getElementById('confirm-image-preview').src = 'https://cdn-icons-png.flaticon.com/512/108/108181.png';
+                document.getElementById('confirm-image-preview').style.opacity = '0.8';
+                document.getElementById('confirm-image-preview').style.padding = '0';
+                document.getElementById('confirm-image-preview').style.width = 'auto';
+            }
+
+            document.getElementById('modal-confirm-add').style.display = 'flex';
+        }
+
+        function openEditModal(btn) {
+            const row = btn.closest('tr');
+            const cells = row.querySelectorAll('td');
+
+            document.getElementById('edit-material').value = cells[0].innerText.trim();
+            document.getElementById('edit-type').value = cells[1].innerText.trim();
+            document.getElementById('edit-price').value = cells[2].innerText.trim();
+            if (document.getElementById('edit-stock')) document.getElementById('edit-stock').value = '';
+            document.getElementById('edit-unit').value = cells[3].innerText.trim();
+
+            document.getElementById('modal-edit-material').style.display = 'flex';
+        }
+
+        function openDeleteModal(btn) {
+            const row = btn.closest('tr');
+            const cells = row.querySelectorAll('td');
+
+            document.getElementById('delete-material').value = cells[0].innerText.trim();
+            document.getElementById('delete-type').value = cells[1].innerText.trim();
+            document.getElementById('delete-price').value = cells[2].innerText.trim();
+            if (document.getElementById('delete-stock')) document.getElementById('delete-stock').value = '';
+            document.getElementById('delete-unit').value = cells[3].innerText.trim();
+
+            document.getElementById('modal-delete-material').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showStatusModal(type) {
+            let modalId = '';
+            if (type === 'add-success') {
+                modalId = 'modal-add-success';
+                closeModal('modal-confirm-add');
+                // optionally clear form
+                document.getElementById('add-material-name').value = '';
+                document.getElementById('add-material-type').value = '';
+                document.getElementById('add-material-price').value = '';
+                document.getElementById('add-material-unit').value = '';
+
+                // Clear file input
+                document.getElementById('material-file-input').value = '';
+                uploadedFile = null;
+                uploadedFileUrl = null;
+                document.getElementById('upload-preview-img').src = 'Item/Upload_Icon.png';
+                document.getElementById('upload-preview-img').style.height = '60px';
+                document.getElementById('upload-preview-img').style.opacity = '0.15';
+                document.getElementById('upload-preview-img').style.borderRadius = '0';
+                document.getElementById('upload-text').innerText = 'เพิ่มรูปภาพวัสดุ';
+                document.getElementById('upload-text').style.color = '#cbd5e1';
+                document.getElementById('upload-box').style.padding = '40px 20px';
+
+                updateSummary();
+            } else if (type === 'add-error') {
+                modalId = 'modal-add-error';
+            } else if (type === 'edit-success') {
+                modalId = 'modal-edit-success';
+                closeModal('modal-edit-material');
+            } else if (type === 'edit-error') {
+                modalId = 'modal-edit-error';
+            } else if (type === 'delete-success') {
+                modalId = 'modal-delete-success';
+                closeModal('modal-delete-material');
+            } else if (type === 'delete-error') {
+                modalId = 'modal-delete-error';
+            }
+
+            if (modalId) {
+                document.getElementById(modalId).style.display = 'flex';
+                setTimeout(() => {
+                    closeModal(modalId);
+                }, 2000);
+            }
+        }
+
+        // File Upload Logic
+        let uploadedFile = null;
+        let uploadedFileUrl = null;
+
+        document.getElementById('material-file-input').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file size (50MB = 50 * 1024 * 1024 bytes)
+            if (file.size > 50 * 1024 * 1024) {
+                alert('ขนาดไฟล์เกิน 50 MB กรุณาเลือกไฟล์ใหม่');
+                this.value = ''; // clear input
+                return;
+            }
+
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+            if (!validTypes.includes(file.type)) {
+                alert('อัพโหลดได้เฉพาะไฟล์รูปภาพ (JPG, PNG) หรือไฟล์ PDF เท่านั้น');
+                this.value = '';
+                return;
+            }
+
+            uploadedFile = file;
+            const previewImg = document.getElementById('upload-preview-img');
+            const uploadText = document.getElementById('upload-text');
+            const uploadBox = document.getElementById('upload-box');
+
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    uploadedFileUrl = e.target.result;
+                    previewImg.src = uploadedFileUrl;
+                    previewImg.style.opacity = '1';
+                    previewImg.style.height = '120px';
+                    previewImg.style.borderRadius = '8px';
+                    uploadText.innerText = file.name;
+                    uploadText.style.color = '#3b82f6';
+                    uploadBox.style.padding = '20px';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                uploadedFileUrl = 'https://cdn-icons-png.flaticon.com/512/337/337946.png'; // PDF icon
+                previewImg.src = uploadedFileUrl;
+                previewImg.style.opacity = '0.8';
+                previewImg.style.height = '80px';
+                uploadText.innerText = file.name;
+                uploadText.style.color = '#3b82f6';
+                uploadBox.style.padding = '30px 20px';
+            }
+        });
+
+        // Edit Profile Image Upload Logic
+        let editUploadedFileUrl = null;
+
+        document.getElementById('edit-file-input').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 50 * 1024 * 1024) {
+                alert('ขนาดไฟล์เกิน 50 MB กรุณาเลือกไฟล์ใหม่');
+                this.value = '';
+                return;
+            }
+
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+            if (!validTypes.includes(file.type)) {
+                alert('อัพโหลดได้เฉพาะไฟล์รูปภาพ (JPG, PNG) หรือไฟล์ PDF เท่านั้น');
+                this.value = '';
+                return;
+            }
+
+            const previewImg = document.getElementById('edit-image-preview');
+
+            const uploadText = document.getElementById('edit-upload-text');
+
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    editUploadedFileUrl = e.target.result;
+                    previewImg.src = editUploadedFileUrl;
+                    previewImg.style.opacity = '1';
+                    previewImg.style.height = '120px';
+                    previewImg.style.borderRadius = '8px';
+                    previewImg.style.objectFit = 'contain';
+                    uploadText.innerText = file.name;
+                    uploadText.style.color = '#3b82f6';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                editUploadedFileUrl = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
+                previewImg.src = editUploadedFileUrl;
+                previewImg.style.opacity = '0.8';
+                previewImg.style.height = '80px';
+                previewImg.style.objectFit = 'contain';
+                uploadText.innerText = file.name;
+                uploadText.style.color = '#3b82f6';
+            }
+        });
+
+        function searchMaterial() {
+            const input = document.getElementById("search-input").value.toLowerCase();
+            const table = document.querySelector(".data-table tbody");
+            const rows = table.getElementsByTagName("tr");
+
+            let visibleCount = 0;
+            for (let i = 0; i < rows.length; i++) {
+                const materialCell = rows[i].getElementsByTagName("td")[0];
+                const typeCell = rows[i].getElementsByTagName("td")[1];
+
+                if (materialCell || typeCell) {
+                    const materialName = materialCell.textContent || materialCell.innerText;
+                    const materialType = typeCell.textContent || typeCell.innerText;
+
+                    if (materialName.toLowerCase().indexOf(input) > -1 || materialType.toLowerCase().indexOf(input) > -1) {
+                        rows[i].style.display = "";
+                        visibleCount++;
+                        if (visibleCount % 2 === 0) {
+                            rows[i].classList.add("alt-row");
+                        } else {
+                            rows[i].classList.remove("alt-row");
+                        }
+                    } else {
+                        rows[i].style.display = "none";
+                        rows[i].classList.remove("alt-row");
+                    }
+                }
+            }
+        }
+
+        // Initialize state
+        window.onload = function () {
+            updateSummary();
+
+            // Setup initial row colors
+            searchMaterial();
+        };
+    </script>
+</body>
+
+</html>
