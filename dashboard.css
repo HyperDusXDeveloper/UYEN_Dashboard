@@ -350,6 +350,12 @@ body {
     flex-direction: column; 
     gap: 8px; 
 }
+
+/* Make the footer span the entire bottom row */
+.edit-footer {
+    grid-column: 1 / -1;
+    width: 100%;
+}
 .input-group label {
     font-size: 12px;
     font-weight: 700;

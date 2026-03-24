@@ -46,7 +46,7 @@
     font-size: 14px !important;
     font-weight: 700 !important;
     color: #1f2937 !important;
-    padding: 15px 10px !important;
+    padding: 15px 10px;
     border-bottom: 1px solid #bae6fd !important;
     text-align: center;
 }

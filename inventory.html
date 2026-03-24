@@ -10,6 +10,46 @@
         rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="inventory.css">
+    <style>
+        .custom-table-row {
+            transition: all 0.2s;
+        }
+
+        .custom-table-row:hover {
+            background-color: #f1f5f9 !important;
+        }
+
+        .custom-btn-edit {
+            color: #f59e0b;
+            border: 1px solid #fcd34d;
+            background-color: #fff;
+            border-radius: 4px;
+            padding: 6px 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: all 0.2s;
+        }
+
+        .custom-btn-edit:hover {
+            background-color: #fef3c7;
+        }
+
+        .custom-btn-delete {
+            color: #ef4444;
+            border: 1px solid #fca5a5;
+            background-color: #fff;
+            border-radius: 4px;
+            padding: 6px 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .custom-btn-delete:hover {
+            background-color: #fee2e2;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,7 +65,6 @@
                 <li><a href="dashboard.html">จัดการผู้ใช้</a></li>
                 <li class="active"><a href="inventory.html">จัดการคลัง</a></li>
                 <li><a href="withdraw.html">เบิก / รับวัสดุ</a></li>
-                <li><a href="add-material.html">เพิ่มวัสดุ</a></li>
                 <li><a href="report.html">รายงานข้อมูล</a></li>
             </ul>
         </div>
@@ -44,144 +83,178 @@
     <main class="dashboard-main">
         <!-- Header -->
         <div class="page-header" style="flex-direction: column; align-items: flex-start; margin-bottom: 25px;">
-            <h1 id="page-title" style="font-size: 40px; margin-bottom: 5px; font-weight: 800; color: #1a1a1a;">
+            <h1 id="page-title" style="font-size: 32px; margin-bottom: 5px; font-weight: 800; color: #1a1a1a;">
                 จัดการคลังวัสดุ</h1>
-            <p style="font-size: 13px; color: #6b7280; font-weight: 500;">วัสดุ (จำนวนรายการของทั้งหมด) รายการ</p>
+            <p style="font-size: 11px; color: #6b7280; font-weight: 500;">วัสดุ (จำนวนรายการของทั้งหมด) รายการ</p>
         </div>
 
-        <!-- Summary & Search Row -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <!-- Summary, Search & Add Button Row -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <div style="display: flex; align-items: baseline; gap: 8px;">
-                <span style="font-size: 24px; font-weight: 800; color: #1a1a1a;">สินค้า</span>
-                <div
-                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; top: 3px;">
-                    <span id="total-item-count"
-                        style="font-size: 32px; font-weight: 800; color: #0088ff; line-height: 0.9;">7</span>
-                </div>
-                <span style="font-size: 24px; font-weight: 800; color: #1a1a1a;">รายการ</span>
+                <span style="font-size: 20px; font-weight: 800; color: #1a1a1a;">สินค้า</span>
+                <span id="total-item-count"
+                    style="font-size: 28px; font-weight: 800; color: #ef4444; line-height: 1;">7</span>
+                <span style="font-size: 20px; font-weight: 800; color: #1a1a1a;">รายการ</span>
             </div>
-
-            <div class="search-box" style="position: relative; flex: 1; max-width: 380px;">
-                <span class="search-icon"
-                    style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #9ca3af;">🔍</span>
-                <input type="text" id="inventory-search" placeholder="ค้นหา วัสดุ หรือ ประเภท"
-                    onkeyup="searchInventory()"
-                    style="padding: 10px 15px 10px 40px; width: 100%; background-color: #f8fafc; border: 1px solid #e5e7eb; border-radius: 20px; outline: none; font-size: 14px; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="search-box" style="position: relative; width: 220px;">
+                    <span class="search-icon"
+                        style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 12px; color: #64748b;">🔍</span>
+                    <input type="text" id="inventory-search" placeholder="ค้นหา วัสดุ" onkeyup="searchInventory()"
+                        style="padding: 10px 15px 10px 40px; width: 100%; background-color: #fff; border: 1px solid #e5e7eb; border-radius: 20px; outline: none; font-size: 12px; font-weight: 500; font-family: 'Prompt', sans-serif; box-sizing: border-box; color: #333;">
+                </div>
+                <button class="btn-action"
+                    style="background-color: #dcfce7; color: #16a34a; border: 1px solid #86efac; border-radius: 6px; padding: 10px 24px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap;"
+                    onclick="openAddMaterialModal()">
+                    <span style="font-size: 16px; font-weight: 800; line-height: 1;">+</span> เพิ่มวัสดุ
+                </button>
             </div>
         </div>
 
-        <!-- Controls (Filter Bar) -->
-        <div class="filter-bar"
-            style="background-color: #f8fafc; border: none; border-radius: 8px; padding: 12px 20px; margin-bottom: 25px;">
-            <div class="sort-section">
-                <span>เรียงตาม :</span>
-                <span class="sort-item">คลัง <span class="sort-arrows">↕</span></span>
-                <span class="sort-item">สถานะ <span class="sort-arrows">↕</span></span>
+        <!-- Filter Bar -->
+        <div style="margin-bottom: 20px; background-color: #f3f4f6; border-radius: 8px; padding: 12px 20px;">
+            <div
+                style="display: flex; gap: 20px; align-items: center; font-size: 13px; font-weight: 600; color: #4b5563;">
+                <span style="color: #64748b;">เรียงตาม</span>
+                <span style="width: 1px; height: 20px; background-color: #94a3b8; display: inline-block;"></span>
+                <span
+                    style="display: inline-flex; align-items: center; gap: 4px; color: #1e3a8a; font-weight: 700;">คลัง
+                    <span
+                        style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
+                        <span id="arrow-stock-up" onclick="sortByStock('desc')" title="มากไปน้อย"
+                            style="font-size: 10px; color: #bbf7d0; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
+                        <span id="arrow-stock-down" onclick="sortByStock('asc')" title="น้อยไปมาก"
+                            style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
+                    </span>
+                </span>
+                <span
+                    style="display: inline-flex; align-items: center; gap: 4px; color: #1e3a8a; font-weight: 700;">สถานะ
+                    <span
+                        style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
+                        <span id="arrow-status-up" onclick="sortByStatus('instock')" title="มีสินค้าก่อน"
+                            style="font-size: 10px; color: #bae6fd; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
+                        <span id="arrow-status-down" onclick="sortByStatus('low')" title="ใกล้หมดก่อน"
+                            style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
+                    </span>
+                </span>
             </div>
         </div>
 
         <!-- Table -->
         <div class="table-wrapper"
-            style="width: 100%; border: 1px solid #bae6fd; border-radius: 8px; overflow: hidden; background-color: #fff;">
+            style="width: 100%; border: 1px solid #93c5fd; border-radius: 8px; overflow: hidden; background-color: #fff;">
             <table class="data-table inventory-table"
                 style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-                <thead style="background-color: #f0f9ff; border-bottom: 1px solid #bae6fd;">
+                <thead style="background-color: #f0f9ff; border-bottom: 1px solid #93c5fd;">
                     <tr>
-                        <th style="width: 10%;">รูปภาพ</th>
-                        <th style="width: 15%; text-align: center;">วัสดุ</th>
-                        <th style="width: 15%;">ประเภทวัสดุ</th>
-                        <th style="width: 12%;">คลังคงเหลือ</th>
-                        <th style="width: 10%;">หน่วย</th>
-                        <th style="width: 12%;">ราคา / หน่วย</th>
-                        <th style="width: 12%;">สถานะ</th>
-                        <th style="width: 8%;">ลบสินค้า</th>
-                        <th style="width: 6%;">ตั้งค่า</th>
+                        <th
+                            style="width: 20%; text-align: left; padding-left: 30px; color: #111827; font-size: 14px; padding-top: 15px; padding-bottom: 15px;">
+                            วัสดุ</th>
+                        <th style="width: 15%; color: #111827; font-size: 14px;">คลังคงเหลือ</th>
+                        <th style="width: 15%; color: #111827; font-size: 14px;">หน่วย</th>
+                        <th style="width: 15%; color: #111827; font-size: 14px;">ราคา / หน่วย</th>
+                        <th style="width: 15%; color: #111827; font-size: 14px;">สถานะ</th>
+                        <th style="width: 20%; color: #111827; font-size: 14px;">ดำเนินการ</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><img src="https://cdn-icons-png.flaticon.com/128/2916/2916315.png" class="item-img"
-                                alt="A4 ธรรมดา"></td>
-                        <td class="item-name">A4</td>
-                        <td class="item-type">ธรรมดา</td>
+                    <tr class="custom-table-row" style="background-color: #fff; border-bottom: 1px solid #fff;">
+                        <td style="text-align: left; padding-left: 30px;"><span class="item-name"
+                                style="font-weight: 600; color: #111827;">A4</span> <span
+                                style="font-weight: 600; color: #4b5563;">( <span class="item-type">ธรรมดา</span>
+                                )</span></td>
                         <td class="qty-remaining">22</td>
                         <td class="item-unit">รีม</td>
                         <td class="item-price">5</td>
-                        <td><span class="status-instock text-status-blue">มีสินค้า</span></td>
-                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
-                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีสินค้า</span></td>
+                        <td>
+                            <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><img src="https://cdn-icons-png.flaticon.com/128/1973/1973871.png" class="item-img"
-                                alt="หมึก ดำ"></td>
-                        <td class="item-name">หมึก</td>
-                        <td class="item-type">ดำ</td>
+                    <tr class="custom-table-row" style="background-color: #fafafa; border-bottom: 1px solid #fafafa;">
+                        <td style="text-align: left; padding-left: 30px;"><span class="item-name"
+                                style="font-weight: 600; color: #111827;">หมึก</span><span
+                                style="font-weight: 600; color: #4b5563;">( <span class="item-type">ตากแห้ง</span>
+                                )</span></td>
                         <td class="qty-remaining">3</td>
                         <td class="item-unit">ขวด</td>
                         <td class="item-price">3</td>
-                        <td><span class="status-low text-status-red">สินค้าใกล้หมด</span></td>
-                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
-                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                        <td><span class="status-low" style="color: #ef4444; font-weight: 600;">สินค้าใกล้หมด</span></td>
+                        <td>
+                            <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><img src="https://cdn-icons-png.flaticon.com/128/2916/2916315.png" class="item-img"
-                                alt="A4 แผ่นปกใส" style="filter: hue-rotate(180deg) brightness(1.2);"></td>
-                        <td class="item-name">A4</td>
-                        <td class="item-type">แผ่นปกใส</td>
+                    <tr class="custom-table-row" style="background-color: #fff; border-bottom: 1px solid #fff;">
+                        <td style="text-align: left; padding-left: 30px;"><span class="item-name"
+                                style="font-weight: 600; color: #111827;">A4</span><span
+                                style="font-weight: 600; color: #4b5563;">( <span class="item-type">แผ่นปกใส</span>
+                                )</span></td>
                         <td class="qty-remaining">22</td>
                         <td class="item-unit">รีม</td>
                         <td class="item-price">6</td>
-                        <td><span class="status-instock text-status-blue">มีสินค้า</span></td>
-                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
-                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีสินค้า</span></td>
+                        <td>
+                            <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><img src="https://cdn-icons-png.flaticon.com/128/3305/3305943.png" class="item-img"
-                                alt="คลิปหนีบกระดาษ"></td>
-                        <td class="item-name">คลิปหนีบกระดาษ</td>
-                        <td class="item-type">อันเล็ก</td>
+                    <tr class="custom-table-row" style="background-color: #fafafa; border-bottom: 1px solid #fafafa;">
+                        <td style="text-align: left; padding-left: 30px;"><span class="item-name"
+                                style="font-weight: 600; color: #111827;">คลิปหนีบกระดาษ</span><span
+                                style="font-weight: 600; color: #4b5563;">( <span class="item-type">อันเล็ก</span>
+                                )</span></td>
                         <td class="qty-remaining">300</td>
                         <td class="item-unit">ขวด</td>
                         <td class="item-price">7</td>
-                        <td><span class="status-instock text-status-blue">มีสินค้า</span></td>
-                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
-                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีสินค้า</span></td>
+                        <td>
+                            <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><img src="https://cdn-icons-png.flaticon.com/128/10499/10499881.png" class="item-img"
-                                alt="เทป"></td>
-                        <td class="item-name">เทป</td>
-                        <td class="item-type">ชนิดใส</td>
+                    <tr class="custom-table-row" style="background-color: #fff; border-bottom: 1px solid #fff;">
+                        <td style="text-align: left; padding-left: 30px;"><span class="item-name"
+                                style="font-weight: 600; color: #111827;">เทป</span> <span
+                                style="font-weight: 600; color: #4b5563;">( <span class="item-type">ชนิดใส</span>
+                                )</span></td>
                         <td class="qty-remaining">2</td>
                         <td class="item-unit">ม้วน</td>
                         <td class="item-price">10</td>
-                        <td><span class="status-low text-status-red">สินค้าใกล้หมด</span></td>
-                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
-                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                        <td><span class="status-low" style="color: #ef4444; font-weight: 600;">สินค้าใกล้หมด</span></td>
+                        <td>
+                            <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><img src="https://cdn-icons-png.flaticon.com/128/8991/8991730.png" class="item-img"
-                                alt="ลวด เย็บ กระดาษ"></td>
-                        <td class="item-name">ลวด เย็บ กระดาษ</td>
-                        <td class="item-type">35 MM</td>
+                    <tr class="custom-table-row" style="background-color: #fafafa; border-bottom: 1px solid #fafafa;">
+                        <td style="text-align: left; padding-left: 30px;"><span class="item-name"
+                                style="font-weight: 600; color: #111827;">ลวดเย็บกระดาษ</span> <span
+                                style="font-weight: 600; color: #4b5563;">( <span class="item-type">35 MM</span>
+                                )</span></td>
                         <td class="qty-remaining">70</td>
                         <td class="item-unit">ม้วน</td>
                         <td class="item-price">22</td>
-                        <td><span class="status-instock text-status-blue">มีสินค้า</span></td>
-                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
-                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีสินค้า</span></td>
+                        <td>
+                            <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><img src="https://cdn-icons-png.flaticon.com/128/1932/1932594.png" class="item-img"
-                                alt="กรรไกร"></td>
-                        <td class="item-name">กรรไกร</td>
-                        <td class="item-type">ใหญ่</td>
+                    <tr class="custom-table-row" style="background-color: #fff; border-bottom: 1px solid #fff;">
+                        <td style="text-align: left; padding-left: 30px;"><span class="item-name"
+                                style="font-weight: 600; color: #111827;">กรรไกร</span><span
+                                style="font-weight: 600; color: #4b5563;">( <span class="item-type">ใหญ่</span> )</span>
+                        </td>
                         <td class="qty-remaining">3</td>
                         <td class="item-unit">ม้วน</td>
                         <td class="item-price">45</td>
-                        <td><span class="status-low text-status-red">สินค้าใกล้หมด</span></td>
-                        <td><button class="btn-del" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button></td>
-                        <td><span class="settings-gear" onclick="openSettingsModal(this)">⚙️</span></td>
+                        <td><span class="status-low" style="color: #ef4444; font-weight: 600;">สินค้าใกล้หมด</span></td>
+                        <td>
+                            <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -361,7 +434,7 @@
         </div>
     </div>
 
-    <!-- Delete Success (RED theme based on mockup) -->
+    <!-- Delete Success -->
     <div class="modal-overlay" id="modal-delete-success" style="display: none; z-index: 2000;">
         <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
             <div style="background-color: #ef4444; padding: 25px; color: white;">
@@ -380,7 +453,7 @@
         </div>
     </div>
 
-    <!-- Delete Error (ORANGE theme based on mockup) -->
+    <!-- Delete Error -->
     <div class="modal-overlay" id="modal-delete-error" style="display: none; z-index: 2000;">
         <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
             <div style="background-color: #f59e0b; padding: 25px; color: white;">
@@ -410,6 +483,66 @@
             if (countEl) countEl.innerText = count;
         }
 
+        function resetAllArrows() {
+            document.getElementById('arrow-stock-up').style.color = '#bbf7d0';
+            document.getElementById('arrow-stock-down').style.color = '#fecaca';
+            document.getElementById('arrow-status-up').style.color = '#bae6fd';
+            document.getElementById('arrow-status-down').style.color = '#fecaca';
+        }
+
+        function sortByStock(direction) {
+            resetAllArrows();
+            if (direction === 'desc') {
+                document.getElementById('arrow-stock-up').style.color = '#22c55e';
+            } else {
+                document.getElementById('arrow-stock-down').style.color = '#ef4444';
+            }
+
+            const tbody = document.querySelector('.inventory-table tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            rows.sort((a, b) => {
+                const qtyA = parseInt(a.querySelector('.qty-remaining')?.innerText.trim()) || 0;
+                const qtyB = parseInt(b.querySelector('.qty-remaining')?.innerText.trim()) || 0;
+                return direction === 'desc' ? qtyB - qtyA : qtyA - qtyB;
+            });
+
+            rows.forEach((row, i) => {
+                row.style.backgroundColor = (i % 2 === 0) ? '#fff' : '#fafafa';
+                tbody.appendChild(row);
+            });
+        }
+
+        function sortByStatus(type) {
+            resetAllArrows();
+            if (type === 'instock') {
+                document.getElementById('arrow-status-up').style.color = '#38bdf8';
+            } else {
+                document.getElementById('arrow-status-down').style.color = '#ef4444';
+            }
+
+            const tbody = document.querySelector('.inventory-table tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            const statusOrder = (row) => {
+                const statusText = row.querySelector('.status-instock, .status-low')?.innerText.trim() || '';
+                if (statusText === 'มีสินค้า') return 1;
+                if (statusText === 'สินค้าใกล้หมด') return 2;
+                return 3; // สินค้าหมด
+            };
+
+            rows.sort((a, b) => {
+                const orderA = statusOrder(a);
+                const orderB = statusOrder(b);
+                return type === 'instock' ? orderA - orderB : orderB - orderA;
+            });
+
+            rows.forEach((row, i) => {
+                row.style.backgroundColor = (i % 2 === 0) ? '#fff' : '#fafafa';
+                tbody.appendChild(row);
+            });
+        }
+
         function searchInventory() {
             const input = document.getElementById("inventory-search").value.toLowerCase();
             const table = document.querySelector(".inventory-table tbody");
@@ -420,8 +553,8 @@
                 const typeCell = rows[i].querySelector('.item-type');
 
                 if (nameCell || typeCell) {
-                    const materialName = nameCell.textContent || nameCell.innerText;
-                    const materialType = typeCell.textContent || typeCell.innerText;
+                    const materialName = nameCell ? nameCell.textContent || nameCell.innerText : "";
+                    const materialType = typeCell ? typeCell.textContent || typeCell.innerText : "";
 
                     if (materialName.toLowerCase().indexOf(input) > -1 || materialType.toLowerCase().indexOf(input) > -1) {
                         rows[i].style.display = "";
@@ -435,14 +568,12 @@
 
         function openSettingsModal(btn) {
             currentRowToEdit = btn.closest('tr');
-            const cells = currentRowToEdit.querySelectorAll('td');
 
-            const imgSrc = cells[0].querySelector('img').src;
-            const name = cells[1].innerText.trim();
-            const type = cells[2].innerText.trim();
-            const qty = cells[3].innerText.trim();
-            const unit = cells[4].innerText.trim();
-            const price = cells[5].innerText.trim();
+            const name = currentRowToEdit.querySelector('.item-name') ? currentRowToEdit.querySelector('.item-name').innerText.trim() : '';
+            const type = currentRowToEdit.querySelector('.item-type') ? currentRowToEdit.querySelector('.item-type').innerText.trim() : '';
+            const qty = currentRowToEdit.querySelector('.qty-remaining') ? currentRowToEdit.querySelector('.qty-remaining').innerText.trim() : '';
+            const unit = currentRowToEdit.querySelector('.item-unit') ? currentRowToEdit.querySelector('.item-unit').innerText.trim() : '';
+            const price = currentRowToEdit.querySelector('.item-price') ? currentRowToEdit.querySelector('.item-price').innerText.trim() : '';
 
             document.getElementById('edit-material-name').value = name;
             document.getElementById('edit-material-type').value = type;
@@ -454,16 +585,9 @@
             const placeholder = document.getElementById('upload-placeholder');
             const btnEdit = document.getElementById('btn-edit-img');
 
-            if (imgSrc && imgSrc.indexOf('noimage.png') === -1) {
-                preview.src = imgSrc;
-                preview.style.display = 'block';
-                btnEdit.style.display = 'inline-block';
-                placeholder.style.display = 'none';
-            } else {
-                preview.style.display = 'none';
-                btnEdit.style.display = 'none';
-                placeholder.style.display = 'block';
-            }
+            if (preview) preview.style.display = 'none';
+            if (btnEdit) btnEdit.style.display = 'none';
+            if (placeholder) placeholder.style.display = 'block';
 
             document.getElementById('modal-settings').style.display = 'flex';
         }
@@ -474,14 +598,12 @@
 
         function openDeleteMaterialModal(btn) {
             currentRowToDelete = btn.closest('tr');
-            const cells = currentRowToDelete.querySelectorAll('td');
 
-            const imgSrc = cells[0].querySelector('img').src;
-            const name = cells[1].innerText.trim();
-            const type = cells[2].innerText.trim();
-            const qty = cells[3].innerText.trim();
-            const unit = cells[4].innerText.trim();
-            const price = cells[5].innerText.trim();
+            const name = currentRowToDelete.querySelector('.item-name') ? currentRowToDelete.querySelector('.item-name').innerText.trim() : '';
+            const type = currentRowToDelete.querySelector('.item-type') ? currentRowToDelete.querySelector('.item-type').innerText.trim() : '';
+            const qty = currentRowToDelete.querySelector('.qty-remaining') ? currentRowToDelete.querySelector('.qty-remaining').innerText.trim() : '';
+            const unit = currentRowToDelete.querySelector('.item-unit') ? currentRowToDelete.querySelector('.item-unit').innerText.trim() : '';
+            const price = currentRowToDelete.querySelector('.item-price') ? currentRowToDelete.querySelector('.item-price').innerText.trim() : '';
 
             document.getElementById('delete-material-name').value = name;
             document.getElementById('delete-material-type').value = type;
@@ -490,9 +612,28 @@
             document.getElementById('delete-material-price').value = price;
 
             const preview = document.getElementById('delete-img-preview');
-            preview.src = (imgSrc && imgSrc.indexOf('noimage.png') === -1) ? imgSrc : 'Item/noimage.png';
+            if (preview) preview.src = 'Item/noimage.png';
 
             document.getElementById('modal-delete-material').style.display = 'flex';
+        }
+
+        function openAddMaterialModal() {
+            // Placeholder: currently pops up the edit modal, but can be customized later
+            document.getElementById('edit-material-name').value = '';
+            document.getElementById('edit-material-type').value = '';
+            document.getElementById('edit-material-qty').value = '0';
+            document.getElementById('edit-material-unit').value = '';
+            document.getElementById('edit-material-price').value = '';
+
+            const preview = document.getElementById('edit-img-preview');
+            const placeholder = document.getElementById('upload-placeholder');
+            const btnEdit = document.getElementById('btn-edit-img');
+
+            if (preview) preview.style.display = 'none';
+            if (btnEdit) btnEdit.style.display = 'none';
+            if (placeholder) placeholder.style.display = 'block';
+
+            document.getElementById('modal-settings').style.display = 'flex';
         }
 
         function confirmDelete() {
@@ -522,7 +663,6 @@
 
             if (modalId) {
                 document.getElementById(modalId).style.display = 'flex';
-                // Close after 2 seconds roughly capturing the 2sec timeframe given in mockups
                 setTimeout(() => {
                     closeModal(modalId);
                 }, 2000);

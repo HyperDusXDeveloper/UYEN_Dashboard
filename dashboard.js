@@ -108,6 +108,11 @@ function openEditModal(type, id) {
             toggleBlacklist.classList.remove('active');
         }
         if (statusGroup) statusGroup.style.display = 'flex'; // Show status toggle
+        
+        // Let it span both columns for user mode
+        const editFooter = document.querySelector('.edit-footer');
+        if (editFooter) editFooter.style.gridColumn = '1 / -1';
+        
     } else {
         if (subtitle) subtitle.innerText = 'แก้ไขข้อมูลพนักงาน';
         if (roleGroup) {
@@ -115,6 +120,10 @@ function openEditModal(type, id) {
             document.getElementById('edit-role').value = person.role || '';
         }
         if (statusGroup) statusGroup.style.display = 'none'; // Hide status toggle for employees
+        
+        // Put in the second column alongside the password for employee mode
+        const editFooter = document.querySelector('.edit-footer');
+        if (editFooter) editFooter.style.gridColumn = 'auto';
     }
 
     document.getElementById('modal-edit').style.display = 'flex';
