@@ -2,17 +2,17 @@
 
 // 1. Define State
 let users = [
-    { id: 'USER_01', name: 'Natchanon', status: 'Blacklist', phone: '062-236-0567', email: 'natchanon@bumail.net', password: '1234' },
-    { id: 'USER_02', name: 'Jeerapat', status: 'ปกติ', phone: '062-111-2222', email: 'jeerapat@bumail.net', password: '1234' },
-    { id: 'USER_03', name: 'Akkarawin', status: 'ปกติ', phone: '062-333-4444', email: 'akkarawin@bumail.net', password: '1234' },
-    { id: 'USER_04', name: 'Stefan', status: 'ปกติ', phone: '062-555-6666', email: 'stefan@bumail.net', password: '1234' }
+    { id: 'USER_01', name: 'Natchanon', status: 'Blacklist', phone: '0622360567', email: 'natchanon@bumail.net', password: '12345' },
+    { id: 'USER_02', name: 'Jeerapat', status: 'ปกติ', phone: '0621112222', email: 'jeerapat@bumail.net', password: '12345' },
+    { id: 'USER_03', name: 'Akkarawin', status: 'ปกติ', phone: '0623334444', email: 'akkarawin@bumail.net', password: '12345' },
+    { id: 'USER_04', name: 'Stefan', status: 'ปกติ', phone: '0625556666', email: 'stefan@bumail.net', password: '12345' }
 ];
 
 let employees = [
-    { id: 'USER_01', name: 'Somporn', role: 'Admin', phone: '087-123-4550', email: 'somporn@bumail.net', password: '1234' },
-    { id: 'USER_02', name: 'Pornchai', role: 'พนักงาน', phone: '087-222-3333', email: 'pornchai@bumail.net', password: '1234' },
-    { id: 'USER_03', name: 'Anutin', role: 'พนักงาน', phone: '087-444-5555', email: 'anutin@bumail.net', password: '1234' },
-    { id: 'USER_04', name: 'Prakob', role: 'พนักงาน', phone: '087-666-7777', email: 'prakob@bumail.net', password: '1234' }
+    { id: 'USER_01', name: 'Somporn', role: 'Admin', phone: '0871234550', email: 'somporn@bumail.net', password: '12345' },
+    { id: 'USER_02', name: 'Pornchai', role: 'พนักงาน', phone: '0872223333', email: 'pornchai@bumail.net', password: '12345' },
+    { id: 'USER_03', name: 'Anutin', role: 'พนักงาน', phone: '0874445555', email: 'anutin@bumail.net', password: '12345' },
+    { id: 'USER_04', name: 'Prakob', role: 'พนักงาน', phone: '0876667777', email: 'prakob@bumail.net', password: '12345' }
 ];
 
 let currentUserEditId = null;
@@ -50,7 +50,9 @@ function renderTables() {
                     <td>${e.id}</td>
                     <td>${e.name}</td>
                     <td>${e.role}</td>
-                    <td style="color: #000; font-weight: 500;">${e.phone.replace(/-/g, '')}</td>
+                    <td style="color: #000; font-weight: 500;">
+                        ${e.phone && e.phone.length === 10 ? e.phone.substring(0,3) + ' - ' + e.phone.substring(3,6) + ' - ' + e.phone.substring(6,10) : e.phone}
+                    </td>
                     <td>
                         <button class="btn-action btn-edit" onclick="openEditModal('employee', '${e.id}')">แก้ไขข้อมูล</button>
                         <button class="btn-action btn-delete" onclick="openDeleteModal('employee', '${e.id}')">🗑 ลบ</button>
@@ -83,9 +85,16 @@ function openEditModal(type, id) {
     // Fill the inputs
     document.getElementById('edit-modal-title').innerText = person.name;
     document.getElementById('edit-username').value = person.name;
-    document.getElementById('edit-phone').value = person.phone || '';
+    
+    let phoneDigits = person.phone || '';
+    if (phoneDigits.length === 10) {
+        document.getElementById('edit-phone').value = phoneDigits.substring(0, 3) + ' - ' + phoneDigits.substring(3, 6) + ' - ' + phoneDigits.substring(6, 10);
+    } else {
+        document.getElementById('edit-phone').value = phoneDigits;
+    }
+    
     document.getElementById('edit-email').value = person.email || '';
-    document.getElementById('edit-password').value = person.password || '1234';
+    document.getElementById('edit-password').value = person.password || '12345';
 
     // Status Toggles logic section
     const toggleNormal = document.querySelector('.toggle-normal');
@@ -133,7 +142,7 @@ function saveUserData() {
     if (!currentUserEditId || !currentEditType) return;
 
     const newName = document.getElementById('edit-username').value;
-    const newPhone = document.getElementById('edit-phone').value;
+    const newPhone = document.getElementById('edit-phone').value.replace(/\D/g, ''); // strip to digits before saving
     const newEmail = document.getElementById('edit-email').value;
     const newPass = document.getElementById('edit-password').value;
 

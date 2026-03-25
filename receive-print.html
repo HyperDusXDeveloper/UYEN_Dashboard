@@ -51,47 +51,7 @@
                 </div>
             </div>
 
-            <!-- Right: Hint Panel -->
-            <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 5px;">
-                <!-- Stage info panel (inline, hidden by default) -->
-                <div id="hint-panel"
-                    style="display: none; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.07); white-space: nowrap;">
-                    <div style="display: flex; gap: 20px; align-items: flex-start;">
-                        <div style="text-align: center; min-width: 100px;">
-                            <div style="font-size: 13px; font-weight: 700; color: #1f2937; margin-bottom: 5px;">Stage 1
-                            </div>
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 8px;">
-                                ยังไม่ได้ดาวน์โหลด<br>ไฟล์เอกสาร</div>
-                            <span
-                                style="background-color: #3b82f6; color: white; padding: 4px 14px; border-radius: 4px; font-size: 12px; font-weight: 600;">รอพิมพ์เอกสาร</span>
-                        </div>
-                        <div style="width: 1px; height: 70px; background: #e5e7eb; align-self: center;"></div>
-                        <div style="text-align: center; min-width: 100px;">
-                            <div style="font-size: 13px; font-weight: 700; color: #1f2937; margin-bottom: 5px;">Stage 2
-                            </div>
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 8px;">
-                                กดดาวน์โหลดไฟล์ได้แล้ว<br>รอพิมพ์งาน</div>
-                            <span
-                                style="background-color: #f97316; color: white; padding: 4px 14px; border-radius: 4px; font-size: 12px; font-weight: 600;">กำลังดำเนินการ</span>
-                        </div>
-                        <div style="width: 1px; height: 70px; background: #e5e7eb; align-self: center;"></div>
-                        <div style="text-align: center; min-width: 100px;">
-                            <div style="font-size: 13px; font-weight: 700; color: #1f2937; margin-bottom: 5px;">Stage 3
-                            </div>
-                            <div style="font-size: 11px; color: #6b7280; margin-bottom: 8px;">
-                                ร้านค้ายืนยันสำเร็จ<br>หรือออเดอร์สำเร็จ</div>
-                            <span
-                                style="background-color: #22c55e; color: white; padding: 4px 14px; border-radius: 4px; font-size: 12px; font-weight: 600;">ดำเนินการสำเร็จ</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Bulb toggle button -->
-                <button onclick="toggleHint()"
-                    style="background: none; border: none; cursor: pointer; padding: 0; flex-shrink: 0;">
-                    <img id="hint-icon" src="Item/Hint_Off.png" alt="hint toggle"
-                        style="height: 36px; transition: all 0.2s;">
-                </button>
-            </div>
+
         </div>
 
         <div class="filters-row">
@@ -328,14 +288,6 @@
         function setTheme(theme) {
             document.body.className = '';
             document.body.classList.add('theme-' + theme);
-        }
-
-        function toggleHint() {
-            const panel = document.getElementById('hint-panel');
-            const icon = document.getElementById('hint-icon');
-            const isOpen = panel.style.display !== 'none';
-            panel.style.display = isOpen ? 'none' : 'block';
-            icon.src = isOpen ? 'Item/Hint_Off.png' : 'Item/Hint_On.png';
         }
 
         function filterJobs() {

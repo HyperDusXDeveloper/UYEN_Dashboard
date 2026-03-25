@@ -33,13 +33,13 @@
 
                 <div class="input-group">
                     <label>EMAIL</label>
-                    <input type="email" placeholder="">
+                    <input type="email" placeholder="example@email.com" maxlength="64" oninput="validateEmail(this)">
                 </div>
 
                 <div class="input-group">
                     <label>PASSWORD</label>
                     <div class="password-wrapper">
-                        <input type="password" placeholder="" id="signup-pwd">
+                        <input type="password" placeholder="" id="signup-pwd" maxlength="30" minlength="5" oninput="validatePassword(this)">
                         <span class="show-text" onclick="togglePassword('signup-pwd', this)">SHOW</span>
                     </div>
                 </div>
@@ -47,15 +47,14 @@
                 <div class="input-group">
                     <label>CONFIRM PASSWORD</label>
                     <div class="password-wrapper">
-                        <input type="password" placeholder="" id="signup-confirm">
+                        <input type="password" placeholder="" id="signup-confirm" maxlength="30" minlength="5" oninput="validatePassword(this)">
                         <span class="show-text" onclick="togglePassword('signup-confirm', this)">SHOW</span>
                     </div>
                 </div>
 
                 <div class="input-group">
                     <label>PHONE NO.</label>
-                    <!-- ใช้ type tel เพื่อให้แป้นพิมพ์มือถือโชว์ตัวเลข -->
-                    <input type="tel" placeholder="" maxlength="12" oninput="formatPhoneNumber(this)">
+                    <input type="tel" placeholder="000 - 000 - 0000" maxlength="16" oninput="formatPhoneNumber(this)">
                 </div>
 
                 <div class="input-group">
@@ -96,20 +95,48 @@
 
         function formatPhoneNumber(input) {
             let value = input.value.replace(/\D/g, '');
+            if (value.length > 0 && value[0] !== '0') {
+                value = '';
+            }
             if (value.length > 10) {
                 value = value.substring(0, 10);
             }
             let formatted = '';
-            if (value.length > 0) {
-                formatted += value.substring(0, 3);
-            }
-            if (value.length > 3) {
-                formatted += '-' + value.substring(3, 6);
-            }
-            if (value.length > 6) {
-                formatted += '-' + value.substring(6, 10);
-            }
+            if (value.length > 0) formatted += value.substring(0, 3);
+            if (value.length > 3) formatted += ' - ' + value.substring(3, 6);
+            if (value.length > 6) formatted += ' - ' + value.substring(6, 10);
             input.value = formatted;
+        }
+
+        function validatePassword(input) {
+            let value = input.value.replace(/[^a-zA-Z0-9@#$%&*®™©฿€¥+\-×÷=≠≤≥_ ().,"']/g, '');
+            if (value.length > 30) {
+                value = value.substring(0, 30);
+            }
+            input.value = value;
+        }
+
+        function validateEmail(input) {
+            let value = input.value;
+            
+            value = value.replace(/[^a-zA-Z0-9\.@]/g, '');
+            
+            const firstAt = value.indexOf('@');
+            if (firstAt !== -1) {
+                const beforeAt = value.substring(0, firstAt + 1);
+                const afterAt = value.substring(firstAt + 1).replace(/@/g, '');
+                value = beforeAt + afterAt;
+            }
+
+            value = value.replace(/\.{2,}/g, '.');
+            value = value.replace(/^\./, '');
+            value = value.replace(/\.@/g, '@');
+
+            if (value.length > 64) {
+                value = value.substring(0, 64);
+            }
+
+            input.value = value;
         }
     </script>
 </body>

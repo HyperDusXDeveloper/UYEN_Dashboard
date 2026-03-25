@@ -261,63 +261,76 @@
         </div>
     </main>
 
+    <!-- Add Material Modal -->
+    <div class="modal-overlay" id="modal-add-material" style="display: none;">
+        <div class="modal" style="padding: 0; max-width: 600px; border-radius: 12px; overflow: hidden; border: 2px solid #3b6592; background-color: #fff;">
+            <div style="background-color: #3b6592; padding: 25px 30px; color: white;">
+                <h2 style="font-size: 24px; font-weight: 700; margin: 0; text-align: center;">ต้องการเพิ่มวัสดุใช่หรือไม่</h2>
+            </div>
+            <div class="modal-body" style="padding: 30px;">
+                <form onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">ชนิด วัสดุ</label>
+                        <input type="text" id="add-material-name" value="" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">หน่วย</label>
+                        <input type="text" id="add-material-unit" value="" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">ราคา/หน่วย</label>
+                        <input type="text" id="add-material-price" value="" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+                    <div class="input-group" style="margin: 0; margin-bottom: 10px;">
+                        <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
+                        <input type="text" id="add-material-qty" value="0" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; border: 1px solid #e2e8f0; width: 100%; padding: 10px; border-radius: 6px; box-sizing: border-box;">
+                    </div>
+                    <div class="modal-actions-right" style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 5px;">
+                        <button class="btn-action" style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;" onclick="saveNewMaterial()">บันทึก</button>
+                        <button class="btn-action" style="background-color: #fff; color: #ef4444; border: 1px solid #fca5a5; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;" onclick="closeModal('modal-add-material')">ยกเลิก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Settings Modal -->
     <div class="modal-overlay" id="modal-settings" style="display: none;">
-        <div class="modal">
-            <div class="modal-header modal-header-blue" style="padding: 15px 25px;">
-                <h2 style="font-size: 22px; margin-bottom: 0;">ตั้งค่าวัสดุ</h2>
+        <div class="modal" style="padding: 0; max-width: 600px; border-radius: 12px; overflow: hidden; border: none; background-color: #fff;">
+            <div style="padding: 30px 30px 0 30px;">
+                <h2 id="modal-settings-title" style="font-size: 28px; font-weight: 700; margin: 0;">ตั้งค่าวัสดุ</h2>
             </div>
-            <div class="modal-body inventory-modal-body">
-                <!-- Image Upload Box -->
-                <div class="img-upload-box" id="upload-box-container" onclick="showStatusModal('error-upload')">
-                    <img id="edit-img-preview" src="" alt="preview"
-                        style="display: none; max-width: 80px; max-height: 80px; margin-bottom: 8px;">
-                    <button class="btn-upload-edit" id="btn-edit-img" style="display: none;">แก้ใขรูปภาพ</button>
-
-                    <div id="upload-placeholder">
-                        <div style="font-size: 45px; color: #cbd5e1; margin-bottom: 2px; line-height: 1;">⬆</div>
-                        <div class="img-upload-text">เพิ่มรูปภาพวัสดุ</div>
+            <div class="modal-body" style="padding: 30px;">
+                <form onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 20px;">
+                    
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">ชนิด วัสดุ</label>
+                        <input type="text" id="edit-material-combined" value="A4 ( ร้อยปอนด์ )" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
-                    <div class="img-upload-subtext">*ขนาดไฟล์สูงสุดห้ามเกิน 50 MB</div>
-                </div>
+                    
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">หน่วย</label>
+                        <input type="text" id="edit-material-unit" value="แผ่น" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+                    
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">ราคา/หน่วย</label>
+                        <input type="text" id="edit-material-price" value="25" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+                    
+                    <div class="input-group" style="margin: 0; margin-bottom: 10px;">
+                        <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
+                        <input type="text" id="edit-material-qty" value="5" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; border: 1px solid #e2e8f0; width: 100%; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
 
-                <div class="inventory-form-group">
-                    <label>วัสดุ</label>
-                    <input type="text" id="edit-material-name" value="" class="blue-input">
-                </div>
-                <div class="inventory-form-group">
-                    <label>ประเภทวัสดุ</label>
-                    <input type="text" id="edit-material-type" value="" class="blue-input">
-                </div>
-                <div class="inventory-form-group">
-                    <label>หน่วย</label>
-                    <input type="text" id="edit-material-unit" value="" class="blue-input">
-                </div>
-                <div class="inventory-form-group">
-                    <label>ราคา/หน่วย</label>
-                    <input type="text" id="edit-material-price" value="" class="blue-input">
-                </div>
-                <div class="inventory-form-group">
-                    <label>คลังวัสดุคงเหลือ</label>
-                    <input type="text" id="edit-material-qty" value="" class="gray-input" readonly>
-                </div>
-
-                <div class="modal-actions-center"
-                    style="margin-top: 15px; gap: 15px; display: flex; justify-content: center;">
-                    <button class="btn-action btn-outline-green" style="padding: 10px 30px; font-weight: 600;"
-                        onclick="showStatusModal('success')">บันทึกข้อมูลวัสดุ</button>
-                    <button class="btn-action btn-outline-red" style="padding: 10px 30px; font-weight: 600;"
-                        onclick="closeModal('modal-settings')">ยกเลิก</button>
-                </div>
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 5px;">
-                    <!-- Test buttons to show the error modals -->
-                    <button onclick="showStatusModal('error-upload')"
-                        style="background:none; border:none; text-decoration:underline; font-size:12px; color:#ef4444; cursor:pointer;">Test
-                        Upload Error</button>
-                    <button onclick="showStatusModal('error-save')"
-                        style="background:none; border:none; text-decoration:underline; font-size:12px; color:#ef4444; cursor:pointer;">Test
-                        Save Error</button>
-                </div>
+                    <div class="modal-actions-right"
+                        style="display: flex; justify-content: flex-end; gap: 10px;">
+                        <button id="btn-save-material" class="btn-action" style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 25px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
+                            onclick="saveMaterialData()">บันทึกข้อมูลวัสดุ</button>
+                        <button class="btn-action" style="background-color: #fff; color: #ef4444; border: 1px solid #fca5a5; border-radius: 6px; padding: 8px 30px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
+                            onclick="closeModal('modal-settings')">ยกเลิก</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -385,51 +398,33 @@
 
     <!-- Delete Material Modal -->
     <div class="modal-overlay" id="modal-delete-material" style="display: none;">
-        <div class="modal">
-            <div class="modal-header modal-header-red" style="padding: 15px 25px;">
-                <h2 style="font-size: 22px; margin-bottom: 0;">ต้องการลบวัสดุใช่หรือไม่</h2>
+        <div class="modal" style="padding: 0; max-width: 600px; border-radius: 12px; overflow: hidden; border: none; background-color: #fff;">
+            <div style="background-color: #ff0000; padding: 25px 30px; color: white;">
+                <h2 style="font-size: 24px; font-weight: 700; margin: 0; text-align: center;">ต้องการลบวัสดุใช่หรือไม่</h2>
             </div>
-            <div class="modal-body inventory-modal-body">
-                <!-- Image Display Box -->
-                <div class="img-upload-box"
-                    style="cursor: default; background-color: #fff; border: 1px solid #cbd5e1; border-radius: 12px; min-height: 100px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
-                    <img id="delete-img-preview" src="" alt="preview" style="max-width: 80px; max-height: 80px;">
-                </div>
-
-                <div class="inventory-form-group">
-                    <label>วัสดุ</label>
-                    <input type="text" id="delete-material-name" class="gray-input" readonly>
-                </div>
-                <div class="inventory-form-group">
-                    <label>ประเภทวัสดุ</label>
-                    <input type="text" id="delete-material-type" class="gray-input" readonly>
-                </div>
-                <div class="inventory-form-group">
-                    <label>หน่วย</label>
-                    <input type="text" id="delete-material-unit" class="gray-input" readonly>
-                </div>
-                <div class="inventory-form-group">
-                    <label>ราคา/หน่วย</label>
-                    <input type="text" id="delete-material-price" class="gray-input" readonly>
-                </div>
-                <div class="inventory-form-group">
-                    <label>คลังวัสดุคงเหลือ</label>
-                    <input type="text" id="delete-material-qty" class="gray-input" readonly>
-                </div>
-
-                <div class="modal-actions-center"
-                    style="margin-top: 15px; gap: 15px; display: flex; justify-content: center;">
-                    <button class="btn-action btn-outline-red" style="padding: 10px 30px; font-weight: 600;"
-                        onclick="confirmDelete()">ยืนยันลบข้อมูลวัสดุ</button>
-                    <button class="btn-action btn-outline-gray" style="padding: 10px 30px; font-weight: 600;"
-                        onclick="closeModal('modal-delete-material')">ยกเลิก</button>
-                </div>
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 5px;">
-                    <!-- Test Error Button -->
-                    <button onclick="showStatusModal('delete-error')"
-                        style="background:none; border:none; text-decoration:underline; font-size:12px; color:#ef4444; cursor:pointer;">Test
-                        Delete Error</button>
-                </div>
+            <div class="modal-body" style="padding: 30px;">
+                <form onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">ชนิด วัสดุ</label>
+                        <input type="text" id="delete-material-combined" value="" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">หน่วย</label>
+                        <input type="text" id="delete-material-unit" value="" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">ราคา/หน่วย</label>
+                        <input type="text" id="delete-material-price" value="" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+                    <div class="input-group" style="margin: 0; margin-bottom: 10px;">
+                        <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
+                        <input type="text" id="delete-material-qty" value="" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+                    <div class="modal-actions-center" style="display: flex; justify-content: center; gap: 15px; margin-top: 5px;">
+                        <button class="btn-action" style="background-color: #fff; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;" onclick="confirmDelete()">ยืนยันลบข้อมูลวัสดุ</button>
+                        <button class="btn-action" style="background-color: #fff; color: #374151; border: 1px solid #6b7280; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;" onclick="closeModal('modal-delete-material')">ยกเลิก</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -575,19 +570,27 @@
             const unit = currentRowToEdit.querySelector('.item-unit') ? currentRowToEdit.querySelector('.item-unit').innerText.trim() : '';
             const price = currentRowToEdit.querySelector('.item-price') ? currentRowToEdit.querySelector('.item-price').innerText.trim() : '';
 
-            document.getElementById('edit-material-name').value = name;
-            document.getElementById('edit-material-type').value = type;
-            document.getElementById('edit-material-qty').value = qty;
-            document.getElementById('edit-material-unit').value = unit;
-            document.getElementById('edit-material-price').value = price;
+            const nameField = document.getElementById('edit-material-name');
+            if (nameField) nameField.value = name;
+            const typeField = document.getElementById('edit-material-type');
+            if (typeField) typeField.value = type;
+            
+            const combinedField = document.getElementById('edit-material-combined');
+            if (combinedField) combinedField.value = type ? `${name} ( ${type} )` : name;
 
-            const preview = document.getElementById('edit-img-preview');
-            const placeholder = document.getElementById('upload-placeholder');
-            const btnEdit = document.getElementById('btn-edit-img');
+            const qtyField = document.getElementById('edit-material-qty');
+            if (qtyField) qtyField.value = qty;
+            
+            const unitField = document.getElementById('edit-material-unit');
+            if (unitField) unitField.value = unit;
+            
+            const priceField = document.getElementById('edit-material-price');
+            if (priceField) priceField.value = price;
 
-            if (preview) preview.style.display = 'none';
-            if (btnEdit) btnEdit.style.display = 'none';
-            if (placeholder) placeholder.style.display = 'block';
+            const title = document.getElementById('modal-settings-title');
+            if (title) title.innerText = 'ตั้งค่าวัสดุ';
+            const saveBtn = document.getElementById('btn-save-material');
+            if (saveBtn) saveBtn.innerText = 'บันทึกข้อมูลวัสดุ';
 
             document.getElementById('modal-settings').style.display = 'flex';
         }
@@ -605,35 +608,133 @@
             const unit = currentRowToDelete.querySelector('.item-unit') ? currentRowToDelete.querySelector('.item-unit').innerText.trim() : '';
             const price = currentRowToDelete.querySelector('.item-price') ? currentRowToDelete.querySelector('.item-price').innerText.trim() : '';
 
-            document.getElementById('delete-material-name').value = name;
-            document.getElementById('delete-material-type').value = type;
+            const combined = type ? `${name} ( ${type} )` : name;
+
+            const combinedField = document.getElementById('delete-material-combined');
+            if (combinedField) combinedField.value = combined;
+            
             document.getElementById('delete-material-qty').value = qty;
             document.getElementById('delete-material-unit').value = unit;
             document.getElementById('delete-material-price').value = price;
-
-            const preview = document.getElementById('delete-img-preview');
-            if (preview) preview.src = 'Item/noimage.png';
 
             document.getElementById('modal-delete-material').style.display = 'flex';
         }
 
         function openAddMaterialModal() {
-            // Placeholder: currently pops up the edit modal, but can be customized later
-            document.getElementById('edit-material-name').value = '';
-            document.getElementById('edit-material-type').value = '';
-            document.getElementById('edit-material-qty').value = '0';
-            document.getElementById('edit-material-unit').value = '';
-            document.getElementById('edit-material-price').value = '';
+            document.getElementById('add-material-name').value = '';
+            document.getElementById('add-material-unit').value = '';
+            document.getElementById('add-material-price').value = '';
+            document.getElementById('add-material-qty').value = '0';
+            
+            document.getElementById('modal-add-material').style.display = 'flex';
+        }
 
-            const preview = document.getElementById('edit-img-preview');
-            const placeholder = document.getElementById('upload-placeholder');
-            const btnEdit = document.getElementById('btn-edit-img');
+        function saveNewMaterial() {
+            const combined = document.getElementById('add-material-name').value.trim();
+            const unit = document.getElementById('add-material-unit').value.trim();
+            const price = document.getElementById('add-material-price').value.trim();
 
-            if (preview) preview.style.display = 'none';
-            if (btnEdit) btnEdit.style.display = 'none';
-            if (placeholder) placeholder.style.display = 'block';
+            if (!combined) {
+                return;
+            }
 
-            document.getElementById('modal-settings').style.display = 'flex';
+            let name = combined;
+            let type = '';
+            
+            const match = combined.match(/^(.*?)\s*\(\s*(.*?)\s*\)$/);
+            if (match) {
+                name = match[1].trim();
+                type = match[2].trim();
+            }
+
+            const tbody = document.querySelector('.inventory-table tbody');
+            if (tbody) {
+                const tr = document.createElement('tr');
+                tr.className = 'custom-table-row';
+
+                const typeHtml = type ? ` <span style="font-weight: 600; color: #4b5563;">( <span class="item-type">${type}</span> )</span>` : '';
+                let statusHtml = `<span class="status-low" style="color: #ef4444; font-weight: 600;">สินค้าหมด</span>`;
+
+                tr.innerHTML = `
+                        <td style="text-align: left; padding-left: 30px;"><span class="item-name" style="font-weight: 600; color: #111827;">${name}</span>${typeHtml}</td>
+                        <td class="qty-remaining">0</td>
+                        <td class="item-unit">${unit}</td>
+                        <td class="item-price">${price}</td>
+                        <td>${statusHtml}</td>
+                        <td>
+                            <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
+                        </td>
+                `;
+                tbody.prepend(tr);
+                
+                Array.from(tbody.children).forEach((row, index) => {
+                    row.style.backgroundColor = (index % 2 === 0) ? '#fff' : '#fafafa';
+                    row.style.borderBottom = `1px solid ${row.style.backgroundColor}`;
+                });
+                
+                updateItemCount();
+            }
+            
+            showStatusModal('success');
+            checkStockColors();
+        }
+
+        function saveMaterialData() {
+            if (currentRowToEdit) {
+                const combined = document.getElementById('edit-material-combined').value.trim();
+                const unit = document.getElementById('edit-material-unit').value.trim();
+                const price = document.getElementById('edit-material-price').value.trim();
+
+                let name = combined;
+                let type = '';
+                
+                const match = combined.match(/^(.*?)\s*\(\s*(.*?)\s*\)$/);
+                if (match) {
+                    name = match[1].trim();
+                    type = match[2].trim();
+                }
+
+                const nameSpan = currentRowToEdit.querySelector('.item-name');
+                if (nameSpan) nameSpan.innerText = name;
+                
+                const typeSpan = currentRowToEdit.querySelector('.item-type');
+                if (typeSpan) typeSpan.innerText = type;
+
+                const unitTd = currentRowToEdit.querySelector('.item-unit');
+                if (unitTd) unitTd.innerText = unit;
+                
+                const priceTd = currentRowToEdit.querySelector('.item-price');
+                if (priceTd) priceTd.innerText = price;
+            }
+            
+            showStatusModal('success');
+            checkStockColors();
+        }
+
+        function checkStockColors() {
+            const qtyCells = document.querySelectorAll('.inventory-table .qty-remaining');
+            qtyCells.forEach(cell => {
+                const qty = parseInt(cell.innerText.trim(), 10);
+                const tr = cell.closest('tr');
+                const statusTd = tr.querySelector('td:nth-child(5)');
+
+                if (!isNaN(qty)) {
+                    if (qty < 25) {
+                        cell.style.color = '#ef4444';
+                        cell.style.fontWeight = '700';
+                        if (statusTd) {
+                            statusTd.innerHTML = '<span class="status-low" style="color: #ef4444; font-weight: 600;">สินค้าใกล้หมด</span>';
+                        }
+                    } else {
+                        cell.style.color = '#111827';
+                        cell.style.fontWeight = '500';
+                        if (statusTd) {
+                            statusTd.innerHTML = '<span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีสินค้า</span>';
+                        }
+                    }
+                }
+            });
         }
 
         function confirmDelete() {
@@ -650,6 +751,7 @@
             if (type === 'success') {
                 modalId = 'modal-success';
                 closeModal('modal-settings');
+                closeModal('modal-add-material');
             } else if (type === 'error-save') {
                 modalId = 'modal-error-save';
             } else if (type === 'error-upload') {
@@ -671,6 +773,7 @@
 
         window.onload = function () {
             updateItemCount();
+            checkStockColors();
         };
     </script>
 </body>
