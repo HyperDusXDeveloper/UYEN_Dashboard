@@ -111,35 +111,6 @@
             </div>
         </div>
 
-        <!-- Filter Bar -->
-        <div style="margin-bottom: 20px; background-color: #f3f4f6; border-radius: 8px; padding: 12px 20px;">
-            <div
-                style="display: flex; gap: 20px; align-items: center; font-size: 13px; font-weight: 600; color: #4b5563;">
-                <span style="color: #64748b;">เรียงตาม</span>
-                <span style="width: 1px; height: 20px; background-color: #94a3b8; display: inline-block;"></span>
-                <span
-                    style="display: inline-flex; align-items: center; gap: 4px; color: #1e3a8a; font-weight: 700;">คลัง
-                    <span
-                        style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
-                        <span id="arrow-stock-up" onclick="sortByStock('desc')" title="มากไปน้อย"
-                            style="font-size: 10px; color: #bbf7d0; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
-                        <span id="arrow-stock-down" onclick="sortByStock('asc')" title="น้อยไปมาก"
-                            style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
-                    </span>
-                </span>
-                <span
-                    style="display: inline-flex; align-items: center; gap: 4px; color: #1e3a8a; font-weight: 700;">สถานะ
-                    <span
-                        style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
-                        <span id="arrow-status-up" onclick="sortByStatus('instock')" title="มีสินค้าก่อน"
-                            style="font-size: 10px; color: #bae6fd; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
-                        <span id="arrow-status-down" onclick="sortByStatus('low')" title="ใกล้หมดก่อน"
-                            style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
-                    </span>
-                </span>
-            </div>
-        </div>
-
         <!-- Table -->
         <div class="table-wrapper"
             style="width: 100%; border: 1px solid #93c5fd; border-radius: 8px; overflow: hidden; background-color: #fff;">
@@ -150,10 +121,26 @@
                         <th
                             style="width: 20%; text-align: left; padding-left: 30px; color: #111827; font-size: 14px; padding-top: 15px; padding-bottom: 15px;">
                             วัสดุ</th>
-                        <th style="width: 15%; color: #111827; font-size: 14px;">คลังคงเหลือ</th>
+                        <th style="width: 15%; color: #111827; font-size: 14px;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                คลังคงเหลือ
+                                <span style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
+                                    <span id="arrow-stock-up" onclick="sortByStock('desc')" title="มากไปน้อย" style="font-size: 10px; color: #bbf7d0; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
+                                    <span id="arrow-stock-down" onclick="sortByStock('asc')" title="น้อยไปมาก" style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
+                                </span>
+                            </div>
+                        </th>
                         <th style="width: 15%; color: #111827; font-size: 14px;">หน่วย</th>
                         <th style="width: 15%; color: #111827; font-size: 14px;">ราคา / หน่วย</th>
-                        <th style="width: 15%; color: #111827; font-size: 14px;">สถานะ</th>
+                        <th style="width: 15%; color: #111827; font-size: 14px;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                สถานะ
+                                <span style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
+                                    <span id="arrow-status-up" onclick="sortByStatus('instock')" title="มีสินค้าก่อน" style="font-size: 10px; color: #bae6fd; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
+                                    <span id="arrow-status-down" onclick="sortByStatus('low')" title="ใกล้หมดก่อน" style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
+                                </span>
+                            </div>
+                        </th>
                         <th style="width: 20%; color: #111827; font-size: 14px;">ดำเนินการ</th>
                     </tr>
                 </thead>
@@ -273,9 +260,14 @@
                         <label style="font-weight: 800; color: #374151;">ชนิด วัสดุ</label>
                         <input type="text" id="add-material-name" value="" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
-                    <div class="input-group" style="margin: 0;">
+                    <div class="input-group custom-dropdown-container" style="margin: 0; position: relative;">
                         <label style="font-weight: 800; color: #374151;">หน่วย</label>
-                        <input type="text" id="add-material-unit" value="" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="add-material-unit" readonly placeholder="เลือกหน่วย" 
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; cursor: pointer; box-sizing: border-box; outline: none; background-color: white;"
+                            onclick="toggleUnitDropdown('list-add-unit')" />
+                        <svg style="position: absolute; right: 12px; top: 38px; pointer-events: none;" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <ul id="list-add-unit" class="custom-dropdown-list" style="display: none; position: absolute; top: 100%; left: 0; z-index: 9999; width: 100%; max-height: 280px; overflow-y: auto; background: white; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0; margin: 4px 0 0 0; list-style: none;">
+                        </ul>
                     </div>
                     <div class="input-group" style="margin: 0;">
                         <label style="font-weight: 800; color: #374151;">ราคา/หน่วย</label>
@@ -308,9 +300,14 @@
                         <input type="text" id="edit-material-combined" value="A4 ( ร้อยปอนด์ )" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
                     
-                    <div class="input-group" style="margin: 0;">
+                    <div class="input-group custom-dropdown-container" style="margin: 0; position: relative;">
                         <label style="font-weight: 800; color: #374151;">หน่วย</label>
-                        <input type="text" id="edit-material-unit" value="แผ่น" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="edit-material-unit" readonly placeholder="เลือกหน่วย" 
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; cursor: pointer; box-sizing: border-box; outline: none; background-color: white;"
+                            onclick="toggleUnitDropdown('list-edit-unit')" />
+                        <svg style="position: absolute; right: 12px; top: 38px; pointer-events: none;" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <ul id="list-edit-unit" class="custom-dropdown-list" style="display: none; position: absolute; top: 100%; left: 0; z-index: 9999; width: 100%; max-height: 280px; overflow-y: auto; background: white; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0; margin: 4px 0 0 0; list-style: none;">
+                        </ul>
                     </div>
                     
                     <div class="input-group" style="margin: 0;">
@@ -478,6 +475,36 @@
             if (countEl) countEl.innerText = count;
         }
 
+        let currentSort = null; // Tracks current sort state
+
+        function initializeRowIndices() {
+            const tbody = document.querySelector('.inventory-table tbody');
+            if(tbody) {
+                Array.from(tbody.querySelectorAll('tr')).forEach((row, index) => {
+                    if(!row.hasAttribute('data-original-index')) {
+                        row.setAttribute('data-original-index', window._initialIndexLoaded ? (-1 * Date.now()) : index);
+                    }
+                });
+                window._initialIndexLoaded = true;
+            }
+        }
+
+        function resetToOriginalOrder() {
+            const tbody = document.querySelector('.inventory-table tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            rows.sort((a, b) => {
+                const idxA = parseFloat(a.getAttribute('data-original-index')) || 0;
+                const idxB = parseFloat(b.getAttribute('data-original-index')) || 0;
+                return idxA - idxB;
+            });
+            rows.forEach((row, i) => {
+                row.style.backgroundColor = (i % 2 === 0) ? '#fff' : '#fafafa';
+                tbody.appendChild(row);
+            });
+            resetAllArrows();
+            currentSort = null;
+        }
+
         function resetAllArrows() {
             document.getElementById('arrow-stock-up').style.color = '#bbf7d0';
             document.getElementById('arrow-stock-down').style.color = '#fecaca';
@@ -486,6 +513,14 @@
         }
 
         function sortByStock(direction) {
+            initializeRowIndices();
+            const newSort = 'stock-' + direction;
+            if (currentSort === newSort) {
+                resetToOriginalOrder();
+                return;
+            }
+            currentSort = newSort;
+
             resetAllArrows();
             if (direction === 'desc') {
                 document.getElementById('arrow-stock-up').style.color = '#22c55e';
@@ -509,6 +544,14 @@
         }
 
         function sortByStatus(type) {
+            initializeRowIndices();
+            const newSort = 'status-' + type;
+            if (currentSort === newSort) {
+                resetToOriginalOrder();
+                return;
+            }
+            currentSort = newSort;
+
             resetAllArrows();
             if (type === 'instock') {
                 document.getElementById('arrow-status-up').style.color = '#38bdf8';
@@ -699,7 +742,13 @@
                 if (nameSpan) nameSpan.innerText = name;
                 
                 const typeSpan = currentRowToEdit.querySelector('.item-type');
-                if (typeSpan) typeSpan.innerText = type;
+                if (typeSpan) {
+                    typeSpan.innerText = type;
+                    const wrapper = typeSpan.parentElement;
+                    if (wrapper && wrapper.tagName.toLowerCase() === 'span') {
+                        wrapper.style.display = type ? 'inline' : 'none';
+                    }
+                }
 
                 const unitTd = currentRowToEdit.querySelector('.item-unit');
                 if (unitTd) unitTd.innerText = unit;
@@ -771,9 +820,52 @@
             }
         }
 
+        const unitOptionsList = ['เล่ม', 'รีม', 'แผ่น', 'แพ็ค', 'หลอด', 'ขวด', 'เส้น', 'กล่อง', 'ด้าม', 'ตัว', 'ใบ', 'ซอง', 'ชิ้น', 'แท่ง', 'ตลับ', 'อัน', 'ม้วน', 'ก้อน', 'ถุง', 'กระป๋อง', 'ชุด'].sort((a, b) => a.localeCompare(b, 'th'));
+
+        function toggleUnitDropdown(listId) {
+            document.querySelectorAll('.custom-dropdown-list').forEach(el => {
+                if(el.id !== listId) el.style.display = 'none';
+            });
+            const list = document.getElementById(listId);
+            list.style.display = list.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.addEventListener('click', function(e) {
+            if(!e.target.closest('.custom-dropdown-container')) {
+                document.querySelectorAll('.custom-dropdown-list').forEach(el => {
+                    el.style.display = 'none';
+                });
+            }
+        });
+
+        function initUnitDropdowns() {
+            ['add', 'edit'].forEach(type => {
+                const list = document.getElementById('list-' + type + '-unit');
+                const input = document.getElementById(type + '-material-unit');
+                if (list && input) {
+                    list.innerHTML = '';
+                    unitOptionsList.forEach(unit => {
+                        const li = document.createElement('li');
+                        li.textContent = unit;
+                        li.style.cssText = "padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #f1f5f9; color: #1e293b; font-size: 14px;";
+                        li.onmouseover = function() { this.style.backgroundColor = '#f0f9ff'; this.style.color = '#0ea5e9'; };
+                        li.onmouseout = function() { this.style.backgroundColor = 'white'; this.style.color = '#1e293b'; };
+                        li.onclick = function(e) { 
+                            e.stopPropagation();
+                            input.value = unit; 
+                            list.style.display = 'none'; 
+                        };
+                        list.appendChild(li);
+                    });
+                }
+            });
+        }
+
         window.onload = function () {
+            initializeRowIndices();
             updateItemCount();
             checkStockColors();
+            initUnitDropdowns();
         };
     </script>
 </body>
