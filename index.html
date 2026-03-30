@@ -28,13 +28,13 @@
             <form class="form">
                 <div class="input-group">
                     <label>USERNAME</label>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" id="login-username" maxlength="50" oninput="validateUsername(this)">
                 </div>
 
                 <div class="input-group">
                     <label>PASSWORD</label>
                     <div class="password-wrapper">
-                        <input type="password" placeholder="" id="login-pwd" maxlength="30" minlength="5" oninput="validatePassword(this)">
+                        <input type="password" placeholder="" id="login-pwd" maxlength="100" minlength="5" oninput="validatePassword(this)">
                         <span class="show-text" onclick="togglePassword('login-pwd', this)">SHOW</span>
                     </div>
                 </div>
@@ -67,8 +67,16 @@
 
         function validatePassword(input) {
             let value = input.value.replace(/[^a-zA-Z0-9@#$%&*®™©฿€¥+\-×÷=≠≤≥_ ().,"']/g, '');
-            if (value.length > 30) {
-                value = value.substring(0, 30);
+            if (value.length > 100) {
+                value = value.substring(0, 100);
+            }
+            input.value = value;
+        }
+
+        function validateUsername(input) {
+            let value = input.value.replace(/[^a-zA-Z0-9]/g, '');
+            if (value.length > 50) {
+                value = value.substring(0, 50);
             }
             input.value = value;
         }

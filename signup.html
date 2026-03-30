@@ -28,18 +28,18 @@
             <form class="form">
                 <div class="input-group">
                     <label>USERNAME</label>
-                    <input type="text" placeholder="">
+                    <input type="text" placeholder="" id="signup-username" maxlength="50" oninput="validateUsername(this)">
                 </div>
 
                 <div class="input-group">
                     <label>EMAIL</label>
-                    <input type="email" placeholder="example@email.com" maxlength="64" oninput="validateEmail(this)">
+                    <input type="text" placeholder="example@email.com" autocomplete="off" maxlength="100" oninput="validateEmail(this)">
                 </div>
 
                 <div class="input-group">
                     <label>PASSWORD</label>
                     <div class="password-wrapper">
-                        <input type="password" placeholder="" id="signup-pwd" maxlength="30" minlength="5" oninput="validatePassword(this)">
+                        <input type="password" placeholder="" id="signup-pwd" autocomplete="off" maxlength="100" minlength="5" oninput="validatePassword(this)">
                         <span class="show-text" onclick="togglePassword('signup-pwd', this)">SHOW</span>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="input-group">
                     <label>CONFIRM PASSWORD</label>
                     <div class="password-wrapper">
-                        <input type="password" placeholder="" id="signup-confirm" maxlength="30" minlength="5" oninput="validatePassword(this)">
+                        <input type="password" placeholder="" id="signup-confirm" autocomplete="off" maxlength="100" minlength="5" oninput="validatePassword(this)">
                         <span class="show-text" onclick="togglePassword('signup-confirm', this)">SHOW</span>
                     </div>
                 </div>
@@ -110,8 +110,8 @@
 
         function validatePassword(input) {
             let value = input.value.replace(/[^a-zA-Z0-9@#$%&*®™©฿€¥+\-×÷=≠≤≥_ ().,"']/g, '');
-            if (value.length > 30) {
-                value = value.substring(0, 30);
+            if (value.length > 100) {
+                value = value.substring(0, 100);
             }
             input.value = value;
         }
@@ -119,7 +119,7 @@
         function validateEmail(input) {
             let value = input.value;
             
-            value = value.replace(/[^a-zA-Z0-9\.@]/g, '');
+            value = value.replace(/[^a-zA-Z0-9\.@\-_]/g, '');
             
             const firstAt = value.indexOf('@');
             if (firstAt !== -1) {
@@ -132,10 +132,18 @@
             value = value.replace(/^\./, '');
             value = value.replace(/\.@/g, '@');
 
-            if (value.length > 64) {
-                value = value.substring(0, 64);
+            if (value.length > 100) {
+                value = value.substring(0, 100);
             }
 
+            input.value = value;
+        }
+
+        function validateUsername(input) {
+            let value = input.value.replace(/[^a-zA-Z0-9]/g, '');
+            if (value.length > 50) {
+                value = value.substring(0, 50);
+            }
             input.value = value;
         }
     </script>

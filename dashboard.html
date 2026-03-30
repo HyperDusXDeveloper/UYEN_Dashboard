@@ -54,8 +54,8 @@
             </div>
             <div class="search-box">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="ค้นหา USER ID หรือ ชื่อผู้ใช้งาน"
-                    onkeyup="filterUsers()">
+                <input type="text" id="searchInput" placeholder="ค้นหา USER ID หรือ ชื่อผู้ใช้งาน" maxlength="50"
+                    oninput="validateSearch(this); filterUsers()">
             </div>
         </div>
 
@@ -133,7 +133,7 @@
                 <form id="edit-form" class="form-grid" style="align-items: end;" onsubmit="event.preventDefault(); saveUserData();">
                     <div class="input-group">
                         <label>Username</label>
-                        <input type="text" id="edit-username" value="Somyot" placeholder="Username">
+                        <input type="text" id="edit-username" value="Somyot" placeholder="Username" maxlength="50" oninput="validateUsername(this)">
                     </div>
                     <div class="input-group" id="group-role">
                         <label>ตำแหน่งงาน</label>
@@ -148,7 +148,7 @@
                     </div>
                     <div class="input-group">
                         <label>Email</label>
-                        <input type="email" id="edit-email" placeholder="example@email.com" maxlength="64" required pattern="^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*$" title="รูปแบบต้องมี @ และข้อความทั้งหน้าและหลัง @ โดยห้ามมีจุดติดกันหรือจุดหน้า @" oninput="validateEmail(this)">
+                        <input type="text" id="edit-email" placeholder="example@email.com" maxlength="100" autocomplete="off" required pattern="^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*$" title="รูปแบบต้องมี @ และข้อความทั้งหน้าและหลัง @ โดยห้ามมีจุดติดกันหรือจุดหน้า @" oninput="validateEmail(this)">
                     </div>
                     <div class="input-group">
                         <label>Phone No.</label>
@@ -157,7 +157,7 @@
                     </div>
                     <div class="input-group">
                         <label>Password</label>
-                        <input type="text" id="edit-password" placeholder="Password" maxlength="30" minlength="5" oninput="validatePassword(this)">
+                        <input type="text" id="edit-password" placeholder="Password" maxlength="100" minlength="5" oninput="validatePassword(this)">
                     </div>
 
                     <div class="edit-footer" style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 15px; height: 100%;">
@@ -242,8 +242,8 @@
 
         function validatePassword(input) {
             let value = input.value.replace(/[^a-zA-Z0-9@#$%&*®™©฿€¥+\-×÷=≠≤≥_ ().,"']/g, '');
-            if (value.length > 30) {
-                value = value.substring(0, 30);
+            if (value.length > 100) {
+                value = value.substring(0, 100);
             }
             input.value = value;
         }
@@ -251,7 +251,7 @@
         function validateEmail(input) {
             let value = input.value;
             
-            value = value.replace(/[^a-zA-Z0-9\.@]/g, '');
+            value = value.replace(/[^a-zA-Z0-9\.@\-_]/g, '');
             
             // Prevent @ at the beginning
             value = value.replace(/^@/, '');
@@ -267,10 +267,26 @@
             value = value.replace(/^\./, '');
             value = value.replace(/\.@/g, '@');
 
-            if (value.length > 64) {
-                value = value.substring(0, 64);
+            if (value.length > 100) {
+                value = value.substring(0, 100);
             }
 
+            input.value = value;
+        }
+
+        function validateUsername(input) {
+            let value = input.value.replace(/[^a-zA-Z0-9]/g, '');
+            if (value.length > 50) {
+                value = value.substring(0, 50);
+            }
+            input.value = value;
+        }
+
+        function validateSearch(input) {
+            let value = input.value.replace(/[^a-zA-Z0-9_]/g, '');
+            if (value.length > 50) {
+                value = value.substring(0, 50);
+            }
             input.value = value;
         }
 
