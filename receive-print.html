@@ -23,7 +23,8 @@
                 <li class="active"><a href="receive-print.html">รับงานพิมพ์</a></li>
                 <li><a href="dashboard.html">จัดการผู้ใช้</a></li>
                 <li><a href="inventory.html">จัดการคลัง</a></li>
-                <li><a href="withdraw.html">เบิก / รับวัสดุ</a></li>
+                <li><a href="withdraw.html">เบิกวัสดุ</a></li>
+                <li><a href="receive-material.html">รับวัสดุ</a></li>
 
                 <li><a href="report.html">รายงานข้อมูล</a></li>
             </ul>
@@ -65,15 +66,7 @@
                         <option value="ดำเนินการสำเร็จ">ดำเนินการสำเร็จ</option>
                     </select>
                 </div>
-                <div class="filter-group">
-                    <label>ชื่อไฟล์ :</label>
-                    <div style="position: relative; display: inline-flex; align-items: center;">
-                        <input type="text" id="fileNameFilter" class="filter-input"
-                            style="width: 120px; padding-right: 28px;" onkeyup="filterJobs()">
-                        <span
-                            style="position: absolute; right: 8px; color: #9ca3af; pointer-events: none; font-size: 13px;">🔍</span>
-                    </div>
-                </div>
+
                 <div class="filter-group">
                     <label>วันที่สั่งพิมพ์ :</label>
                     <div style="display: inline-flex; align-items: stretch; gap: 8px;">
@@ -91,10 +84,6 @@
                         </button>
                     </div>
                 </div>
-            </div>
-            <div class="filter-search">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="ค้นหา คิว" onkeyup="filterJobs()">
             </div>
         </div>
 
@@ -306,9 +295,7 @@
         }
 
         function filterJobs() {
-            const queueSearch = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase() : '';
             const statusFilter = document.getElementById('statusFilter') ? document.getElementById('statusFilter').value : 'ทั้งหมด';
-            const fileNameSearch = document.getElementById('fileNameFilter') ? document.getElementById('fileNameFilter').value.toLowerCase() : '';
             const dateFilter = document.getElementById('dateFilter') ? document.getElementById('dateFilter').value : '';
 
             const jobCards = document.querySelectorAll('.job-card');
@@ -316,33 +303,14 @@
             jobCards.forEach(card => {
                 let showCard = true;
 
-                // 1. Queue Match
-                if (queueSearch) {
-                    const queueElement = card.querySelector('.job-header-value');
-                    const queueNumber = queueElement ? queueElement.textContent.toLowerCase() : '';
-                    if (!queueNumber.includes(queueSearch)) showCard = false;
-                }
-
-                // 2. Status Match
+                // 1. Status Match
                 if (showCard && statusFilter !== 'ทั้งหมด') {
                     const statusElement = card.querySelector('.badge-status');
                     const statusText = statusElement ? statusElement.textContent.trim() : '';
                     if (statusText !== statusFilter) showCard = false;
                 }
 
-                // 3. File Name Match
-                if (showCard && fileNameSearch) {
-                    const fileCells = card.querySelectorAll('tbody tr td:first-child');
-                    let fileMatch = false;
-                    fileCells.forEach(td => {
-                        if (td.textContent.toLowerCase().includes(fileNameSearch)) {
-                            fileMatch = true;
-                        }
-                    });
-                    if (!fileMatch) showCard = false;
-                }
-
-                // 4. Date Match
+                // 2. Date Match
                 if (showCard && dateFilter) {
                     let dateMatch = false;
                     const headerItems = card.querySelectorAll('.job-header-item');

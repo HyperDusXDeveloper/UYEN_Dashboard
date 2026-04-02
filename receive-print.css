@@ -124,28 +124,6 @@ body.theme-walkin .btn-toggle.online {
     padding: 5px 10px;
 }
 
-.filter-search {
-    position: relative;
-}
-
-.filter-search input {
-    background-color: #f8fafc;
-    border: none;
-    padding: 8px 15px 8px 35px;
-    border-radius: 20px;
-    font-size: 13px;
-    width: 250px;
-    outline: none;
-}
-
-.filter-search .search-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
-    font-size: 14px;
-}
 
 /* Job Cards */
 .job-card {
@@ -352,7 +330,7 @@ body.theme-walkin .btn-toggle.online {
     .filters-row { flex-direction: column; align-items: stretch; gap: 15px; }
     .filters-left { flex-direction: column; align-items: stretch; width: 100%; gap: 10px; }
     .filter-group { width: 100%; flex-direction: column; align-items: stretch; gap: 5px; }
-    .filter-input, .filter-select, .filter-search input { width: 100%; }
+    .filter-input, .filter-select { width: 100%; }
     .job-header { flex-direction: column; align-items: flex-start; gap: 10px; }
     .job-header-divider { display: none; }
     .job-header-right { margin-left: 0; width: 100%; }

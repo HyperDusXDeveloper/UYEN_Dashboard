@@ -64,7 +64,8 @@
                 <li><a href="receive-print.html">รับงานพิมพ์</a></li>
                 <li><a href="dashboard.html">จัดการผู้ใช้</a></li>
                 <li class="active"><a href="inventory.html">จัดการคลัง</a></li>
-                <li><a href="withdraw.html">เบิก / รับวัสดุ</a></li>
+                <li><a href="withdraw.html">เบิกวัสดุ</a></li>
+                <li><a href="receive-material.html">รับวัสดุ</a></li>
                 <li><a href="report.html">รายงานข้อมูล</a></li>
             </ul>
         </div>
@@ -97,12 +98,7 @@
                 <span style="font-size: 20px; font-weight: 800; color: #1a1a1a;">รายการ</span>
             </div>
             <div style="display: flex; align-items: center; gap: 15px;">
-                <div class="search-box" style="position: relative; width: 220px;">
-                    <span class="search-icon"
-                        style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 12px; color: #64748b;">🔍</span>
-                    <input type="text" id="inventory-search" placeholder="ค้นหา วัสดุ" onkeyup="searchInventory()"
-                        style="padding: 10px 15px 10px 40px; width: 100%; background-color: #fff; border: 1px solid #e5e7eb; border-radius: 20px; outline: none; font-size: 12px; font-weight: 500; font-family: 'Prompt', sans-serif; box-sizing: border-box; color: #333;">
-                </div>
+
                 <button class="btn-action"
                     style="background-color: #dcfce7; color: #16a34a; border: 1px solid #86efac; border-radius: 6px; padding: 10px 24px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap;"
                     onclick="openAddMaterialModal()">
@@ -581,28 +577,7 @@
             });
         }
 
-        function searchInventory() {
-            const input = document.getElementById("inventory-search").value.toLowerCase();
-            const table = document.querySelector(".inventory-table tbody");
-            const rows = table.getElementsByTagName("tr");
 
-            for (let i = 0; i < rows.length; i++) {
-                const nameCell = rows[i].querySelector('.item-name');
-                const typeCell = rows[i].querySelector('.item-type');
-
-                if (nameCell || typeCell) {
-                    const materialName = nameCell ? nameCell.textContent || nameCell.innerText : "";
-                    const materialType = typeCell ? typeCell.textContent || typeCell.innerText : "";
-
-                    if (materialName.toLowerCase().indexOf(input) > -1 || materialType.toLowerCase().indexOf(input) > -1) {
-                        rows[i].style.display = "";
-                    } else {
-                        rows[i].style.display = "none";
-                    }
-                }
-            }
-            updateItemCount();
-        }
 
         function openSettingsModal(btn) {
             currentRowToEdit = btn.closest('tr');

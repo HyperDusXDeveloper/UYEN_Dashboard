@@ -62,10 +62,7 @@ function renderTables() {
         });
     }
 
-    // Check if filterUsers exists globally to re-apply search/status filters after render
-    if (typeof filterUsers === 'function') {
-        filterUsers();
-    }
+
 }
 
 // 3. Actions (Edit & Save Data)

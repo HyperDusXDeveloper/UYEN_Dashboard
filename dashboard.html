@@ -23,7 +23,8 @@
                 <li><a href="receive-print.html">รับงานพิมพ์</a></li>
                 <li class="active"><a href="dashboard.html">จัดการผู้ใช้</a></li>
                 <li><a href="inventory.html">จัดการคลัง</a></li>
-                <li><a href="withdraw.html">เบิก / รับวัสดุ</a></li>
+                <li><a href="withdraw.html">เบิกวัสดุ</a></li>
+                <li><a href="receive-material.html">รับวัสดุ</a></li>
 
                 <li><a href="report.html">รายงานข้อมูล</a></li>
             </ul>
@@ -51,11 +52,6 @@
             <div class="tabs">
                 <button class="tab-btn active" onclick="switchTab(1)" id="tab1-btn">จัดการข้อมูลผู้ใช้งาน</button>
                 <button class="tab-btn" onclick="switchTab(2)" id="tab2-btn">จัดการข้อมูลพนักงาน</button>
-            </div>
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="ค้นหา USER ID หรือ ชื่อผู้ใช้งาน" maxlength="50"
-                    oninput="validateSearch(this); filterUsers()">
             </div>
         </div>
 
@@ -282,14 +278,6 @@
             input.value = value;
         }
 
-        function validateSearch(input) {
-            let value = input.value.replace(/[^a-zA-Z0-9_]/g, '');
-            if (value.length > 50) {
-                value = value.substring(0, 50);
-            }
-            input.value = value;
-        }
-
         let activeSortStatus = '';
 
         function sortByStatus(direction) {
@@ -316,37 +304,6 @@
                 }
             }
             renderTables();
-        }
-
-        function filterUsers() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-
-            // Filter users table
-            const userRows = document.querySelectorAll('#view-users tbody tr');
-            userRows.forEach(row => {
-                const userId = row.cells[0].textContent.toLowerCase();
-                const userName = row.cells[1].textContent.toLowerCase();
-
-                const matchesSearch = userId.includes(searchTerm) || userName.includes(searchTerm);
-
-                if (matchesSearch) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            // Filter employees table
-            const employeeRows = document.querySelectorAll('#view-employees tbody tr');
-            employeeRows.forEach(row => {
-                const userId = row.cells[0].textContent.toLowerCase();
-                const userName = row.cells[1].textContent.toLowerCase();
-                if (userId.includes(searchTerm) || userName.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
         }
     </script>
 </body>
