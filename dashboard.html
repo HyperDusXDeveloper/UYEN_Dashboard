@@ -67,7 +67,8 @@
                                 สถานะ
                                 <div style="display: flex; flex-direction: column; gap: 2px;">
                                     <button class="sort-up" onclick="sortByStatus('asc')" title="ปกติ">▲</button>
-                                    <button class="sort-down" onclick="sortByStatus('desc')" title="Blacklist">▼</button>
+                                    <button class="sort-down" onclick="sortByStatus('desc')"
+                                        title="Blacklist">▼</button>
                                 </div>
                             </div>
                         </th>
@@ -121,15 +122,18 @@
     <!-- Edit Modal -->
     <div class="modal-overlay" id="modal-edit" style="display: none;">
         <div class="modal" style="padding: 0; max-width: 600px;">
-            <div class="modal-header modal-header-blue" style="background-color: #4f87ff; padding: 25px 30px; color: white;">
+            <div class="modal-header modal-header-blue"
+                style="background-color: #4f87ff; padding: 25px 30px; color: white;">
                 <h2 id="edit-modal-title" style="font-size: 28px; font-weight: 700; margin-bottom: 5px;">Somyot</h2>
-                <p id="edit-modal-subtitle" style="font-size: 14px; font-weight: 500;">แก้ไขข้อมูลผู้ใช้งาน</p>
+                <p id="edit-modal-subtitle" style="font-size: 14px; font-weight: 500;">แก้ไขผู้ใช้งาน</p>
             </div>
             <div class="modal-body" style="padding: 30px;">
-                <form id="edit-form" class="form-grid" style="align-items: end;" onsubmit="event.preventDefault(); saveUserData();">
+                <form id="edit-form" class="form-grid" style="align-items: end;"
+                    onsubmit="event.preventDefault(); confirmSaveUserData();">
                     <div class="input-group">
                         <label>Username</label>
-                        <input type="text" id="edit-username" value="Somyot" placeholder="Username" maxlength="50" oninput="validateUsername(this)">
+                        <input type="text" id="edit-username" value="Somyot" placeholder="Username" maxlength="50"
+                            oninput="validateUsername(this)">
                     </div>
                     <div class="input-group" id="group-role">
                         <label>ตำแหน่งงาน</label>
@@ -144,30 +148,41 @@
                     </div>
                     <div class="input-group">
                         <label>Email</label>
-                        <input type="text" id="edit-email" placeholder="example@email.com" maxlength="100" autocomplete="off" required pattern="^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*$" title="รูปแบบต้องมี @ และข้อความทั้งหน้าและหลัง @ โดยห้ามมีจุดติดกันหรือจุดหน้า @" oninput="validateEmail(this)">
+                        <input type="text" id="edit-email" placeholder="example@email.com" maxlength="100"
+                            autocomplete="off" required
+                            pattern="^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*$"
+                            title="รูปแบบต้องมี @ และข้อความทั้งหน้าและหลัง @ โดยห้ามมีจุดติดกันหรือจุดหน้า @"
+                            oninput="validateEmail(this)">
                     </div>
                     <div class="input-group">
                         <label>Phone No.</label>
-                        <input type="tel" id="edit-phone" maxlength="16"
-                            placeholder="000 - 000 - 0000" oninput="formatPhoneNumber(this)">
+                        <input type="tel" id="edit-phone" maxlength="16" placeholder="000 - 000 - 0000"
+                            oninput="formatPhoneNumber(this)">
                     </div>
                     <div class="input-group">
                         <label>Password</label>
-                        <input type="text" id="edit-password" placeholder="Password" maxlength="100" minlength="5" oninput="validatePassword(this)">
+                        <input type="text" id="edit-password" placeholder="Password" maxlength="100" minlength="5"
+                            oninput="validatePassword(this)">
                     </div>
 
-                    <div class="edit-footer" style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 15px; height: 100%;">
-                        <div class="input-group" id="status-group-container" style="gap: 12px; margin-right: auto; flex-direction: row; align-items: center; display: none;">
+                    <div class="edit-footer"
+                        style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 15px; height: 100%;">
+                        <div class="input-group" id="status-group-container"
+                            style="gap: 12px; margin-right: auto; flex-direction: row; align-items: center; display: none;">
                             <label style="font-size: 14px; color: #333; margin: 0;">สถานะ</label>
                             <div class="toggle-container" style="margin: 0;">
-                                <button type="button" class="toggle-btn toggle-normal active" onclick="setToggle(this)">ปกติ</button>
-                                <button type="button" class="toggle-btn toggle-blacklist" onclick="setToggle(this)">Blacklist</button>
+                                <button type="button" class="toggle-btn toggle-normal active"
+                                    onclick="setToggle(this)">ปกติ</button>
+                                <button type="button" class="toggle-btn toggle-blacklist"
+                                    onclick="setToggle(this)">Blacklist</button>
                             </div>
                         </div>
 
                         <div class="modal-actions-right" style="margin-top: 0; display: flex; gap: 10px;">
-                            <button type="submit" class="btn-action" style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 20px; font-weight: 700; font-size: 13px;">บันทึกข้อมูล</button>
-                            <button type="button" class="btn-action" onclick="closeModal('modal-edit')" style="background-color: #fee2e2; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 20px; font-weight: 700; font-size: 13px;">ปิด</button>
+                            <button type="submit" class="btn-action"
+                                style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 20px; font-weight: 700; font-size: 13px;">บันทึก</button>
+                            <button type="button" class="btn-action" onclick="confirmCancelEdit()"
+                                style="background-color: #fee2e2; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 20px; font-weight: 700; font-size: 13px;">ปิด</button>
                         </div>
                     </div>
                 </form>
@@ -176,6 +191,98 @@
     </div>
 
 
+
+    <!-- Confirm Save Modal -->
+    <div class="modal-overlay" id="modal-confirm-save" style="display: none; z-index: 2000;">
+        <div class="modal" style="border-radius: 12px; overflow: hidden; border: none; max-width: 380px; padding: 0;">
+            <div style="background-color: #26F977; padding: 20px 25px; color: white;">
+                <h2 style="font-size: 20px; font-weight: 700; margin: 0;">ยืนยันการบันทึกข้อมูล</h2>
+            </div>
+            <div style="padding: 30px 25px; background-color: #fff; display: flex; flex-direction: column;">
+                <h3 style="font-size: 16px; font-weight: 500; color: #000; margin-bottom: 30px; text-align: left; line-height: 1.6;">
+                    คุณต้องการบันทึกข้อมูลของ <br> <span id="confirm-username" style="color: #26F977; font-weight: 700;">Username</span> ใช่หรือไม่ ?
+                </h3>
+                <div class="modal-actions-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button class="btn-action" style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 16px; font-weight: 700; font-size: 13px;" onclick="executeSaveUserData()">บันทึกข้อมูลผู้ใช้</button>
+                    <button type="button" class="btn-action" style="background-color: #fee2e2; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 16px; font-weight: 700; font-size: 13px;" onclick="abortSaveUserData()">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="modal-success" style="display: none; z-index: 2000;">
+        <div class="modal" style="border-radius: 12px; overflow: hidden; border: none; max-width: 260px; text-align: center;">
+            <div style="background-color: #26F977; padding: 15px; color: white;">
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0;">บันทึกข้อมูลสำเร็จ</h2>
+            </div>
+            <div style="padding: 30px 15px 25px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background-color: #26F977; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <div style="width: 14px; height: 26px; border: solid white; border-width: 0 4px 4px 0; transform: rotate(45deg); margin-bottom: 6px;"></div>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">ข้อมูลได้รับการบันทึกแล้ว</h3>
+                <p style="color: #9ca3af; font-size: 12px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Confirm Modal -->
+    <div class="modal-overlay" id="modal-cancel-confirm" style="display: none; z-index: 2000;">
+        <div class="modal" style="border-radius: 12px; overflow: hidden; border: none; max-width: 380px; padding: 0;">
+            <div style="background-color: #F30606; padding: 20px 25px; color: white;">
+                <h2 style="font-size: 20px; font-weight: 700; margin: 0;">ยืนยันการยกเลิกบันทึกข้อมูล</h2>
+            </div>
+            <div style="padding: 30px 25px; background-color: #fff; display: flex; flex-direction: column;">
+                <h3 style="font-size: 16px; font-weight: 500; color: #000; margin-bottom: 30px; text-align: left; line-height: 1.6;">
+                    คุณต้องยืนยันการยกเลิกบันทึกข้อมูลของ <br> <span id="cancel-confirm-username" style="color: #F30606; font-weight: 700;">Username</span> ใช่หรือไม่ ?
+                </h3>
+                <div class="modal-actions-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button class="btn-action" style="background-color: #fee2e2; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 16px; font-weight: 700; font-size: 13px;" onclick="executeCancelEdit()">ยกเลิกบันทึกข้อมูลผู้ใช้</button>
+                    <button type="button" class="btn-action" style="background-color: #fff; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 16px; font-weight: 700; font-size: 13px;" onclick="abortCancelEdit()">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Success Modal -->
+    <div class="modal-overlay" id="modal-cancel-success" style="display: none; z-index: 2000;">
+        <div class="modal" style="border-radius: 12px; overflow: hidden; border: none; max-width: 260px; text-align: center;">
+            <div style="background-color: #F30606; padding: 15px; color: white;">
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0;">ยกเลิกการบันทึกข้อมูลสำเร็จ</h2>
+            </div>
+            <div style="padding: 30px 15px 25px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background-color: #F30606; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">ยกเลิกการบันทึกข้อมูลสำเร็จ</h3>
+                <p style="color: #9ca3af; font-size: 12px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Success Modal -->
+    <div class="modal-overlay" id="modal-delete-success" style="display: none; z-index: 2000;">
+        <div class="modal" style="border-radius: 12px; overflow: hidden; border: none; max-width: 260px; text-align: center;">
+            <div style="background-color: #F30606; padding: 15px; color: white;">
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0;">ลบข้อมูลสำเร็จ</h2>
+            </div>
+            <div style="padding: 30px 15px 25px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background-color: #F30606; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">ลบข้อมูลผู้ใช้สำเร็จ</h3>
+                <p style="color: #9ca3af; font-size: 12px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts for Tab and Modal functionality -->
     <script src="dashboard.js"></script>
@@ -246,9 +353,9 @@
 
         function validateEmail(input) {
             let value = input.value;
-            
+
             value = value.replace(/[^a-zA-Z0-9\.@\-_]/g, '');
-            
+
             // Prevent @ at the beginning
             value = value.replace(/^@/, '');
 

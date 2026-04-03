@@ -32,7 +32,7 @@ function renderTables() {
                     <td>${u.name}</td>
                     <td class="${classStat}">${u.status}</td>
                     <td>
-                        <button class="btn-action btn-edit" onclick="openEditModal('user', '${u.id}')">แก้ไขข้อมูล</button>
+                        <button class="btn-action btn-edit" onclick="openEditModal('user', '${u.id}')">แก้ไข</button>
                         <button class="btn-action btn-delete" onclick="openDeleteModal('user', '${u.id}')">🗑 ลบ</button>
                     </td>
                 </tr>
@@ -51,10 +51,10 @@ function renderTables() {
                     <td>${e.name}</td>
                     <td>${e.role}</td>
                     <td style="color: #000; font-weight: 500;">
-                        ${e.phone && e.phone.length === 10 ? e.phone.substring(0,3) + ' - ' + e.phone.substring(3,6) + ' - ' + e.phone.substring(6,10) : e.phone}
+                        ${e.phone && e.phone.length === 10 ? e.phone.substring(0, 3) + ' - ' + e.phone.substring(3, 6) + ' - ' + e.phone.substring(6, 10) : e.phone}
                     </td>
                     <td>
-                        <button class="btn-action btn-edit" onclick="openEditModal('employee', '${e.id}')">แก้ไขข้อมูล</button>
+                        <button class="btn-action btn-edit" onclick="openEditModal('employee', '${e.id}')">แก้ไข</button>
                         <button class="btn-action btn-delete" onclick="openDeleteModal('employee', '${e.id}')">🗑 ลบ</button>
                     </td>
                 </tr>
@@ -79,17 +79,21 @@ function openEditModal(type, id) {
 
     if (!person) return;
 
-    // Fill the inputs
-    document.getElementById('edit-modal-title').innerText = person.name;
+    // Truncate name for header if > 20 chars
+    let headerName = person.name;
+    if (headerName.length > 20) {
+        headerName = headerName.substring(0, 20) + '...';
+    }
+    document.getElementById('edit-modal-title').innerText = headerName;
     document.getElementById('edit-username').value = person.name;
-    
+
     let phoneDigits = person.phone || '';
     if (phoneDigits.length === 10) {
         document.getElementById('edit-phone').value = phoneDigits.substring(0, 3) + ' - ' + phoneDigits.substring(3, 6) + ' - ' + phoneDigits.substring(6, 10);
     } else {
         document.getElementById('edit-phone').value = phoneDigits;
     }
-    
+
     document.getElementById('edit-email').value = person.email || '';
     document.getElementById('edit-password').value = person.password || '12345';
 
@@ -103,7 +107,7 @@ function openEditModal(type, id) {
     const subtitle = document.getElementById('edit-modal-subtitle');
 
     if (type === 'user') {
-        if (subtitle) subtitle.innerText = 'แก้ไขข้อมูลผู้ใช้งาน';
+        if (subtitle) subtitle.innerText = 'แก้ไขผู้ใช้งาน';
         if (roleGroup) roleGroup.style.display = 'none';
 
         if (person.status === 'Blacklist') {
@@ -114,19 +118,19 @@ function openEditModal(type, id) {
             toggleBlacklist.classList.remove('active');
         }
         if (statusGroup) statusGroup.style.display = 'flex'; // Show status toggle
-        
+
         // Let it span both columns for user mode
         const editFooter = document.querySelector('.edit-footer');
         if (editFooter) editFooter.style.gridColumn = '1 / -1';
-        
+
     } else {
-        if (subtitle) subtitle.innerText = 'แก้ไขข้อมูลพนักงาน';
+        if (subtitle) subtitle.innerText = 'แก้ไขพนักงาน';
         if (roleGroup) {
             roleGroup.style.display = 'flex';
             document.getElementById('edit-role').value = person.role || '';
         }
         if (statusGroup) statusGroup.style.display = 'none'; // Hide status toggle for employees
-        
+
         // Put in the second column alongside the password for employee mode
         const editFooter = document.querySelector('.edit-footer');
         if (editFooter) editFooter.style.gridColumn = 'auto';
@@ -135,7 +139,52 @@ function openEditModal(type, id) {
     document.getElementById('modal-edit').style.display = 'flex';
 }
 
-function saveUserData() {
+function confirmSaveUserData() {
+    if (!currentUserEditId || !currentEditType) return;
+    
+    let username = document.getElementById('edit-username').value;
+    if (username.length > 20) {
+        username = username.substring(0, 20) + '...';
+    }
+    document.getElementById('confirm-username').innerText = username;
+
+    document.getElementById('modal-edit').style.display = 'none';
+    document.getElementById('modal-confirm-save').style.display = 'flex';
+}
+
+function abortSaveUserData() {
+    document.getElementById('modal-confirm-save').style.display = 'none';
+    document.getElementById('modal-edit').style.display = 'flex';
+}
+
+function confirmCancelEdit() {
+    if (!currentUserEditId || !currentEditType) return;
+    
+    let username = document.getElementById('edit-username').value;
+    if (username.length > 20) {
+        username = username.substring(0, 20) + '...';
+    }
+    document.getElementById('cancel-confirm-username').innerText = username;
+
+    document.getElementById('modal-edit').style.display = 'none';
+    document.getElementById('modal-cancel-confirm').style.display = 'flex';
+}
+
+function abortCancelEdit() {
+    document.getElementById('modal-cancel-confirm').style.display = 'none';
+    document.getElementById('modal-edit').style.display = 'flex';
+}
+
+function executeCancelEdit() {
+    document.getElementById('modal-cancel-confirm').style.display = 'none';
+    
+    document.getElementById('modal-cancel-success').style.display = 'flex';
+    setTimeout(() => {
+        document.getElementById('modal-cancel-success').style.display = 'none';
+    }, 2000);
+}
+
+function executeSaveUserData() {
     if (!currentUserEditId || !currentEditType) return;
 
     const newName = document.getElementById('edit-username').value;
@@ -175,8 +224,15 @@ function saveUserData() {
     // Re-Render interface from state
     renderTables();
 
-    // Close modal
+    // Close modals
+    document.getElementById('modal-confirm-save').style.display = 'none';
     document.getElementById('modal-edit').style.display = 'none';
+
+    // Show success modal
+    document.getElementById('modal-success').style.display = 'flex';
+    setTimeout(() => {
+        document.getElementById('modal-success').style.display = 'none';
+    }, 2000);
 }
 
 let currentDeleteId = null;
@@ -204,6 +260,12 @@ function confirmDelete() {
 
     renderTables();
     document.getElementById('modal-delete').style.display = 'none';
+    
+    document.getElementById('modal-delete-success').style.display = 'flex';
+    setTimeout(() => {
+        document.getElementById('modal-delete-success').style.display = 'none';
+    }, 2000);
+
     currentDeleteId = null;
     currentDeleteType = null;
 }
