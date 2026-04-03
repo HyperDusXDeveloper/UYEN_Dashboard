@@ -83,11 +83,15 @@
 }
 
 .status-instock { 
-    color: #0ea5e9 !important; /* light blue */
+    color: #3b82f6 !important; /* blue */
     font-weight: 500 !important;
 }
 .status-low { 
-    color: #ef4444 !important; /* red */
+    color: #f59e0b !important; /* orange (ใกล้หมด) */
+    font-weight: 500 !important;
+}
+.status-out { 
+    color: #ef4444 !important; /* red (หมด) */
     font-weight: 500 !important;
 }
 

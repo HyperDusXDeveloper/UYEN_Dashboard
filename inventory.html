@@ -116,7 +116,7 @@
                     <tr>
                         <th
                             style="width: 25%; text-align: left; padding-left: 30px; color: #111827; font-size: 14px; padding-top: 15px; padding-bottom: 15px;">
-                            วัสดุ</th>
+                            วัสดุ (ประเภท)</th>
                         <th style="width: 12%; color: #111827; font-size: 14px;">
                             <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
                                 คลังคงเหลือ
@@ -131,7 +131,8 @@
                         </th>
                         <th style="width: 10%; color: #111827; font-size: 14px;">หน่วย</th>
                         <th style="width: 13%; color: #111827; font-size: 14px;">ราคา / หน่วย</th>
-                        <th style="width: 15%; color: #111827; font-size: 14px;">
+                        <th style="width: 10%; color: #111827; font-size: 14px;">จุดสั่งซื้อ</th>
+                        <th style="width: 10%; color: #111827; font-size: 14px;">
                             <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
                                 สถานะ
                                 <span
@@ -143,7 +144,7 @@
                                 </span>
                             </div>
                         </th>
-                        <th style="width: 25%; color: #111827; font-size: 14px;">ดำเนินการ</th>
+                        <th style="width: 20%; color: #111827; font-size: 14px;">ดำเนินการ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -156,24 +157,26 @@
                         <td class="qty-remaining">22</td>
                         <td class="item-unit">รีม</td>
                         <td class="item-price">5</td>
-                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีวัสดุ</span></td>
+                        <td class="reorder-point" style="font-weight: 700; color: #111827;">10</td>
+                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีสินค้า</span></td>
                         <td>
                             <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
-                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบวัสดุ</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
                         </td>
                     </tr>
                     <tr class="custom-table-row" style="background-color: #fafafa; border-bottom: 1px solid #fafafa;">
                         <td style="text-align: left; padding-left: 30px;"><span class="item-name"
                                 style="font-weight: 600; color: #111827;">หมึก</span> <span
-                                style="font-weight: 600; color: #4b5563;">( <span class="item-type">ตากแห้ง</span>
+                                style="font-weight: 600; color: #4b5563;">( <span class="item-type">ดำ</span>
                                 )</span></td>
-                        <td class="qty-remaining">3</td>
+                        <td class="qty-remaining" style="color: #ef4444; font-weight: 700;">3</td>
                         <td class="item-unit">ขวด</td>
                         <td class="item-price">3</td>
-                        <td><span class="status-low" style="color: #ef4444; font-weight: 600;">วัสดุใกล้หมด</span></td>
+                        <td class="reorder-point" style="font-weight: 700; color: #111827;">10</td>
+                        <td><span class="status-low" style="color: #f59e0b; font-weight: 600;">สินค้าใกล้หมด</span></td>
                         <td>
                             <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
-                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบวัสดุ</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
                         </td>
                     </tr>
                     <tr class="custom-table-row" style="background-color: #fff; border-bottom: 1px solid #fff;">
@@ -181,13 +184,14 @@
                                 style="font-weight: 600; color: #111827;">A4</span> <span
                                 style="font-weight: 600; color: #4b5563;">( <span class="item-type">แผ่นปกใส</span>
                                 )</span></td>
-                        <td class="qty-remaining">22</td>
+                        <td class="qty-remaining" style="color: #ef4444; font-weight: 700;">0</td>
                         <td class="item-unit">รีม</td>
                         <td class="item-price">6</td>
-                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีวัสดุ</span></td>
+                        <td class="reorder-point" style="font-weight: 700; color: #111827;">15</td>
+                        <td><span class="status-out" style="color: #ef4444; font-weight: 600;">หมด</span></td>
                         <td>
                             <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
-                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบวัสดุ</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
                         </td>
                     </tr>
                     <tr class="custom-table-row" style="background-color: #fafafa; border-bottom: 1px solid #fafafa;">
@@ -196,12 +200,13 @@
                                 style="font-weight: 600; color: #4b5563;">( <span class="item-type">อันเล็ก</span>
                                 )</span></td>
                         <td class="qty-remaining">300</td>
-                        <td class="item-unit">ขวด</td>
+                        <td class="item-unit">ชิ้น</td>
                         <td class="item-price">7</td>
-                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีวัสดุ</span></td>
+                        <td class="reorder-point" style="font-weight: 700; color: #111827;">50</td>
+                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีสินค้า</span></td>
                         <td>
                             <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
-                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบวัสดุ</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
                         </td>
                     </tr>
                     <tr class="custom-table-row" style="background-color: #fff; border-bottom: 1px solid #fff;">
@@ -209,13 +214,14 @@
                                 style="font-weight: 600; color: #111827;">เทป</span> <span
                                 style="font-weight: 600; color: #4b5563;">( <span class="item-type">ชนิดใส</span>
                                 )</span></td>
-                        <td class="qty-remaining">2</td>
+                        <td class="qty-remaining" style="color: #ef4444; font-weight: 700;">2</td>
                         <td class="item-unit">ม้วน</td>
                         <td class="item-price">10</td>
-                        <td><span class="status-low" style="color: #ef4444; font-weight: 600;">วัสดุใกล้หมด</span></td>
+                        <td class="reorder-point" style="font-weight: 700; color: #111827;">15</td>
+                        <td><span class="status-low" style="color: #f59e0b; font-weight: 600;">สินค้าใกล้หมด</span></td>
                         <td>
                             <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
-                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบวัสดุ</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
                         </td>
                     </tr>
                     <tr class="custom-table-row" style="background-color: #fafafa; border-bottom: 1px solid #fafafa;">
@@ -224,12 +230,13 @@
                                 style="font-weight: 600; color: #4b5563;">( <span class="item-type">35 MM</span>
                                 )</span></td>
                         <td class="qty-remaining">70</td>
-                        <td class="item-unit">ม้วน</td>
+                        <td class="item-unit">อัน</td>
                         <td class="item-price">22</td>
-                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีวัสดุ</span></td>
+                        <td class="reorder-point" style="font-weight: 700; color: #111827;">10</td>
+                        <td><span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีสินค้า</span></td>
                         <td>
                             <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
-                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบวัสดุ</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
                         </td>
                     </tr>
                     <tr class="custom-table-row" style="background-color: #fff; border-bottom: 1px solid #fff;">
@@ -237,13 +244,14 @@
                                 style="font-weight: 600; color: #111827;">กรรไกร</span> <span
                                 style="font-weight: 600; color: #4b5563;">( <span class="item-type">ใหญ่</span> )</span>
                         </td>
-                        <td class="qty-remaining">3</td>
-                        <td class="item-unit">ม้วน</td>
+                        <td class="qty-remaining" style="color: #ef4444; font-weight: 700;">3</td>
+                        <td class="item-unit">ด้าม</td>
                         <td class="item-price">45</td>
-                        <td><span class="status-low" style="color: #ef4444; font-weight: 600;">วัสดุใกล้หมด</span></td>
+                        <td class="reorder-point" style="font-weight: 700; color: #111827;">3</td>
+                        <td><span class="status-low" style="color: #f59e0b; font-weight: 600;">สินค้าใกล้หมด</span></td>
                         <td>
                             <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
-                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบวัสดุ</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
                         </td>
                     </tr>
                 </tbody>
@@ -285,10 +293,15 @@
                         <input type="text" id="add-material-price" value="" oninput="validatePrice(this)"
                             style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">จุดสั่งซื้อ</label>
+                        <input type="text" id="add-material-reorder" value="" oninput="validatePrice(this)"
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
                     <div class="input-group" style="margin: 0; margin-bottom: 10px;">
                         <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
-                        <input type="text" id="add-material-qty" value="0" readonly
-                            style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; border: 1px solid #e2e8f0; width: 100%; padding: 10px; border-radius: 6px; box-sizing: border-box;">
+                        <input type="text" id="add-material-qty" value="0" oninput="validatePrice(this)"
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
                     <div class="modal-actions-right"
                         style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 5px;">
@@ -342,10 +355,16 @@
                             style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
 
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">จุดสั่งซื้อ</label>
+                        <input type="text" id="edit-material-reorder" value="50" oninput="validatePrice(this)"
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+
                     <div class="input-group" style="margin: 0; margin-bottom: 10px;">
                         <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
-                        <input type="text" id="edit-material-qty" value="5" readonly
-                            style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; border: 1px solid #e2e8f0; width: 100%; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="edit-material-qty" value="5" oninput="validatePrice(this)"
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
 
                     <div class="modal-actions-right" style="display: flex; justify-content: flex-end; gap: 10px;">
@@ -680,10 +699,10 @@
             const rows = Array.from(tbody.querySelectorAll('tr'));
 
             const statusOrder = (row) => {
-                const statusText = row.querySelector('.status-instock, .status-low')?.innerText.trim() || '';
-                if (statusText === 'มีวัสดุ') return 1;
-                if (statusText === 'วัสดุใกล้หมด') return 2;
-                return 3; // วัสดุหมด
+                const statusText = row.querySelector('.status-instock, .status-low, .status-out')?.innerText.trim() || '';
+                if (statusText === 'มีสินค้า') return 1;
+                if (statusText === 'สินค้าใกล้หมด') return 2;
+                return 3; // หมด
             };
 
             rows.sort((a, b) => {
@@ -708,6 +727,7 @@
             const qty = currentRowToEdit.querySelector('.qty-remaining') ? currentRowToEdit.querySelector('.qty-remaining').innerText.trim() : '';
             const unit = currentRowToEdit.querySelector('.item-unit') ? currentRowToEdit.querySelector('.item-unit').innerText.trim() : '';
             const price = currentRowToEdit.querySelector('.item-price') ? currentRowToEdit.querySelector('.item-price').innerText.trim() : '';
+            const reorder = currentRowToEdit.querySelector('.reorder-point') ? currentRowToEdit.querySelector('.reorder-point').innerText.trim() : '';
 
             const nameField = document.getElementById('edit-material-name');
             if (nameField) nameField.value = name;
@@ -725,6 +745,9 @@
 
             const priceField = document.getElementById('edit-material-price');
             if (priceField) priceField.value = price;
+
+            const reorderField = document.getElementById('edit-material-reorder');
+            if (reorderField) reorderField.value = reorder;
 
             const title = document.getElementById('modal-settings-title');
             if (title) title.innerText = 'ตั้งค่าวัสดุ';
@@ -821,6 +844,8 @@
             document.getElementById('add-material-name').value = '';
             document.getElementById('add-material-unit').value = '';
             document.getElementById('add-material-price').value = '';
+            const reorderField = document.getElementById('add-material-reorder');
+            if (reorderField) reorderField.value = '';
             document.getElementById('add-material-qty').value = '0';
 
             document.getElementById('modal-add-material').style.display = 'flex';
@@ -830,6 +855,8 @@
             const combined = document.getElementById('add-material-name').value.trim();
             const unit = document.getElementById('add-material-unit').value.trim();
             const price = document.getElementById('add-material-price').value.trim();
+            const reorder = document.getElementById('add-material-reorder').value.trim() || '0';
+            const qty = document.getElementById('add-material-qty').value.trim() || '0';
 
             if (!combined) {
                 return;
@@ -850,17 +877,18 @@
                 tr.className = 'custom-table-row';
 
                 const typeHtml = type ? ` <span style="font-weight: 600; color: #4b5563;">( <span class="item-type">${type}</span> )</span>` : '';
-                let statusHtml = `<span class="status-low" style="color: #ef4444; font-weight: 600;">วัสดุหมด</span>`;
+                let statusHtml = `<span class="status-out" style="color: #ef4444; font-weight: 600;">หมด</span>`;
 
                 tr.innerHTML = `
                         <td style="text-align: left; padding-left: 30px;"><span class="item-name" style="font-weight: 600; color: #111827;">${name}</span>${typeHtml}</td>
-                        <td class="qty-remaining">0</td>
+                        <td class="qty-remaining">${qty}</td>
                         <td class="item-unit">${unit}</td>
                         <td class="item-price">${price}</td>
+                        <td class="reorder-point" style="font-weight: 700; color: #111827;">${reorder}</td>
                         <td>${statusHtml}</td>
                         <td>
                             <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
-                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบวัสดุ</button>
+                            <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
                         </td>
                 `;
                 tbody.prepend(tr);
@@ -882,6 +910,8 @@
                 const combined = document.getElementById('edit-material-combined').value.trim();
                 const unit = document.getElementById('edit-material-unit').value.trim();
                 const price = document.getElementById('edit-material-price').value.trim();
+                const reorder = document.getElementById('edit-material-reorder').value.trim() || '0';
+                const qty = document.getElementById('edit-material-qty').value.trim() || '0';
 
                 let name = combined;
                 let type = '';
@@ -909,6 +939,12 @@
 
                 const priceTd = currentRowToEdit.querySelector('.item-price');
                 if (priceTd) priceTd.innerText = price;
+                
+                const reorderTd = currentRowToEdit.querySelector('.reorder-point');
+                if (reorderTd) reorderTd.innerText = reorder;
+
+                const qtyTd = currentRowToEdit.querySelector('.qty-remaining');
+                if (qtyTd) qtyTd.innerText = qty;
             }
 
             showStatusModal('success');
@@ -916,24 +952,35 @@
         }
 
         function checkStockColors() {
-            const qtyCells = document.querySelectorAll('.inventory-table .qty-remaining');
-            qtyCells.forEach(cell => {
-                const qty = parseInt(cell.innerText.trim(), 10);
-                const tr = cell.closest('tr');
-                const statusTd = tr.querySelector('td:nth-child(5)');
+            const rows = document.querySelectorAll('.inventory-table tbody tr');
+            rows.forEach(tr => {
+                const qtyCell = tr.querySelector('.qty-remaining');
+                const reorderCell = tr.querySelector('.reorder-point');
+                const statusTd = tr.querySelector('td:nth-child(6)');
 
-                if (!isNaN(qty)) {
-                    if (qty < 25) {
-                        cell.style.color = '#ef4444';
-                        cell.style.fontWeight = '700';
-                        if (statusTd) {
-                            statusTd.innerHTML = '<span class="status-low" style="color: #ef4444; font-weight: 600;">วัสดุใกล้หมด</span>';
-                        }
-                    } else {
-                        cell.style.color = '#111827';
-                        cell.style.fontWeight = '500';
-                        if (statusTd) {
-                            statusTd.innerHTML = '<span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีวัสดุ</span>';
+                if (qtyCell && reorderCell) {
+                    const qty = parseInt(qtyCell.innerText.trim(), 10);
+                    const reorder = parseInt(reorderCell.innerText.trim(), 10);
+
+                    if (!isNaN(qty) && !isNaN(reorder)) {
+                        if (qty === 0) {
+                            qtyCell.style.color = '#ef4444';
+                            qtyCell.style.fontWeight = '700';
+                            if (statusTd) {
+                                statusTd.innerHTML = '<span class="status-out" style="color: #ef4444; font-weight: 600;">หมด</span>';
+                            }
+                        } else if (qty <= reorder) {
+                            qtyCell.style.color = '#ef4444';
+                            qtyCell.style.fontWeight = '700';
+                            if (statusTd) {
+                                statusTd.innerHTML = '<span class="status-low" style="color: #f59e0b; font-weight: 600;">สินค้าใกล้หมด</span>';
+                            }
+                        } else {
+                            qtyCell.style.color = '#111827';
+                            qtyCell.style.fontWeight = '500';
+                            if (statusTd) {
+                                statusTd.innerHTML = '<span class="status-instock" style="color: #3b82f6; font-weight: 600;">มีสินค้า</span>';
+                            }
                         }
                     }
                 }
