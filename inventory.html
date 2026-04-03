@@ -469,6 +469,11 @@
                         <input type="text" id="delete-material-price" value="" readonly
                             style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">จุดสั่งซื้อ</label>
+                        <input type="text" id="delete-material-reorder" value="" readonly
+                            style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
                     <div class="input-group" style="margin: 0; margin-bottom: 10px;">
                         <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
                         <input type="text" id="delete-material-qty" value="" readonly
@@ -827,6 +832,7 @@
             const qty = currentRowToDelete.querySelector('.qty-remaining') ? currentRowToDelete.querySelector('.qty-remaining').innerText.trim() : '';
             const unit = currentRowToDelete.querySelector('.item-unit') ? currentRowToDelete.querySelector('.item-unit').innerText.trim() : '';
             const price = currentRowToDelete.querySelector('.item-price') ? currentRowToDelete.querySelector('.item-price').innerText.trim() : '';
+            const reorder = currentRowToDelete.querySelector('.reorder-point') ? currentRowToDelete.querySelector('.reorder-point').innerText.trim() : '';
 
             const combined = type ? `${name} ( ${type} )` : name;
 
@@ -836,6 +842,7 @@
             document.getElementById('delete-material-qty').value = qty;
             document.getElementById('delete-material-unit').value = unit;
             document.getElementById('delete-material-price').value = price;
+            document.getElementById('delete-material-reorder').value = reorder;
 
             document.getElementById('modal-delete-material').style.display = 'flex';
         }
