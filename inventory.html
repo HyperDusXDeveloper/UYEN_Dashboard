@@ -120,9 +120,12 @@
                         <th style="width: 12%; color: #111827; font-size: 14px;">
                             <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
                                 คลังคงเหลือ
-                                <span style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
-                                    <span id="arrow-stock-up" onclick="sortByStock('desc')" title="มากไปน้อย" style="font-size: 10px; color: #bbf7d0; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
-                                    <span id="arrow-stock-down" onclick="sortByStock('asc')" title="น้อยไปมาก" style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
+                                <span
+                                    style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
+                                    <span id="arrow-stock-up" onclick="sortByStock('desc')" title="มากไปน้อย"
+                                        style="font-size: 10px; color: #bbf7d0; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
+                                    <span id="arrow-stock-down" onclick="sortByStock('asc')" title="น้อยไปมาก"
+                                        style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
                                 </span>
                             </div>
                         </th>
@@ -131,9 +134,12 @@
                         <th style="width: 15%; color: #111827; font-size: 14px;">
                             <div style="display: flex; align-items: center; justify-content: center; gap: 4px;">
                                 สถานะ
-                                <span style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
-                                    <span id="arrow-status-up" onclick="sortByStatus('instock')" title="มีวัสดุก่อน" style="font-size: 10px; color: #bae6fd; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
-                                    <span id="arrow-status-down" onclick="sortByStatus('low')" title="วัสดุใกล้หมดก่อน" style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
+                                <span
+                                    style="display: inline-flex; flex-direction: column; gap: 1px; line-height: 1; cursor: pointer;">
+                                    <span id="arrow-status-up" onclick="sortByStatus('instock')" title="มีวัสดุก่อน"
+                                        style="font-size: 10px; color: #bae6fd; cursor: pointer; user-select: none; transition: color 0.2s;">▲</span>
+                                    <span id="arrow-status-down" onclick="sortByStatus('low')" title="วัสดุใกล้หมดก่อน"
+                                        style="font-size: 10px; color: #fecaca; cursor: pointer; user-select: none; transition: color 0.2s;">▼</span>
                                 </span>
                             </div>
                         </th>
@@ -142,8 +148,9 @@
                 </thead>
                 <tbody>
                     <tr class="custom-table-row" style="background-color: #fff; border-bottom: 1px solid #fff;">
-                        <td style="text-align: left; padding-left: 30px; word-break: break-word; overflow-wrap: break-word;"><span class="item-name"
-                                style="font-weight: 600; color: #111827;">A4</span> <span
+                        <td
+                            style="text-align: left; padding-left: 30px; word-break: break-word; overflow-wrap: break-word;">
+                            <span class="item-name" style="font-weight: 600; color: #111827;">A4</span> <span
                                 style="font-weight: 600; color: #4b5563;">( <span class="item-type">ธรรมดา</span>
                                 )</span></td>
                         <td class="qty-remaining">22</td>
@@ -246,36 +253,51 @@
 
     <!-- Add Material Modal -->
     <div class="modal-overlay" id="modal-add-material" style="display: none;">
-        <div class="modal" style="padding: 0; max-width: 600px; border-radius: 12px; overflow: hidden; border: 2px solid #3b6592; background-color: #fff;">
+        <div class="modal"
+            style="padding: 0; max-width: 600px; border-radius: 12px; overflow: hidden; border: 2px solid #3b6592; background-color: #fff;">
             <div style="background-color: #3b6592; padding: 25px 30px; color: white;">
-                <h2 style="font-size: 24px; font-weight: 700; margin: 0; text-align: center;">ต้องการเพิ่มวัสดุใช่หรือไม่</h2>
+                <h2 style="font-size: 24px; font-weight: 700; margin: 0; text-align: center;">
+                    ต้องการเพิ่มวัสดุใช่หรือไม่</h2>
             </div>
             <div class="modal-body" style="padding: 30px;">
                 <form onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 20px;">
                     <div class="input-group" style="margin: 0;">
                         <label style="font-weight: 800; color: #374151;">ชนิด วัสดุ</label>
-                        <input type="text" id="add-material-name" value="" maxlength="100" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="add-material-name" value="" maxlength="100"
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
                     <div class="input-group custom-dropdown-container" style="margin: 0; position: relative;">
                         <label style="font-weight: 800; color: #374151;">หน่วย</label>
-                        <input type="text" id="add-material-unit" readonly placeholder="เลือกหน่วย" 
+                        <input type="text" id="add-material-unit" readonly placeholder="เลือกหน่วย"
                             style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; cursor: pointer; box-sizing: border-box; outline: none; background-color: white;"
                             onclick="toggleUnitDropdown('list-add-unit')" />
-                        <svg style="position: absolute; right: 12px; top: 38px; pointer-events: none;" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        <ul id="list-add-unit" class="custom-dropdown-list" style="display: none; position: absolute; top: 100%; left: 0; z-index: 9999; width: 100%; max-height: 280px; overflow-y: auto; background: white; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0; margin: 4px 0 0 0; list-style: none;">
+                        <svg style="position: absolute; right: 12px; top: 38px; pointer-events: none;" width="20"
+                            height="20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <ul id="list-add-unit" class="custom-dropdown-list"
+                            style="display: none; position: absolute; top: 100%; left: 0; z-index: 9999; width: 100%; max-height: 280px; overflow-y: auto; background: white; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0; margin: 4px 0 0 0; list-style: none;">
                         </ul>
                     </div>
                     <div class="input-group" style="margin: 0;">
                         <label style="font-weight: 800; color: #374151;">ราคา/หน่วย</label>
-                        <input type="text" id="add-material-price" value="" oninput="validatePrice(this)" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="add-material-price" value="" oninput="validatePrice(this)"
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
                     <div class="input-group" style="margin: 0; margin-bottom: 10px;">
                         <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
-                        <input type="text" id="add-material-qty" value="0" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; border: 1px solid #e2e8f0; width: 100%; padding: 10px; border-radius: 6px; box-sizing: border-box;">
+                        <input type="text" id="add-material-qty" value="0" readonly
+                            style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; border: 1px solid #e2e8f0; width: 100%; padding: 10px; border-radius: 6px; box-sizing: border-box;">
                     </div>
-                    <div class="modal-actions-right" style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 5px;">
-                        <button class="btn-action" style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;" onclick="saveNewMaterial()">บันทึก</button>
-                        <button class="btn-action" style="background-color: #fff; color: #ef4444; border: 1px solid #fca5a5; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;" onclick="closeModal('modal-add-material')">ยกเลิก</button>
+                    <div class="modal-actions-right"
+                        style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 5px;">
+                        <button type="button" class="btn-action"
+                            style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
+                            onclick="initiateSaveMaterial('add')">บันทึก</button>
+                        <button type="button" class="btn-action"
+                            style="background-color: #fff; color: #ef4444; border: 1px solid #fca5a5; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
+                            onclick="initiateCancelMaterial('add')">ยกเลิก</button>
                     </div>
                 </form>
             </div>
@@ -284,44 +306,55 @@
 
     <!-- Settings Modal -->
     <div class="modal-overlay" id="modal-settings" style="display: none;">
-        <div class="modal" style="padding: 0; max-width: 600px; border-radius: 12px; overflow: hidden; border: none; background-color: #fff;">
+        <div class="modal"
+            style="padding: 0; max-width: 600px; border-radius: 12px; overflow: hidden; border: none; background-color: #fff;">
             <div style="background-color: #32639C; padding: 25px 30px; border-radius: 12px 12px 0 0;">
-                <h2 id="modal-settings-title" style="font-size: 28px; font-weight: 700; margin: 0; color: #ffffff;">ตั้งค่าวัสดุ</h2>
+                <h2 id="modal-settings-title" style="font-size: 28px; font-weight: 700; margin: 0; color: #ffffff;">
+                    ตั้งค่าวัสดุ</h2>
             </div>
             <div class="modal-body" style="padding: 30px;">
                 <form onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 20px;">
-                    
+
                     <div class="input-group" style="margin: 0;">
                         <label style="font-weight: 800; color: #374151;">ชนิด วัสดุ</label>
-                        <input type="text" id="edit-material-combined" value="A4 ( ร้อยปอนด์ )" maxlength="100" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
-                    </div>
-                    
-                    <div class="input-group custom-dropdown-container" style="margin: 0; position: relative;">
-                        <label style="font-weight: 800; color: #374151;">หน่วย</label>
-                        <input type="text" id="edit-material-unit" readonly placeholder="เลือกหน่วย" 
-                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; cursor: pointer; box-sizing: border-box; outline: none; background-color: white;"
-                            onclick="toggleUnitDropdown('list-edit-unit')" />
-                        <svg style="position: absolute; right: 12px; top: 38px; pointer-events: none;" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        <ul id="list-edit-unit" class="custom-dropdown-list" style="display: none; position: absolute; top: 100%; left: 0; z-index: 9999; width: 100%; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0; margin: 4px 0 0 0; list-style: none;">
-                        </ul>
-                    </div>
-                    
-                    <div class="input-group" style="margin: 0;">
-                        <label style="font-weight: 800; color: #374151;">ราคา/หน่วย</label>
-                        <input type="text" id="edit-material-price" value="25" oninput="validatePrice(this)" style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
-                    </div>
-                    
-                    <div class="input-group" style="margin: 0; margin-bottom: 10px;">
-                        <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
-                        <input type="text" id="edit-material-qty" value="5" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; border: 1px solid #e2e8f0; width: 100%; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="edit-material-combined" value="A4 ( ร้อยปอนด์ )" maxlength="100"
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
 
-                    <div class="modal-actions-right"
-                        style="display: flex; justify-content: flex-end; gap: 10px;">
-                        <button id="btn-save-material" class="btn-action" style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 25px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
-                            onclick="saveMaterialData()">บันทึกข้อมูลวัสดุ</button>
-                        <button class="btn-action" style="background-color: #fff; color: #ef4444; border: 1px solid #fca5a5; border-radius: 6px; padding: 8px 30px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
-                            onclick="closeModal('modal-settings')">ยกเลิก</button>
+                    <div class="input-group custom-dropdown-container" style="margin: 0; position: relative;">
+                        <label style="font-weight: 800; color: #374151;">หน่วย</label>
+                        <input type="text" id="edit-material-unit" readonly placeholder="เลือกหน่วย"
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; cursor: pointer; box-sizing: border-box; outline: none; background-color: white;"
+                            onclick="toggleUnitDropdown('list-edit-unit')" />
+                        <svg style="position: absolute; right: 12px; top: 38px; pointer-events: none;" width="20"
+                            height="20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <ul id="list-edit-unit" class="custom-dropdown-list"
+                            style="display: none; position: absolute; top: 100%; left: 0; z-index: 9999; width: 100%; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 0; margin: 4px 0 0 0; list-style: none;">
+                        </ul>
+                    </div>
+
+                    <div class="input-group" style="margin: 0;">
+                        <label style="font-weight: 800; color: #374151;">ราคา/หน่วย</label>
+                        <input type="text" id="edit-material-price" value="25" oninput="validatePrice(this)"
+                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+
+                    <div class="input-group" style="margin: 0; margin-bottom: 10px;">
+                        <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
+                        <input type="text" id="edit-material-qty" value="5" readonly
+                            style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; border: 1px solid #e2e8f0; width: 100%; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                    </div>
+
+                    <div class="modal-actions-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+                        <button type="button" id="btn-save-material" class="btn-action"
+                            style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 25px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
+                            onclick="initiateSaveMaterial('edit')">บันทึกข้อมูลวัสดุ</button>
+                        <button type="button" class="btn-action"
+                            style="background-color: #fff; color: #ef4444; border: 1px solid #fca5a5; border-radius: 6px; padding: 8px 30px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
+                            onclick="initiateCancelMaterial('edit')">ยกเลิก</button>
                     </div>
                 </form>
             </div>
@@ -330,92 +363,106 @@
 
     <!-- Status Modals -->
     <!-- Success -->
+    <!-- Success -->
     <div class="modal-overlay" id="modal-success" style="display: none; z-index: 2000;">
-        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
-            <div style="background-color: #22c55e; padding: 25px; color: white;">
-                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">ตั้งค่าวัสดุสำเร็จ</h2>
+        <div class="modal status-modal"
+            style="border-radius: 12px; overflow: hidden; border: none; max-width: 260px; text-align: center;">
+            <div style="background-color: #26F977; padding: 15px; color: white;">
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0;">บันทึกข้อมูลวัสดุสำเร็จ</h2>
             </div>
             <div
-                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
-                <!-- Custom Check Icon -->
+                style="padding: 30px 15px 25px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
                 <div
-                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #22c55e; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
+                    style="width: 50px; height: 50px; border-radius: 50%; background-color: #26F977; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
                     <div
-                        style="width: 25px; height: 45px; border: solid white; border-width: 0 6px 6px 0; transform: rotate(45deg); margin-bottom: 10px;">
+                        style="width: 14px; height: 26px; border: solid white; border-width: 0 4px 4px 0; transform: rotate(45deg); margin-bottom: 6px;">
                     </div>
                 </div>
-                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">
-                    ข้อมูลได้รับการบันทึกแล้ว</h3>
-                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+                <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">
+                    ข้อมูลวัสดุได้รับการบันทึกแล้ว</h3>
+                <p style="color: #9ca3af; font-size: 12px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
             </div>
         </div>
     </div>
 
     <!-- Error Upload -->
     <div class="modal-overlay" id="modal-error-upload" style="display: none; z-index: 2000;">
-        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
-            <div style="background-color: #ef4444; padding: 25px; color: white;">
-                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">อัพโหลดรูปภาพไม่สำเร็จ</h2>
+        <div class="modal status-modal"
+            style="border-radius: 12px; overflow: hidden; border: none; max-width: 260px; text-align: center;">
+            <div style="background-color: #ef4444; padding: 15px; color: white;">
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0;">อัพโหลดรูปภาพไม่สำเร็จ</h2>
             </div>
             <div
-                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                style="padding: 30px 15px 25px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
                 <div
-                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #ef4444; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
-                    <div style="font-size: 80px; font-weight: bold; line-height: 1; padding-bottom: 20px;">⬆</div>
+                    style="width: 50px; height: 50px; border-radius: 50%; background-color: #ef4444; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <div style="font-size: 30px; font-weight: bold; line-height: 1; padding-bottom: 8px;">⬆</div>
                 </div>
-                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">
+                <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">
                     ไม่สามารถอัพโหลดรูปภาพได้</h3>
-                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+                <p style="color: #9ca3af; font-size: 12px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
             </div>
         </div>
     </div>
 
     <!-- Error Save -->
     <div class="modal-overlay" id="modal-error-save" style="display: none; z-index: 2000;">
-        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
-            <div style="background-color: #ef4444; padding: 25px; color: white;">
-                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">บันทึกวัสดุไม่สำเร็จ</h2>
+        <div class="modal status-modal"
+            style="border-radius: 12px; overflow: hidden; border: none; max-width: 260px; text-align: center;">
+            <div style="background-color: #ef4444; padding: 15px; color: white;">
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0;">บันทึกวัสดุไม่สำเร็จ</h2>
             </div>
             <div
-                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                style="padding: 30px 15px 25px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
                 <div
-                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #ef4444; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
-                    <div style="font-size: 60px; font-weight: bold; line-height: 1;">♻</div>
+                    style="width: 50px; height: 50px; border-radius: 50%; background-color: #ef4444; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <div style="font-size: 30px; font-weight: bold; line-height: 1;">♻</div>
                 </div>
-                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">
+                <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">
                     ไม่สามารถบันทึกข้อมูลได้</h3>
-                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+                <p style="color: #9ca3af; font-size: 12px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
             </div>
         </div>
     </div>
 
     <!-- Delete Material Modal -->
     <div class="modal-overlay" id="modal-delete-material" style="display: none;">
-        <div class="modal" style="padding: 0; max-width: 600px; border-radius: 12px; overflow: hidden; border: none; background-color: #fff;">
+        <div class="modal"
+            style="padding: 0; max-width: 600px; border-radius: 12px; overflow: hidden; border: none; background-color: #fff;">
             <div style="background-color: #ff0000; padding: 25px 30px; color: white;">
-                <h2 style="font-size: 24px; font-weight: 700; margin: 0; text-align: center;">ต้องการลบวัสดุใช่หรือไม่</h2>
+                <h2 style="font-size: 24px; font-weight: 700; margin: 0; text-align: center;">ต้องการลบวัสดุใช่หรือไม่
+                </h2>
             </div>
             <div class="modal-body" style="padding: 30px;">
                 <form onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 20px;">
                     <div class="input-group" style="margin: 0;">
                         <label style="font-weight: 800; color: #374151;">ชนิด วัสดุ</label>
-                        <input type="text" id="delete-material-combined" value="" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="delete-material-combined" value="" readonly
+                            style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
                     <div class="input-group" style="margin: 0;">
                         <label style="font-weight: 800; color: #374151;">หน่วย</label>
-                        <input type="text" id="delete-material-unit" value="" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="delete-material-unit" value="" readonly
+                            style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
                     <div class="input-group" style="margin: 0;">
                         <label style="font-weight: 800; color: #374151;">ราคา/หน่วย</label>
-                        <input type="text" id="delete-material-price" value="" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="delete-material-price" value="" readonly
+                            style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
                     <div class="input-group" style="margin: 0; margin-bottom: 10px;">
                         <label style="font-weight: 800; color: #374151;">คลังวัสดุคงเหลือ</label>
-                        <input type="text" id="delete-material-qty" value="" readonly style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <input type="text" id="delete-material-qty" value="" readonly
+                            style="background-color: #f1f5f9; color: #64748b; font-weight: 400; cursor: not-allowed; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
                     </div>
-                    <div class="modal-actions-center" style="display: flex; justify-content: center; gap: 15px; margin-top: 5px;">
-                        <button class="btn-action" style="background-color: #fff; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;" onclick="confirmDelete()">ยืนยันลบข้อมูลวัสดุ</button>
-                        <button class="btn-action" style="background-color: #fff; color: #374151; border: 1px solid #6b7280; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;" onclick="closeModal('modal-delete-material')">ยกเลิก</button>
+                    <div class="modal-actions-center"
+                        style="display: flex; justify-content: center; gap: 15px; margin-top: 5px;">
+                        <button class="btn-action"
+                            style="background-color: #fff; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
+                            onclick="confirmDelete()">ยืนยันลบข้อมูลวัสดุ</button>
+                        <button class="btn-action"
+                            style="background-color: #fff; color: #374151; border: 1px solid #6b7280; border-radius: 6px; padding: 10px 40px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;"
+                            onclick="closeModal('modal-delete-material')">ยกเลิก</button>
                     </div>
                 </form>
             </div>
@@ -424,38 +471,112 @@
 
     <!-- Delete Success -->
     <div class="modal-overlay" id="modal-delete-success" style="display: none; z-index: 2000;">
-        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
-            <div style="background-color: #ef4444; padding: 25px; color: white;">
-                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">ลบวัสดุสำเร็จ</h2>
+        <div class="modal status-modal"
+            style="border-radius: 12px; overflow: hidden; border: none; max-width: 260px; text-align: center;">
+            <div style="background-color: #ef4444; padding: 15px; color: white;">
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0;">ลบวัสดุสำเร็จ</h2>
             </div>
             <div
-                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                style="padding: 30px 15px 25px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
                 <div
-                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #ef4444; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
-                    <div style="font-size: 60px; font-weight: bold; line-height: 1;">♻</div>
+                    style="width: 50px; height: 50px; border-radius: 50%; background-color: #ef4444; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <div style="font-size: 30px; font-weight: bold; line-height: 1;">♻</div>
                 </div>
-                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">
+                <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">
                     ข้อมูลถูกลบสำเร็จแล้ว</h3>
-                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+                <p style="color: #9ca3af; font-size: 12px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
             </div>
         </div>
     </div>
 
     <!-- Delete Error -->
     <div class="modal-overlay" id="modal-delete-error" style="display: none; z-index: 2000;">
-        <div class="modal status-modal" style="border-radius: 12px; overflow: hidden; border: none;">
-            <div style="background-color: #f59e0b; padding: 25px; color: white;">
-                <h2 style="font-size: 28px; font-weight: 700; margin: 0;">ลบวัสดุไม่สำเร็จ</h2>
+        <div class="modal status-modal"
+            style="border-radius: 12px; overflow: hidden; border: none; max-width: 260px; text-align: center;">
+            <div style="background-color: #f59e0b; padding: 15px; color: white;">
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0;">ลบวัสดุไม่สำเร็จ</h2>
             </div>
             <div
-                style="padding: 50px 20px 40px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                style="padding: 30px 15px 25px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
                 <div
-                    style="width: 100px; height: 100px; border-radius: 50%; background-color: #f59e0b; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 30px;">
-                    <div style="font-size: 60px; font-weight: bold; line-height: 1;">♻</div>
+                    style="width: 50px; height: 50px; border-radius: 50%; background-color: #f59e0b; color: white; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <div style="font-size: 30px; font-weight: bold; line-height: 1;">♻</div>
                 </div>
-                <h3 style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 12px;">ข้อมูลถูกลบไม่สำเร็จ
+                <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">ข้อมูลถูกลบไม่สำเร็จ
                 </h3>
-                <p style="color: #9ca3af; font-size: 13px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+                <p style="color: #9ca3af; font-size: 12px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Confirm Save Material -->
+    <div class="modal-overlay" id="modal-confirm-save-material" style="display: none; z-index: 2000;">
+        <div class="modal" style="border-radius: 12px; overflow: hidden; border: none; max-width: 380px; padding: 0;">
+            <div style="background-color: #26F977; padding: 20px 25px; color: white;">
+                <h2 style="font-size: 20px; font-weight: 700; margin: 0;">ยืนยันการบันทึกข้อมูลวัสดุ</h2>
+            </div>
+            <div style="padding: 30px 25px; background-color: #fff; display: flex; flex-direction: column;">
+                <h3
+                    style="font-size: 16px; font-weight: 500; color: #000; margin-bottom: 30px; text-align: left; line-height: 1.6;">
+                    คุณต้องการบันทึกข้อมูลวัสดุ ใช่หรือไม่ ?
+                </h3>
+                <div class="modal-actions-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button class="btn-action"
+                        style="background-color: #dcfce7; color: #16a34a; border: 1px solid #22c55e; border-radius: 6px; padding: 8px 16px; font-weight: 700; font-size: 13px;"
+                        onclick="executeSaveMaterial()">บันทึกวัสดุ</button>
+                    <button type="button" class="btn-action"
+                        style="background-color: #fee2e2; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 16px; font-weight: 700; font-size: 13px;"
+                        onclick="abortSaveMaterial()">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Cancel Material -->
+    <div class="modal-overlay" id="modal-confirm-cancel-material" style="display: none; z-index: 2000;">
+        <div class="modal" style="border-radius: 12px; overflow: hidden; border: none; max-width: 380px; padding: 0;">
+            <div style="background-color: #F30606; padding: 20px 25px; color: white;">
+                <h2 style="font-size: 20px; font-weight: 700; margin: 0;">ยืนยันการยกเลิกบันทึกวัสดุ</h2>
+            </div>
+            <div style="padding: 30px 25px; background-color: #fff; display: flex; flex-direction: column;">
+                <h3
+                    style="font-size: 16px; font-weight: 500; color: #000; margin-bottom: 30px; text-align: left; line-height: 1.6;">
+                    คุณต้องการยกเลิกการบันทึกวัสดุ ใช่หรือไม่ ?
+                </h3>
+                <div class="modal-actions-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button class="btn-action"
+                        style="background-color: #fee2e2; color: #ef4444; border: 1px solid #ef4444; border-radius: 6px; padding: 8px 16px; font-weight: 700; font-size: 13px;"
+                        onclick="executeCancelMaterial()">ยกเลิกบันทึกวัสดุ</button>
+                    <button type="button" class="btn-action"
+                        style="background-color: #fff; color: #000; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px 16px; font-weight: 700; font-size: 13px;"
+                        onclick="abortCancelMaterial()">ย้อนกลับ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Cancel Material -->
+    <div class="modal-overlay" id="modal-success-cancel-material" style="display: none; z-index: 2000;">
+        <div class="modal"
+            style="border-radius: 12px; overflow: hidden; border: none; max-width: 260px; text-align: center;">
+            <div style="background-color: #F30606; padding: 15px; color: white;">
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0;">ยกเลิกการบันทึกวัสดุสำเร็จ</h2>
+            </div>
+            <div
+                style="padding: 30px 15px 25px; background-color: #fff; display: flex; flex-direction: column; align-items: center;">
+                <div
+                    style="width: 50px; height: 50px; border-radius: 50%; background-color: #F30606; display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                        stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                </div>
+                <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">
+                    ยกเลิกการบันทึกวัสดุสำเร็จ</h3>
+                <p style="color: #9ca3af; font-size: 12px; font-weight: 500;">หน้าต่างจะถูกปิดใน 2 วินาที</p>
             </div>
         </div>
     </div>
@@ -475,9 +596,9 @@
 
         function initializeRowIndices() {
             const tbody = document.querySelector('.inventory-table tbody');
-            if(tbody) {
+            if (tbody) {
                 Array.from(tbody.querySelectorAll('tr')).forEach((row, index) => {
-                    if(!row.hasAttribute('data-original-index')) {
+                    if (!row.hasAttribute('data-original-index')) {
                         row.setAttribute('data-original-index', window._initialIndexLoaded ? (-1 * Date.now()) : index);
                     }
                 });
@@ -592,16 +713,16 @@
             if (nameField) nameField.value = name;
             const typeField = document.getElementById('edit-material-type');
             if (typeField) typeField.value = type;
-            
+
             const combinedField = document.getElementById('edit-material-combined');
             if (combinedField) combinedField.value = type ? `${name} ( ${type} )` : name;
 
             const qtyField = document.getElementById('edit-material-qty');
             if (qtyField) qtyField.value = qty;
-            
+
             const unitField = document.getElementById('edit-material-unit');
             if (unitField) unitField.value = unit;
-            
+
             const priceField = document.getElementById('edit-material-price');
             if (priceField) priceField.value = price;
 
@@ -617,6 +738,64 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
+        let currentMaterialActionType = null;
+
+        function initiateSaveMaterial(type) {
+            currentMaterialActionType = type;
+            if (type === 'add') {
+                document.getElementById('modal-add-material').style.display = 'none';
+            } else {
+                document.getElementById('modal-settings').style.display = 'none';
+            }
+            document.getElementById('modal-confirm-save-material').style.display = 'flex';
+        }
+
+        function executeSaveMaterial() {
+            document.getElementById('modal-confirm-save-material').style.display = 'none';
+            if (currentMaterialActionType === 'add') {
+                saveNewMaterial();
+            } else {
+                saveMaterialData();
+            }
+        }
+
+        function abortSaveMaterial() {
+            document.getElementById('modal-confirm-save-material').style.display = 'none';
+            if (currentMaterialActionType === 'add') {
+                document.getElementById('modal-add-material').style.display = 'flex';
+            } else {
+                document.getElementById('modal-settings').style.display = 'flex';
+            }
+        }
+
+        function initiateCancelMaterial(type) {
+            currentMaterialActionType = type;
+            if (type === 'add') {
+                document.getElementById('modal-add-material').style.display = 'none';
+            } else {
+                document.getElementById('modal-settings').style.display = 'none';
+            }
+            document.getElementById('modal-confirm-cancel-material').style.display = 'flex';
+        }
+
+        function executeCancelMaterial() {
+            document.getElementById('modal-confirm-cancel-material').style.display = 'none';
+
+            document.getElementById('modal-success-cancel-material').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('modal-success-cancel-material').style.display = 'none';
+            }, 2000);
+        }
+
+        function abortCancelMaterial() {
+            document.getElementById('modal-confirm-cancel-material').style.display = 'none';
+            if (currentMaterialActionType === 'add') {
+                document.getElementById('modal-add-material').style.display = 'flex';
+            } else {
+                document.getElementById('modal-settings').style.display = 'flex';
+            }
+        }
+
         function openDeleteMaterialModal(btn) {
             currentRowToDelete = btn.closest('tr');
 
@@ -630,7 +809,7 @@
 
             const combinedField = document.getElementById('delete-material-combined');
             if (combinedField) combinedField.value = combined;
-            
+
             document.getElementById('delete-material-qty').value = qty;
             document.getElementById('delete-material-unit').value = unit;
             document.getElementById('delete-material-price').value = price;
@@ -643,7 +822,7 @@
             document.getElementById('add-material-unit').value = '';
             document.getElementById('add-material-price').value = '';
             document.getElementById('add-material-qty').value = '0';
-            
+
             document.getElementById('modal-add-material').style.display = 'flex';
         }
 
@@ -658,7 +837,7 @@
 
             let name = combined;
             let type = '';
-            
+
             const match = combined.match(/^(.*?)\s*\(\s*(.*?)\s*\)$/);
             if (match) {
                 name = match[1].trim();
@@ -685,15 +864,15 @@
                         </td>
                 `;
                 tbody.prepend(tr);
-                
+
                 Array.from(tbody.children).forEach((row, index) => {
                     row.style.backgroundColor = (index % 2 === 0) ? '#fff' : '#fafafa';
                     row.style.borderBottom = `1px solid ${row.style.backgroundColor}`;
                 });
-                
+
                 updateItemCount();
             }
-            
+
             showStatusModal('success');
             checkStockColors();
         }
@@ -706,7 +885,7 @@
 
                 let name = combined;
                 let type = '';
-                
+
                 const match = combined.match(/^(.*?)\s*\(\s*(.*?)\s*\)$/);
                 if (match) {
                     name = match[1].trim();
@@ -715,7 +894,7 @@
 
                 const nameSpan = currentRowToEdit.querySelector('.item-name');
                 if (nameSpan) nameSpan.innerText = name;
-                
+
                 const typeSpan = currentRowToEdit.querySelector('.item-type');
                 if (typeSpan) {
                     typeSpan.innerText = type;
@@ -727,11 +906,11 @@
 
                 const unitTd = currentRowToEdit.querySelector('.item-unit');
                 if (unitTd) unitTd.innerText = unit;
-                
+
                 const priceTd = currentRowToEdit.querySelector('.item-price');
                 if (priceTd) priceTd.innerText = price;
             }
-            
+
             showStatusModal('success');
             checkStockColors();
         }
@@ -799,14 +978,14 @@
 
         function toggleUnitDropdown(listId) {
             document.querySelectorAll('.custom-dropdown-list').forEach(el => {
-                if(el.id !== listId) el.style.display = 'none';
+                if (el.id !== listId) el.style.display = 'none';
             });
             const list = document.getElementById(listId);
             list.style.display = list.style.display === 'none' ? 'block' : 'none';
         }
 
-        document.addEventListener('click', function(e) {
-            if(!e.target.closest('.custom-dropdown-container')) {
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.custom-dropdown-container')) {
                 document.querySelectorAll('.custom-dropdown-list').forEach(el => {
                     el.style.display = 'none';
                 });
@@ -823,12 +1002,12 @@
                         const li = document.createElement('li');
                         li.textContent = unit;
                         li.style.cssText = "padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #f1f5f9; color: #1e293b; font-size: 14px;";
-                        li.onmouseover = function() { this.style.backgroundColor = '#f0f9ff'; this.style.color = '#0ea5e9'; };
-                        li.onmouseout = function() { this.style.backgroundColor = 'white'; this.style.color = '#1e293b'; };
-                        li.onclick = function(e) { 
+                        li.onmouseover = function () { this.style.backgroundColor = '#f0f9ff'; this.style.color = '#0ea5e9'; };
+                        li.onmouseout = function () { this.style.backgroundColor = 'white'; this.style.color = '#1e293b'; };
+                        li.onclick = function (e) {
                             e.stopPropagation();
-                            input.value = unit; 
-                            list.style.display = 'none'; 
+                            input.value = unit;
+                            list.style.display = 'none';
                         };
                         list.appendChild(li);
                     });
@@ -840,7 +1019,7 @@
             let value = input.value;
             // Remove non-numeric and non-dot characters
             value = value.replace(/[^0-9.]/g, '');
-            
+
             // Allow only one dot
             const parts = value.split('.');
             if (parts.length > 2) {
