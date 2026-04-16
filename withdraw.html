@@ -8,9 +8,8 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="dashboard.css?v=1.1">
-    <link rel="stylesheet" href="inventory.css?v=1.1">
-    <link rel="stylesheet" href="withdraw.css?v=1.1">
+    <link rel="stylesheet" href="./css/dashboard.css?v=1.1">
+    <link rel="stylesheet" href="./css/styles.css?v=1.1">
 </head>
 
 <body>
@@ -51,12 +50,14 @@
             <div class="withdraw-form">
                 <div class="withdraw-form-group">
                     <label style="color: #334155; font-size: 15px;">ชื่อผู้เบิกวัสดุ</label>
-                    <input type="text" id="withdrawer-name" value="User_Genrate" class="withdraw-input" readonly style="font-size: 16px; color: #9ca3af; background-color: #f8fafc; border: 1px solid #d1d5db; outline: none; cursor: not-allowed;">
+                    <input type="text" id="withdrawer-name" value="User_Genrate" class="withdraw-input" readonly
+                        style="font-size: 16px; color: #9ca3af; background-color: #f8fafc; border: 1px solid #d1d5db; outline: none; cursor: not-allowed;">
                 </div>
 
                 <div class="withdraw-form-group">
                     <label style="color: #334155; font-size: 15px;">วัสดุ ( ประเภท )</label>
-                    <select id="withdraw-material" class="withdraw-select blue-text" onchange="updateSummary()" style="font-size: 16px; color: #0088FF; background-color: #fff; border: 1px solid #e2e8f0; text-align-last: center;">
+                    <select id="withdraw-material" class="withdraw-select blue-text" onchange="updateSummary()"
+                        style="font-size: 16px; color: #0088FF; background-color: #fff; border: 1px solid #e2e8f0; text-align-last: center;">
                         <option value="" disabled selected hidden>เลือกวัสดุ</option>
                         <option value="A5 (สติ๊กเกอร์)" data-stock="คลัง" data-unit="หน่วย">A5 (สติ๊กเกอร์)</option>
                         <option value="กระดาษ A4" data-stock="200" data-unit="รีน">กระดาษ A4</option>
@@ -67,36 +68,56 @@
 
                 <div class="withdraw-form-group">
                     <label style="color: #334155; font-size: 15px;">จำนวนที่ต้องการเบิกวัสดุ</label>
-                    <input type="number" id="withdraw-qty" class="withdraw-input blue-text" min="1" max="1000" oninput="if(this.value > 1000) this.value = 1000; if(this.value < 0) this.value = ''; updateSummary()" style="font-size: 16px; color: #0088FF; background-color: #fff; border: 1px solid #e2e8f0;">
+                    <input type="number" id="withdraw-qty" class="withdraw-input blue-text" min="1" max="1000"
+                        oninput="if(this.value > 1000) this.value = 1000; if(this.value < 0) this.value = ''; updateSummary()"
+                        style="font-size: 16px; color: #0088FF; background-color: #fff; border: 1px solid #e2e8f0;">
                 </div>
 
                 <div class="withdraw-form-group">
                     <label style="color: #334155; font-size: 15px;">หมายเหตุ</label>
-                    <input type="text" id="withdraw-note" class="withdraw-input blue-text" style="font-size: 16px; color: #0088FF; background-color: #fff; border: 1px solid #e2e8f0;">
+                    <input type="text" id="withdraw-note" class="withdraw-input blue-text"
+                        style="font-size: 16px; color: #0088FF; background-color: #fff; border: 1px solid #e2e8f0;">
                 </div>
             </div>
 
             <!-- Summary Section -->
             <div class="withdraw-summary-section">
-                <h3 class="summary-title" style="margin-bottom: 25px; text-align: center; font-size: 24px; color: #1e293b;">วัสดุที่เลือก</h3>
+                <h3 class="summary-title"
+                    style="margin-bottom: 25px; text-align: center; font-size: 24px; color: #1e293b;">วัสดุที่เลือก</h3>
                 <div style="background-color: #F4FAFF; border-radius: 12px; padding: 25px 20px;">
-                    <div class="summary-box summary-mat-box" id="summary-mat-type" style="margin-bottom: 20px; border: 1px solid #0088FF; background-color: #fff; border-radius: 10px; padding: 15px; font-size: 18px; color: #1e293b; text-align: center;">วัสดุ</div>
-                    
+                    <div class="summary-box summary-mat-box" id="summary-mat-type"
+                        style="margin-bottom: 20px; border: 1px solid #0088FF; background-color: #fff; border-radius: 10px; padding: 15px; font-size: 18px; color: #1e293b; text-align: center;">
+                        วัสดุ</div>
+
                     <div class="summary-grid" style="display: flex; gap: 15px; align-items: flex-start;">
-                        <div class="summary-left" style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-                            <div class="summary-label" style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 12px;">คงเหลือ</div>
-                            <div class="summary-box summary-stock-box" id="summary-stock" style="padding: 20px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 120px; border: 1px solid #0088FF; border-radius: 10px; background-color: #fff; width: 100%; box-sizing: border-box;">
-                                <div style="font-size: 32px; font-weight: 700; color: #0f172a; line-height: 1.2;">คลัง</div>
-                                <div class="unit-text" style="font-size: 22px; color: #0088FF; font-weight: 500; margin-top: 4px;">หน่วย</div>
+                        <div class="summary-left"
+                            style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                            <div class="summary-label"
+                                style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 12px;">คงเหลือ
+                            </div>
+                            <div class="summary-box summary-stock-box" id="summary-stock"
+                                style="padding: 20px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 120px; border: 1px solid #0088FF; border-radius: 10px; background-color: #fff; width: 100%; box-sizing: border-box;">
+                                <div style="font-size: 32px; font-weight: 700; color: #0f172a; line-height: 1.2;">คลัง
+                                </div>
+                                <div class="unit-text"
+                                    style="font-size: 22px; color: #0088FF; font-weight: 500; margin-top: 4px;">หน่วย
+                                </div>
                             </div>
                         </div>
-                        <div class="summary-right" style="flex: 1; display: flex; flex-direction: column; align-items: center; width: auto;">
-                            <div class="summary-label" style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 12px;">จำนวนที่เบิก</div>
-                            <div class="qty-display-box" id="summary-qty" style="width: 100%; height: 120px; display: flex; justify-content: center; align-items: center; border: 1px solid #0088FF; border-radius: 10px; font-size: 56px; font-weight: 500; color: #0088FF; background-color: #fff; box-sizing: border-box;"></div>
+                        <div class="summary-right"
+                            style="flex: 1; display: flex; flex-direction: column; align-items: center; width: auto;">
+                            <div class="summary-label"
+                                style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 12px;">
+                                จำนวนที่เบิก</div>
+                            <div class="qty-display-box" id="summary-qty"
+                                style="width: 100%; height: 120px; display: flex; justify-content: center; align-items: center; border: 1px solid #0088FF; border-radius: 10px; font-size: 56px; font-weight: 500; color: #0088FF; background-color: #fff; box-sizing: border-box;">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <button class="btn-submit-withdraw" style="margin-top: 20px; background-color: #f0fdf4; color: #16a34a; border: 1px solid #22c55e; border-radius: 10px; font-size: 22px; font-weight: 800; padding: 15px; width: 100%;" onclick="openConfirmModal()">เบิกวัสดุ</button>
+                <button class="btn-submit-withdraw"
+                    style="margin-top: 20px; background-color: #f0fdf4; color: #16a34a; border: 1px solid #22c55e; border-radius: 10px; font-size: 22px; font-weight: 800; padding: 15px; width: 100%;"
+                    onclick="openConfirmModal()">เบิกวัสดุ</button>
             </div>
         </aside>
 
@@ -107,7 +128,8 @@
             </div>
 
             <div class="withdraw-table-container">
-                <table class="data-table withdraw-table" style="width: 100%; border-collapse: separate; border-spacing: 0;">
+                <table class="data-table withdraw-table"
+                    style="width: 100%; border-collapse: separate; border-spacing: 0;">
                     <thead>
                         <tr>
                             <th style="width: 20%;">ชื่อผู้เบิก</th>
@@ -119,60 +141,132 @@
                     </thead>
                     <tbody>
                         <tr style="background-color: #fff;">
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">User_Genrate</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">A5 ( สติ๊กเกอร์ )</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">150</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">01 มี.ค. 2026 09:30</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">ใช้งานพิมพ์ด่วน</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">User_Genrate
+                            </td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">A5 (
+                                สติ๊กเกอร์ )</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">150</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">01 มี.ค. 2026
+                                09:30</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">
+                                ใช้งานพิมพ์ด่วน</td>
                         </tr>
                         <tr class="alt-row" style="background-color: #f8fafc;">
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">อำพร ใจดี</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">กระดาษ ( A4 )</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">5</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">05 มี.ค. 2026 14:15</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">เบิกใช้ในสำนักงาน</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">อำพร ใจดี
+                            </td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">กระดาษ (
+                                A4 )</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">5</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">05 มี.ค.
+                                2026 14:15</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">
+                                เบิกใช้ในสำนักงาน</td>
                         </tr>
                         <tr style="background-color: #fff;">
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">User_Genrate</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">หมึกสีดำ ( EPSON )</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">2</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">10 มี.ค. 2026 10:00</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">เติมเครื่องพิมพ์ชั้น 2</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">User_Genrate
+                            </td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">หมึกสีดำ (
+                                EPSON )</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">2</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">10 มี.ค. 2026
+                                10:00</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">
+                                เติมเครื่องพิมพ์ชั้น 2</td>
                         </tr>
                         <tr class="alt-row" style="background-color: #f8fafc;">
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">กัญญา มีสุข</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">เทปใส ( 3M )</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">3</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">12 มี.ค. 2026 11:45</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">ห่อพัสดุส่งลูกค้า</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">กัญญา
+                                มีสุข</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">เทปใส ( 3M
+                                )</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">3</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">12 มี.ค.
+                                2026 11:45</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">
+                                ห่อพัสดุส่งลูกค้า</td>
                         </tr>
                         <tr style="background-color: #fff;">
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">User_Genrate</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">A5 ( สติ๊กเกอร์ )</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">200</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: solid #fff;">15 มี.ค. 2026 16:20</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">สต็อคแผนก</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">User_Genrate
+                            </td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">A5 (
+                                สติ๊กเกอร์ )</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">200</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: solid #fff;">15 มี.ค. 2026
+                                16:20</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">สต็อคแผนก
+                            </td>
                         </tr>
                         <tr class="alt-row" style="background-color: #f8fafc;">
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">ประสิทธิ์ พรหมดี</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">กระดาษ ( A4 )</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">10</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">18 มี.ค. 2026 08:50</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">รายงานประจำเดือน</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">ประสิทธิ์
+                                พรหมดี</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">กระดาษ (
+                                A4 )</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">10</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">18 มี.ค.
+                                2026 08:50</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">
+                                รายงานประจำเดือน</td>
                         </tr>
                         <tr style="background-color: #fff;">
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">มานะ เข้มแข็ง</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">หมึกสีดำ ( EPSON )</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">1</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">22 มี.ค. 2026 13:10</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">เบิกเติมด่วน</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">มานะ เข้มแข็ง
+                            </td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">หมึกสีดำ (
+                                EPSON )</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">1</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">22 มี.ค. 2026
+                                13:10</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #fff;">เบิกเติมด่วน
+                            </td>
                         </tr>
                         <tr class="alt-row" style="background-color: #f8fafc;">
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">ปรีชา ใจกว้าง</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">เทปใส ( 3M )</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">5</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">25 มี.ค. 2026 15:30</td>
-                            <td class="bold-text" style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">ใช้งานทั่วไป</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">ปรีชา
+                                ใจกว้าง</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">เทปใส ( 3M
+                                )</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">5</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">25 มี.ค.
+                                2026 15:30</td>
+                            <td class="bold-text"
+                                style="color: #4b5563; padding: 20px 10px; border-bottom: 1px solid #f8fafc;">
+                                ใช้งานทั่วไป</td>
                         </tr>
                     </tbody>
                 </table>

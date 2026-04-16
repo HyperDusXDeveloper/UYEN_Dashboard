@@ -8,8 +8,8 @@
     <!-- Fonts: Prompt -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="dashboard.css">
-    <link rel="stylesheet" href="report.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
 </head>
@@ -74,12 +74,13 @@
                     <div style="position: relative; display: inline-flex; align-items: center;">
                         <input type="text" id="report-date-1" class="report-date-input" placeholder="วัน - เดือน - ปี"
                             style="width: 140px; padding-right: 28px; cursor: pointer; background-color: #fff; box-sizing: border-box;">
-                        <span style="position: absolute; right: 8px; color: #9ca3af; pointer-events: none; font-size: 13px;">📅</span>
+                        <span
+                            style="position: absolute; right: 8px; color: #9ca3af; pointer-events: none; font-size: 13px;">📅</span>
                     </div>
-                    <button onclick="resetReportDate1()" 
-                            style="background-color: #ffffff; color: #ff4d4f; border: 1px solid #ff4d4f; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; font-family: 'Prompt', sans-serif; white-space: nowrap; box-sizing: border-box;"
-                            onmouseover="this.style.backgroundColor='#fff1f0';"
-                            onmouseout="this.style.backgroundColor='#ffffff';">
+                    <button onclick="resetReportDate1()"
+                        style="background-color: #ffffff; color: #ff4d4f; border: 1px solid #ff4d4f; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; font-family: 'Prompt', sans-serif; white-space: nowrap; box-sizing: border-box;"
+                        onmouseover="this.style.backgroundColor='#fff1f0';"
+                        onmouseout="this.style.backgroundColor='#ffffff';">
                         <span style="font-size: 13px; font-weight: bold; line-height: 1;">✕</span> รีเซ็ตปฏิทิน
                     </button>
                 </div>
@@ -245,12 +246,13 @@
                     <div style="position: relative; display: inline-flex; align-items: center;">
                         <input type="text" id="report-date-3" class="report-date-input" placeholder="เดือน / ปี"
                             style="width: 140px; padding-right: 28px; cursor: pointer; background-color: #fff; box-sizing: border-box;">
-                        <span style="position: absolute; right: 8px; color: #9ca3af; pointer-events: none; font-size: 13px;">📅</span>
+                        <span
+                            style="position: absolute; right: 8px; color: #9ca3af; pointer-events: none; font-size: 13px;">📅</span>
                     </div>
-                    <button type="button" onclick="clearMonthlyFilter()" 
-                            style="background-color: #ffffff; color: #ff4d4f; border: 1px solid #ff4d4f; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; font-family: 'Prompt', sans-serif; white-space: nowrap; box-sizing: border-box;"
-                            onmouseover="this.style.backgroundColor='#fff1f0';"
-                            onmouseout="this.style.backgroundColor='#ffffff';">
+                    <button type="button" onclick="clearMonthlyFilter()"
+                        style="background-color: #ffffff; color: #ff4d4f; border: 1px solid #ff4d4f; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; font-family: 'Prompt', sans-serif; white-space: nowrap; box-sizing: border-box;"
+                        onmouseover="this.style.backgroundColor='#fff1f0';"
+                        onmouseout="this.style.backgroundColor='#ffffff';">
                         <span style="font-size: 13px; font-weight: bold; line-height: 1;">✕</span> รีเซ็ตปฏิทิน
                     </button>
                 </div>
@@ -330,23 +332,23 @@
             flatpickr("#report-date-3", {
                 plugins: [
                     new monthSelectPlugin({
-                        shorthand: true, 
-                        dateFormat: "M / Y", 
-                        altFormat: "F Y", 
-                        theme: "light" 
+                        shorthand: true,
+                        dateFormat: "M / Y",
+                        altFormat: "F Y",
+                        theme: "light"
                     })
                 ],
                 locale: "th",
                 defaultDate: "May / 2026",
-                onChange: function(selectedDates) {
-                    if(selectedDates.length > 0) {
+                onChange: function (selectedDates) {
+                    if (selectedDates.length > 0) {
                         filterMonthlySales(selectedDates[0]);
                     } else {
                         showAllMonthlySales();
                     }
                 },
-                onReady: function(selectedDates) {
-                    if(selectedDates.length > 0) filterMonthlySales(selectedDates[0]);
+                onReady: function (selectedDates) {
+                    if (selectedDates.length > 0) filterMonthlySales(selectedDates[0]);
                 }
             });
         });
@@ -366,7 +368,7 @@
         function showAllMonthlySales() {
             const tbody = document.querySelector('#view-3 .report-table tbody');
             const rows = tbody.querySelectorAll('tr');
-            
+
             let totalItems = 0;
             let totalSales = 0;
             let visibleRows = 0;
@@ -374,16 +376,16 @@
             rows.forEach((row) => {
                 row.style.display = '';
                 visibleRows++;
-                
+
                 const itemsStr = row.cells[1].textContent.trim();
                 const salesStr = row.cells[2].textContent.trim().replace(/,/g, '').replace('บาท', '').trim();
-                
+
                 totalItems += parseInt(itemsStr) || 0;
                 totalSales += parseInt(salesStr) || 0;
-                
+
                 row.style.backgroundColor = (visibleRows % 2 === 1) ? '#fafafa' : '';
             });
-            
+
             const summaryEls = document.querySelectorAll('#view-3 .report-summary-value');
             if (summaryEls.length >= 2) {
                 summaryEls[0].textContent = totalItems.toLocaleString();
@@ -396,7 +398,7 @@
             const tbody = document.querySelector('#view-2 .report-table tbody');
             if (!tbody) return;
             const rows = tbody.querySelectorAll('tr');
-            
+
             let visibleRows = 0;
 
             rows.forEach((row) => {
@@ -404,7 +406,7 @@
                 if (stockCell) {
                     const stockText = stockCell.textContent.trim().replace(/,/g, '');
                     const stockValue = parseFloat(stockText);
-                    
+
                     if (!isChecked || stockValue <= 25) {
                         row.style.display = '';
                         visibleRows++;
@@ -419,11 +421,11 @@
         function filterMonthlySales(dateObj) {
             const tbody = document.querySelector('#view-3 .report-table tbody');
             const rows = tbody.querySelectorAll('tr');
-            
+
             const enMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             const targetMonthStr = enMonths[dateObj.getMonth()];
             const targetYearStr = dateObj.getFullYear().toString();
-            
+
             let totalItems = 0;
             let totalSales = 0;
             let visibleRows = 0;
@@ -435,20 +437,20 @@
                     if (cellText.includes(targetMonthStr) && cellText.includes(targetYearStr)) {
                         row.style.display = '';
                         visibleRows++;
-                        
+
                         const itemsStr = row.cells[1].textContent.trim();
                         const salesStr = row.cells[2].textContent.trim().replace(/,/g, '').replace('บาท', '').trim();
-                        
+
                         totalItems += parseInt(itemsStr) || 0;
                         totalSales += parseInt(salesStr) || 0;
-                        
+
                         row.style.backgroundColor = (visibleRows % 2 === 1) ? '#fafafa' : '';
                     } else {
                         row.style.display = 'none';
                     }
                 }
             });
-            
+
             const summaryEls = document.querySelectorAll('#view-3 .report-summary-value');
             if (summaryEls.length >= 2) {
                 summaryEls[0].textContent = totalItems.toLocaleString();

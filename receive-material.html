@@ -8,8 +8,8 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="dashboard.css">
-    <link rel="stylesheet" href="receive-material.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 
 <body>
@@ -65,7 +65,8 @@
 
                 <div class="receive-form-group">
                     <label>จำนวนวัสดุ ( ประเภท ) ที่รับ</label>
-                    <input type="number" id="receive-qty" value="0" min="0" max="1000" class="receive-input blue-text" oninput="if(this.value && this.value < 0) this.value = 0; if(this.value > 1000) this.value = 1000;">
+                    <input type="number" id="receive-qty" value="0" min="0" max="1000" class="receive-input blue-text"
+                        oninput="if(this.value && this.value < 0) this.value = 0; if(this.value > 1000) this.value = 1000;">
                 </div>
 
                 <div class="receive-form-group">
@@ -197,7 +198,8 @@
                 </div>
                 <div style="margin-bottom: 15px;">
                     <label
-                        style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">เลือกวัสดุ ( ประเภท ) ที่รับ</label>
+                        style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">เลือกวัสดุ
+                        ( ประเภท ) ที่รับ</label>
                     <input type="text" id="confirm-material"
                         style="width:100%; height: 38px; background-color: #f1f5f9; border: none; border-radius: 6px; padding: 0 15px; font-size: 14px; color: #94a3b8; outline: none; box-sizing: border-box;"
                         readonly>
@@ -205,7 +207,8 @@
 
                 <div style="margin-bottom: 15px;">
                     <label
-                        style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">จำนวนวัสดุ ( ประเภท )ที่รับ</label>
+                        style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">จำนวนวัสดุ
+                        ( ประเภท )ที่รับ</label>
                     <input type="text" id="confirm-qty"
                         style="width:100%; height: 38px; background-color: #f1f5f9; border: none; border-radius: 6px; padding: 0 15px; font-size: 14px; color: #94a3b8; outline: none; box-sizing: border-box;"
                         readonly>
@@ -219,7 +222,8 @@
                 </div>
                 <div style="margin-bottom: 30px;">
                     <label
-                        style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">วันที่นำส่ง วัสดุ ( ประเภท )</label>
+                        style="font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;">วันที่นำส่ง
+                        วัสดุ ( ประเภท )</label>
                     <input type="text" id="confirm-date"
                         style="width:100%; height: 38px; background-color: #f1f5f9; border: none; border-radius: 6px; padding: 0 15px; font-size: 14px; color: #94a3b8; outline: none; box-sizing: border-box;"
                         readonly>
@@ -245,13 +249,13 @@
         function renderCalendar() {
             const month = currentDate.getMonth();
             const year = currentDate.getFullYear();
-            
+
             // Header shows the selected date similar to mockup
             document.querySelector('.current-month').innerText = `${String(selectedDate.getDate()).padStart(2, '0')} ${monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear() + 543}`;
 
             const firstDayIndex = new Date(year, month, 1).getDay();
             const lastDay = new Date(year, month + 1, 0).getDate();
-            
+
             const calendarDays = document.getElementById('calendar-days');
             let html = `
                 <div class="calendar-day-header sunday">Su</div>
@@ -262,22 +266,22 @@
                 <div class="calendar-day-header">Fr</div>
                 <div class="calendar-day-header">Sa</div>
             `;
-            
+
             for (let i = 0; i < firstDayIndex; i++) {
                 html += `<div></div>`;
             }
-            
+
             for (let i = 1; i <= lastDay; i++) {
                 const isSunday = new Date(year, month, i).getDay() === 0;
                 const isSelected = selectedDate.getDate() === i && selectedDate.getMonth() === month && selectedDate.getFullYear() === year;
-                
+
                 let classes = 'calendar-day';
                 if (isSunday) classes += ' sunday';
                 if (isSelected) classes += ' active';
-                
+
                 html += `<div class="${classes}" onclick="selectDate(${year}, ${month}, ${i})">${i}</div>`;
             }
-            
+
             calendarDays.innerHTML = html;
         }
 
@@ -299,26 +303,26 @@
             const matSelect = document.getElementById('receive-material');
             const qtyInput = document.getElementById('receive-qty');
             const noteInput = document.getElementById('receive-note');
-            
+
             let isValid = true;
-            
+
             if (matSelect.selectedIndex <= 0) {
                 isValid = false;
                 flashError(matSelect);
             }
-            
+
             if (!qtyInput.value || parseInt(qtyInput.value) <= 0) {
                 isValid = false;
                 flashError(qtyInput);
             }
-            
+
             if (!isValid) return;
 
             document.getElementById('confirm-name').value = document.getElementById('receive-name').value;
             document.getElementById('confirm-material').value = matSelect.options[matSelect.selectedIndex].text;
             document.getElementById('confirm-qty').value = qtyInput.value;
             document.getElementById('confirm-note').value = noteInput.value.trim() === '' ? '-' : noteInput.value;
-            
+
             const formattedDate = `${String(selectedDate.getDate()).padStart(2, '0')} ${monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear() + 543}`;
             document.getElementById('confirm-date').value = formattedDate;
 
@@ -341,31 +345,31 @@
 
         document.querySelector('.prev-month').addEventListener('click', () => {
             currentDate.setMonth(currentDate.getMonth() - 1);
-            
+
             // Auto select a valid day in the new month so the display header changes
             const maxDays = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
             const newDay = Math.min(selectedDate.getDate(), maxDays);
             selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), newDay);
-            
+
             renderCalendar();
         });
 
         document.querySelector('.next-month').addEventListener('click', () => {
             currentDate.setMonth(currentDate.getMonth() + 1);
-            
+
             const maxDays = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
             const newDay = Math.min(selectedDate.getDate(), maxDays);
             selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), newDay);
-            
+
             renderCalendar();
         });
 
         window.onload = () => {
             renderCalendar();
-            
+
             // Ensure select has placeholder color behavior if needed
             const selectEl = document.querySelector('.receive-select');
-            selectEl.addEventListener('change', function() {
+            selectEl.addEventListener('change', function () {
                 this.classList.add('has-value');
             });
         };
