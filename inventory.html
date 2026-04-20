@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UYEN - Inventory</title>
+    <title>U-YEN | จัดการคลังวัสดุ</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -44,7 +44,8 @@
             <table class="data-table inventory-table">
                 <thead class="table-inventory-header">
                     <tr>
-                        <th class="w-25 table-th-inventory table-th-left-30">วัสดุ (ประเภท)</th>
+                        <th class="w-15 table-th-inventory table-th-left-30">วัสดุ</th>
+                        <th class="w-10 table-th-inventory">ประเภท</th>
                         <th class="w-15 table-th-inventory">
                             <div class="flex-center gap-4">
                                 คลังคงเหลือ
@@ -71,11 +72,8 @@
                 </thead>
                 <tbody>
                     <tr class="custom-table-row bg-white border-white">
-                        <td class="table-td-left-30">
-                            <span class="item-name item-name-bold">A4</span> <span
-                                class="item-type-muted">( <span class="item-type">ธรรมดา</span>
-                                )</span>
-                        </td>
+                        <td class="table-td-left-30 item-name item-name-bold">A4</td>
+                        <td class="item-type item-type-muted">ธรรมดา</td>
                         <td class="qty-remaining">22</td>
                         <td class="item-unit">รีม</td>
                         <td class="item-price">5</td>
@@ -87,9 +85,8 @@
                         </td>
                     </tr>
                     <tr class="custom-table-row bg-gray-light border-gray-light">
-                        <td class="table-td-left-30"><span class="item-name item-name-bold">หมึก</span> <span
-                                class="item-type-muted">( <span class="item-type">ดำ</span>
-                                )</span></td>
+                        <td class="table-td-left-30 item-name item-name-bold">หมึก</td>
+                        <td class="item-type item-type-muted">ดำ</td>
                         <td class="qty-remaining text-red fw-700">3</td>
                         <td class="item-unit">ขวด</td>
                         <td class="item-price">3</td>
@@ -101,9 +98,8 @@
                         </td>
                     </tr>
                     <tr class="custom-table-row bg-white border-white">
-                        <td class="table-td-left-30"><span class="item-name item-name-bold">A4</span> <span
-                                class="item-type-muted">( <span class="item-type">แผ่นปกใส</span>
-                                )</span></td>
+                        <td class="table-td-left-30 item-name item-name-bold">A4</td>
+                        <td class="item-type item-type-muted">แผ่นปกใส</td>
                         <td class="qty-remaining text-red fw-700">0</td>
                         <td class="item-unit">รีม</td>
                         <td class="item-price">6</td>
@@ -115,9 +111,8 @@
                         </td>
                     </tr>
                     <tr class="custom-table-row bg-gray-light border-gray-light">
-                        <td class="table-td-left-30"><span class="item-name item-name-bold">คลิปหนีบกระดาษ</span> <span
-                                class="item-type-muted">( <span class="item-type">อันเล็ก</span>
-                                )</span></td>
+                        <td class="table-td-left-30 item-name item-name-bold">คลิปหนีบกระดาษ</td>
+                        <td class="item-type item-type-muted">อันเล็ก</td>
                         <td class="qty-remaining">300</td>
                         <td class="item-unit">ชิ้น</td>
                         <td class="item-price">7</td>
@@ -129,9 +124,8 @@
                         </td>
                     </tr>
                     <tr class="custom-table-row bg-white border-white">
-                        <td class="table-td-left-30"><span class="item-name item-name-bold">เทป</span> <span
-                                class="item-type-muted">( <span class="item-type">ชนิดใส</span>
-                                )</span></td>
+                        <td class="table-td-left-30 item-name item-name-bold">เทป</td>
+                        <td class="item-type item-type-muted">ชนิดใส</td>
                         <td class="qty-remaining text-red fw-700">2</td>
                         <td class="item-unit">ม้วน</td>
                         <td class="item-price">10</td>
@@ -143,9 +137,8 @@
                         </td>
                     </tr>
                     <tr class="custom-table-row bg-gray-light border-gray-light">
-                        <td class="table-td-left-30"><span class="item-name item-name-bold">ลวดเย็บกระดาษ</span> <span
-                                class="item-type-muted">( <span class="item-type">35 MM</span>
-                                )</span></td>
+                        <td class="table-td-left-30 item-name item-name-bold">ลวดเย็บกระดาษ</td>
+                        <td class="item-type item-type-muted">35 MM</td>
                         <td class="qty-remaining">70</td>
                         <td class="item-unit">อัน</td>
                         <td class="item-price">22</td>
@@ -157,9 +150,8 @@
                         </td>
                     </tr>
                     <tr class="custom-table-row bg-white border-white">
-                        <td class="table-td-left-30"><span class="item-name item-name-bold">กรรไกร</span> <span
-                                class="item-type-muted">( <span class="item-type">ใหญ่</span> )</span>
-                        </td>
+                        <td class="table-td-left-30 item-name item-name-bold">กรรไกร</td>
+                        <td class="item-type item-type-muted">ใหญ่</td>
                         <td class="qty-remaining text-red fw-700">3</td>
                         <td class="item-unit">ด้าม</td>
                         <td class="item-price">45</td>
@@ -184,15 +176,14 @@
             <div class="modal-body p-30">
                 <form onsubmit="event.preventDefault();" class="modal-input-group-gap-20">
                     <div class="input-group m-0">
-                        <label class="fw-800 text-gray-modal">ชนิด วัสดุ</label>
-                        <div class="modal-input-wrapper-blue">
-                            <input type="text" id="add-material-name" value="" maxlength="50" placeholder="ชื่อวัสดุ"
-                                class="modal-input-borderless-blue">
-                            <span class="fw-700 text-gray-modal-bracket px-4">(</span>
-                            <input type="text" id="add-material-type" value="" maxlength="50" placeholder="ประเภท"
-                                class="modal-input-borderless-blue">
-                            <span class="fw-700 text-gray-modal-bracket px-4">)</span>
-                        </div>
+                        <label class="fw-800 text-gray-modal">วัสดุ</label>
+                        <input type="text" id="add-material-name" value="" maxlength="50" placeholder="ชื่อวัสดุ"
+                            class="modal-input-text-blue">
+                    </div>
+                    <div class="input-group m-0">
+                        <label class="fw-800 text-gray-modal">ประเภทวัสดุ</label>
+                        <input type="text" id="add-material-type" value="" maxlength="50" placeholder="ประเภทวัสดุ"
+                            class="modal-input-text-blue">
                     </div>
                     <div class="input-group custom-dropdown-container m-0 relative">
                         <label class="fw-800 text-gray-modal">หน่วย</label>
@@ -204,7 +195,7 @@
                             <path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" />
                         </svg>
-                        <ul id="list-add-unit" class="dropdown-list-standard">
+                        <ul id="list-add-unit" class="dropdown-list-standard hidden">
                         </ul>
                     </div>
                     <div class="input-group m-0">
@@ -243,15 +234,14 @@
                 <form onsubmit="event.preventDefault();" class="modal-input-group-gap-20">
 
                     <div class="input-group m-0">
-                        <label class="fw-800 text-gray-modal">ชนิด วัสดุ</label>
-                        <div class="modal-input-wrapper-blue">
-                            <input type="text" id="edit-material-name" value="" maxlength="50" placeholder="ชื่อวัสดุ"
-                                class="modal-input-borderless-blue">
-                            <span class="fw-700 text-gray-modal-bracket px-4">(</span>
-                            <input type="text" id="edit-material-type" value="" maxlength="50" placeholder="ประเภท"
-                                class="modal-input-borderless-blue">
-                            <span class="fw-700 text-gray-modal-bracket px-4">)</span>
-                        </div>
+                        <label class="fw-800 text-gray-modal">วัสดุ</label>
+                        <input type="text" id="edit-material-name" value="" maxlength="50" placeholder="ชื่อวัสดุ"
+                            class="modal-input-text-blue">
+                    </div>
+                    <div class="input-group m-0">
+                        <label class="fw-800 text-gray-modal">ประเภทวัสดุ</label>
+                        <input type="text" id="edit-material-type" value="" maxlength="50" placeholder="ประเภทวัสดุ"
+                            class="modal-input-text-blue">
                     </div>
 
                     <div class="input-group custom-dropdown-container m-0 relative">
@@ -264,7 +254,7 @@
                             <path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" />
                         </svg>
-                        <ul id="list-edit-unit" class="dropdown-list-standard max-h-200">
+                        <ul id="list-edit-unit" class="dropdown-list-standard max-h-200 hidden">
                         </ul>
                     </div>
 

@@ -58,15 +58,21 @@ function flashError(element) {
 }
 
 function openConfirmModal() {
-    const matSelect = document.getElementById('receive-material');
+    const matNameSelect = document.getElementById('receive-material-name');
+    const matTypeSelect = document.getElementById('receive-material-type');
     const qtyInput = document.getElementById('receive-qty');
     const noteInput = document.getElementById('receive-note');
 
     let isValid = true;
 
-    if (matSelect.selectedIndex <= 0) {
+    if (matNameSelect.selectedIndex <= 0) {
         isValid = false;
-        flashError(matSelect);
+        flashError(matNameSelect);
+    }
+
+    if (matTypeSelect.selectedIndex <= 0) {
+        isValid = false;
+        flashError(matTypeSelect);
     }
 
     if (!qtyInput.value || parseInt(qtyInput.value) <= 0) {
@@ -77,7 +83,8 @@ function openConfirmModal() {
     if (!isValid) return;
 
     document.getElementById('confirm-name').value = document.getElementById('receive-name').value;
-    document.getElementById('confirm-material').value = matSelect.options[matSelect.selectedIndex].text;
+    document.getElementById('confirm-material-name').value = matNameSelect.options[matNameSelect.selectedIndex].text;
+    document.getElementById('confirm-material-type').value = matTypeSelect.options[matTypeSelect.selectedIndex].text;
     document.getElementById('confirm-qty').value = qtyInput.value;
     document.getElementById('confirm-note').value = noteInput.value.trim() === '' ? '-' : noteInput.value;
 
@@ -93,12 +100,68 @@ function closeModal(modalId) {
 
 function submitReceive() {
     closeModal('modal-confirm-receive');
-    // reset form or add to table logic can be placed here
+    
+    // Add row to table
+    addReceiveRowToTable();
+    
+    // Reset form
+    resetReceiveForm();
+    
     alert('บันทึกข้อมูลเรียบร้อย!');
-    // reset logic:
-    // document.getElementById('receive-material').selectedIndex = 0;
-    // document.getElementById('receive-qty').value = 0;
-    // document.getElementById('receive-note').value = "";
+}
+
+function addReceiveRowToTable() {
+    const name = document.getElementById('confirm-name').value || "-";
+    const matName = document.getElementById('confirm-material-name').value || "-";
+    const matType = document.getElementById('confirm-material-type').value || "-";
+    const qty = document.getElementById('confirm-qty').value || "0";
+    const note = document.getElementById('confirm-note').value || "-";
+    
+    const tbody = document.querySelector('.receive-table tbody');
+    if (!tbody) return;
+
+    // Use selectedDate and current time for "Date Received"
+    const now = new Date();
+    const thaiShortMonths = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+    // Format: 13 ก.พ. 2026 21:58
+    const dateStr = `${String(selectedDate.getDate()).padStart(2, '0')} ${thaiShortMonths[selectedDate.getMonth()]} ${selectedDate.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    const newRow = document.createElement('tr');
+    
+    newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${matName}</td>
+        <td>${matType}</td>
+        <td>${qty}</td>
+        <td>${dateStr}</td>
+        <td class="dash-red">${note}</td>
+    `;
+
+    // Prepend to show latest at top
+    tbody.insertBefore(newRow, tbody.firstChild);
+
+    // Update alternating row colors
+    Array.from(tbody.rows).forEach((row, index) => {
+        if (index % 2 === 1) {
+            row.classList.add('alt-row');
+        } else {
+            row.classList.remove('alt-row');
+        }
+    });
+}
+
+function resetReceiveForm() {
+    document.getElementById('receive-material-name').selectedIndex = 0;
+    document.getElementById('receive-material-type').selectedIndex = 0;
+    document.getElementById('receive-qty').value = '0';
+    document.getElementById('receive-note').value = '';
+    
+    // Reset selection indicators
+    document.querySelectorAll('.receive-select').forEach(select => {
+        select.classList.remove('has-value');
+    });
+    
+    // Reset calendar to default (optional, keeping current date usually better)
 }
 
 document.querySelector('.prev-month').addEventListener('click', () => {
@@ -123,11 +186,33 @@ document.querySelector('.next-month').addEventListener('click', () => {
 });
 
 window.onload = () => {
+    syncReceiverName();
     renderCalendar();
 
     // Ensure select has placeholder color behavior if needed
-    const selectEl = document.querySelector('.receive-select');
-    selectEl.addEventListener('change', function () {
-        this.classList.add('has-value');
+    const selectEls = document.querySelectorAll('.receive-select');
+    selectEls.forEach(selectEl => {
+        selectEl.addEventListener('change', function () {
+            this.classList.add('has-value');
+        });
     });
 };
+
+/**
+ * Syncs the name input with the username displayed in the navbar
+ */
+function syncReceiverName() {
+    // Wait for navbar to load
+    const checkNavbar = setInterval(() => {
+        const navbarUsername = document.querySelector('.username');
+        const nameInput = document.getElementById('receive-name');
+        
+        if (navbarUsername && nameInput) {
+            nameInput.value = navbarUsername.innerText.trim();
+            clearInterval(checkNavbar);
+        }
+    }, 100);
+
+    // Timeout after 3 seconds
+    setTimeout(() => clearInterval(checkNavbar), 3000);
+}

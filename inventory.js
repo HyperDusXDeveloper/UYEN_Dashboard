@@ -269,11 +269,12 @@ function saveNewMaterial() {
         let statusHtml = `<span class="status-out" style="color: #ef4444; font-weight: 600;">หมด</span>`;
 
         tr.innerHTML = `
-                <td style="text-align: left; padding-left: 30px;"><span class="item-name" style="font-weight: 600; color: #111827;">${name}</span>${typeHtml}</td>
+                <td class="table-td-left-30 item-name item-name-bold">${name}</td>
+                <td class="item-type item-type-muted">${type}</td>
                 <td class="qty-remaining">${qty}</td>
                 <td class="item-unit">${unit}</td>
                 <td class="item-price">${price}</td>
-                <td class="reorder-point" style="font-weight: 700; color: #111827;">${reorder}</td>
+                <td class="reorder-point fw-700 text-dark-main">${reorder}</td>
                 <td>${statusHtml}</td>
                 <td>
                     <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
@@ -303,17 +304,11 @@ function saveMaterialData() {
         const reorder = document.getElementById('edit-material-reorder').value.trim() || '0';
         const qty = document.getElementById('edit-material-qty').value.trim() || '0';
 
-        const nameSpan = currentRowToEdit.querySelector('.item-name');
-        if (nameSpan) nameSpan.innerText = name;
+        const nameTd = currentRowToEdit.querySelector('.item-name');
+        if (nameTd) nameTd.innerText = name;
 
-        const typeSpan = currentRowToEdit.querySelector('.item-type');
-        if (typeSpan) {
-            typeSpan.innerText = type;
-            const wrapper = typeSpan.parentElement;
-            if (wrapper && wrapper.tagName.toLowerCase() === 'span') {
-                wrapper.style.display = type ? 'inline' : 'none';
-            }
-        }
+        const typeTd = currentRowToEdit.querySelector('.item-type');
+        if (typeTd) typeTd.innerText = type;
 
         const unitTd = currentRowToEdit.querySelector('.item-unit');
         if (unitTd) unitTd.innerText = unit;
@@ -337,7 +332,7 @@ function checkStockColors() {
     rows.forEach(tr => {
         const qtyCell = tr.querySelector('.qty-remaining');
         const reorderCell = tr.querySelector('.reorder-point');
-        const statusTd = tr.querySelector('td:nth-child(6)');
+        const statusTd = tr.querySelector('td:nth-child(7)');
 
         if (qtyCell && reorderCell) {
             const qty = parseInt(qtyCell.innerText.trim(), 10);
@@ -405,17 +400,39 @@ function showStatusModal(type) {
 const unitOptionsList = ['เล่ม', 'รีม', 'แผ่น', 'แพ็ค', 'หลอด', 'ขวด', 'เส้น', 'กล่อง', 'ด้าม', 'ตัว', 'ใบ', 'ซอง', 'ชิ้น', 'แท่ง', 'ตลับ', 'อัน', 'ม้วน', 'ก้อน', 'ถุง', 'กระป๋อง', 'ชุด'].sort((a, b) => a.localeCompare(b, 'th'));
 
 function toggleUnitDropdown(listId) {
-    document.querySelectorAll('.custom-dropdown-list').forEach(el => {
-        if (el.id !== listId) el.classList.add('hidden');
+    // Close other dropdowns first
+    document.querySelectorAll('.dropdown-list-standard').forEach(el => {
+        if (el.id !== listId) {
+            el.classList.add('hidden');
+            const container = el.closest('.custom-dropdown-container');
+            if (container) container.classList.remove('open');
+        }
     });
+
     const list = document.getElementById(listId);
-    list.classList.toggle('hidden');
+    if (!list) return;
+    
+    const isHidden = list.classList.contains('hidden');
+    
+    if (isHidden) {
+        list.classList.remove('hidden');
+    } else {
+        list.classList.add('hidden');
+    }
+    
+    const container = list.closest('.custom-dropdown-container');
+    if (container) {
+        container.classList.toggle('open', isHidden);
+    }
 }
 
 document.addEventListener('click', function (e) {
     if (!e.target.closest('.custom-dropdown-container')) {
-        document.querySelectorAll('.custom-dropdown-list').forEach(el => {
+        document.querySelectorAll('.dropdown-list-standard').forEach(el => {
             el.classList.add('hidden');
+        });
+        document.querySelectorAll('.custom-dropdown-container').forEach(el => {
+            el.classList.remove('open');
         });
     }
 });
@@ -436,6 +453,8 @@ function initUnitDropdowns() {
                     e.stopPropagation();
                     input.value = unit;
                     list.classList.add('hidden');
+                    const container = list.closest('.custom-dropdown-container');
+                    if (container) container.classList.remove('open');
                 };
                 list.appendChild(li);
             });

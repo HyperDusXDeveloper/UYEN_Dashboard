@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UYEN - เบิกวัสดุ</title>
+    <title>U-YEN | เบิกวัสดุ</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
@@ -24,17 +24,28 @@
             <div class="withdraw-form">
                 <div class="withdraw-form-group">
                     <label class="withdraw-label-std">ชื่อผู้เบิกวัสดุ</label>
-                    <input type="text" id="withdrawer-name" value="User_Genrate" class="withdraw-input withdraw-input-readonly" readonly>
+                    <input type="text" id="withdrawer-name" value="HyperDusX" class="withdraw-input withdraw-input-readonly" readonly>
                 </div>
 
                 <div class="withdraw-form-group">
-                    <label class="withdraw-label-std">วัสดุ ( ประเภท )</label>
+                    <label class="withdraw-label-std">วัสดุ</label>
                     <select id="withdraw-material" class="withdraw-select blue-text withdraw-input-blue withdraw-select-center" onchange="updateSummary()">
                         <option value="" disabled selected hidden>เลือกวัสดุ</option>
-                        <option value="A5 (สติ๊กเกอร์)" data-stock="คลัง" data-unit="หน่วย">A5 (สติ๊กเกอร์)</option>
-                        <option value="กระดาษ A4" data-stock="200" data-unit="รีน">กระดาษ A4</option>
-                        <option value="หมึกสีดำ EPSON" data-stock="50" data-unit="ขวด">หมึกสีดำ EPSON</option>
-                        <option value="เทปใส 3M" data-stock="20" data-unit="ม้วน">เทปใส 3M</option>
+                        <option value="A5" data-stock="คลัง" data-unit="หน่วย">A5</option>
+                        <option value="กระดาษ" data-stock="200" data-unit="รีม">กระดาษ</option>
+                        <option value="หมึกสีดำ" data-stock="50" data-unit="ขวด">หมึกสีดำ</option>
+                        <option value="เทปใส" data-stock="20" data-unit="ม้วน">เทปใส</option>
+                    </select>
+                </div>
+
+                <div class="withdraw-form-group">
+                    <label class="withdraw-label-std">ประเภทวัสดุ</label>
+                    <select id="withdraw-type" class="withdraw-select blue-text withdraw-input-blue withdraw-select-center" onchange="updateSummary()">
+                        <option value="" disabled selected hidden>เลือกประเภท</option>
+                        <option value="สติ๊กเกอร์">สติ๊กเกอร์</option>
+                        <option value="A4">A4</option>
+                        <option value="EPSON">EPSON</option>
+                        <option value="3M">3M</option>
                     </select>
                 </div>
 
@@ -54,8 +65,10 @@
             <div class="withdraw-summary-section">
                 <h3 class="summary-title modal-title-confirm text-center mb-25">วัสดุที่เลือก</h3>
                 <div class="withdraw-summary-inner">
-                    <div class="summary-box summary-mat-box withdraw-summary-box mb-20" id="summary-mat-type">
+                    <div class="summary-box summary-mat-box withdraw-summary-box mb-10" id="summary-mat-name">
                         วัสดุ</div>
+                    <div class="summary-box summary-mat-box withdraw-summary-box mb-20" id="summary-mat-type" style="color: #6b7280; font-size: 13px;">
+                        ประเภทวัสดุ</div>
                     <div class="summary-grid withdraw-summary-grid">
                         <div class="summary-left withdraw-summary-item">
                             <div class="summary-label withdraw-summary-label">คงเหลือ</div>
@@ -78,7 +91,7 @@
         <!-- Right Panel: Table -->
         <section class="withdraw-content pl-30">
             <div class="mb-25">
-                <h1 class="withdraw-table-title mb-15 f-28">รายการเบิกวัสดุ</h1>
+                <h1 class="withdraw-table-title mb-15">รายการเบิกวัสดุ</h1>
             </div>
 
             <div class="withdraw-table-container">
@@ -86,8 +99,9 @@
                     <thead>
                         <tr>
                             <th class="w-20">ชื่อผู้เบิก</th>
-                            <th class="w-25">วัสดุ ( ประเภท )</th>
-                            <th class="w-15">จำนวนที่เบิก</th>
+                            <th class="w-15">วัสดุ</th>
+                            <th class="w-15">ประเภท</th>
+                            <th class="w-10">จำนวนที่เบิก</th>
                             <th class="w-20">วัน - เวลา</th>
                             <th class="w-20">หมายเหตุ</th>
                         </tr>
@@ -95,56 +109,64 @@
                     <tbody>
                         <tr class="bg-white">
                             <td class="bold-text withdraw-td-std">User_Genrate</td>
-                            <td class="bold-text withdraw-td-std">A5 ( สติ๊กเกอร์ )</td>
+                            <td class="bold-text withdraw-td-std">A5</td>
+                            <td class="bold-text withdraw-td-std">สติ๊กเกอร์</td>
                             <td class="bold-text withdraw-td-std">150</td>
                             <td class="bold-text withdraw-td-std">01 มี.ค. 2026 09:30</td>
                             <td class="bold-text withdraw-td-std">ใช้งานพิมพ์ด่วน</td>
                         </tr>
                         <tr class="alt-row bg-gray-light">
                             <td class="bold-text withdraw-td-std withdraw-alt-td">อำพร ใจดี</td>
-                            <td class="bold-text withdraw-td-std withdraw-alt-td">กระดาษ ( A4 )</td>
+                            <td class="bold-text withdraw-td-std withdraw-alt-td">กระดาษ</td>
+                            <td class="bold-text withdraw-td-std withdraw-alt-td">A4</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">5</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">05 มี.ค. 2026 14:15</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">เบิกใช้ในสำนักงาน</td>
                         </tr>
                         <tr class="bg-white">
                             <td class="bold-text withdraw-td-std">User_Genrate</td>
-                            <td class="bold-text withdraw-td-std">หมึกสีดำ ( EPSON )</td>
+                            <td class="bold-text withdraw-td-std">หมึกสีดำ</td>
+                            <td class="bold-text withdraw-td-std">EPSON</td>
                             <td class="bold-text withdraw-td-std">2</td>
                             <td class="bold-text withdraw-td-std">10 มี.ค. 2026 10:00</td>
                             <td class="bold-text withdraw-td-std">เติมเครื่องพิมพ์ชั้น 2</td>
                         </tr>
                         <tr class="alt-row bg-gray-light">
                             <td class="bold-text withdraw-td-std withdraw-alt-td">กัญญา มีสุข</td>
-                            <td class="bold-text withdraw-td-std withdraw-alt-td">เทปใส ( 3M )</td>
+                            <td class="bold-text withdraw-td-std withdraw-alt-td">เทปใส</td>
+                            <td class="bold-text withdraw-td-std withdraw-alt-td">3M</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">3</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">12 มี.ค. 2026 11:45</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">ห่อพัสดุส่งลูกค้า</td>
                         </tr>
                         <tr class="bg-white">
                             <td class="bold-text withdraw-td-std">User_Genrate</td>
-                            <td class="bold-text withdraw-td-std">A5 ( สติ๊กเกอร์ )</td>
+                            <td class="bold-text withdraw-td-std">A5</td>
+                            <td class="bold-text withdraw-td-std">สติ๊กเกอร์</td>
                             <td class="bold-text withdraw-td-std">200</td>
                             <td class="bold-text withdraw-td-std">15 มี.ค. 2026 16:20</td>
                             <td class="bold-text withdraw-td-std">สต็อคแผนก</td>
                         </tr>
                         <tr class="alt-row bg-gray-light">
                             <td class="bold-text withdraw-td-std withdraw-alt-td">ประสิทธิ์ พรหมดี</td>
-                            <td class="bold-text withdraw-td-std withdraw-alt-td">กระดาษ ( A4 )</td>
+                            <td class="bold-text withdraw-td-std withdraw-alt-td">กระดาษ</td>
+                            <td class="bold-text withdraw-td-std withdraw-alt-td">A4</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">10</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">18 มี.ค. 2026 08:50</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">รายงานประจำเดือน</td>
                         </tr>
                         <tr class="bg-white">
                             <td class="bold-text withdraw-td-std">มานะ เข้มแข็ง</td>
-                            <td class="bold-text withdraw-td-std">หมึกสีดำ ( EPSON )</td>
+                            <td class="bold-text withdraw-td-std">หมึกสีดำ</td>
+                            <td class="bold-text withdraw-td-std">EPSON</td>
                             <td class="bold-text withdraw-td-std">1</td>
                             <td class="bold-text withdraw-td-std">22 มี.ค. 2026 13:10</td>
                             <td class="bold-text withdraw-td-std">เบิกเติมด่วน</td>
                         </tr>
                         <tr class="alt-row bg-gray-light">
                             <td class="bold-text withdraw-td-std withdraw-alt-td">ปรีชา ใจกว้าง</td>
-                            <td class="bold-text withdraw-td-std withdraw-alt-td">เทปใส ( 3M )</td>
+                            <td class="bold-text withdraw-td-std withdraw-alt-td">เทปใส</td>
+                            <td class="bold-text withdraw-td-std withdraw-alt-td">3M</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">5</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">25 มี.ค. 2026 15:30</td>
                             <td class="bold-text withdraw-td-std withdraw-alt-td">ใช้งานทั่วไป</td>
