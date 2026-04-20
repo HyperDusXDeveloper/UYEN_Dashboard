@@ -833,11 +833,12 @@ select {
     background-color: #f0f9ff;
     color: #111827;
     font-weight: 800;
-    padding: 15px 15px;
+    padding: 18px 15px; /* Increased to match td for even lines */
     text-align: center;
     font-size: 18px;
     border-top: 1px solid #bae6fd;
     border-bottom: 1px solid #bae6fd;
+    vertical-align: middle;
 }
 
 .receive-table th:first-child {
@@ -859,6 +860,7 @@ select {
     font-size: 16px;
     font-weight: 500;
     border: none;
+    vertical-align: middle;
 }
 
 .receive-table td.dash-red {

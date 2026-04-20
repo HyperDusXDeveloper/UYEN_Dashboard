@@ -251,11 +251,16 @@ function addReceiveRowToTable() {
     const tbody = document.querySelector('.receive-table tbody');
     if (!tbody) return;
 
-    // Use selectedDate and current time for "Date Received"
-    const now = new Date();
+    // Use selectedDate and a RANDOM time between 08:00 and 17:00
     const thaiShortMonths = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
-    // Format: 13 ก.พ. 2026 21:58
-    const dateStr = `${String(selectedDate.getDate()).padStart(2, '0')} ${thaiShortMonths[selectedDate.getMonth()]} ${selectedDate.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    
+    // Generate random time between 08:00 and 17:00
+    const randomHour = Math.floor(Math.random() * (17 - 8)) + 8; // 8 to 16
+    const randomMinutes = Math.floor(Math.random() * 60);
+    const timeStr = `${String(randomHour).padStart(2, '0')}:${String(randomMinutes).padStart(2, '0')}`;
+    
+    // Format: 13 ก.พ. 2026 09:12
+    const dateStr = `${String(selectedDate.getDate()).padStart(2, '0')} ${thaiShortMonths[selectedDate.getMonth()]} ${selectedDate.getFullYear()} ${timeStr}`;
 
     const newRow = document.createElement('tr');
     
