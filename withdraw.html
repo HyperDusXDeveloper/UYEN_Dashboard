@@ -29,24 +29,22 @@
 
                 <div class="withdraw-form-group">
                     <label class="withdraw-label-std">วัสดุ</label>
-                    <select id="withdraw-material" class="withdraw-select blue-text withdraw-input-blue withdraw-select-center" onchange="updateSummary()">
-                        <option value="" disabled selected hidden>เลือกวัสดุ</option>
-                        <option value="A5" data-stock="คลัง" data-unit="หน่วย">A5</option>
-                        <option value="กระดาษ" data-stock="200" data-unit="รีม">กระดาษ</option>
-                        <option value="หมึกสีดำ" data-stock="50" data-unit="ขวด">หมึกสีดำ</option>
-                        <option value="เทปใส" data-stock="20" data-unit="ม้วน">เทปใส</option>
-                    </select>
+                    <div class="custom-dropdown-container" id="container-withdraw-material">
+                        <div class="custom-dropdown-box blue-text withdraw-input-blue" id="withdraw-material-display" onclick="toggleWithdrawDropdown('list-withdraw-material')">เลือกวัสดุ</div>
+                        <ul class="custom-dropdown-list hidden" id="list-withdraw-material">
+                            <!-- JS will populate -->
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="withdraw-form-group">
                     <label class="withdraw-label-std">ประเภทวัสดุ</label>
-                    <select id="withdraw-type" class="withdraw-select blue-text withdraw-input-blue withdraw-select-center" onchange="updateSummary()">
-                        <option value="" disabled selected hidden>เลือกประเภท</option>
-                        <option value="สติ๊กเกอร์">สติ๊กเกอร์</option>
-                        <option value="A4">A4</option>
-                        <option value="EPSON">EPSON</option>
-                        <option value="3M">3M</option>
-                    </select>
+                    <div class="custom-dropdown-container" id="container-withdraw-type">
+                        <div class="custom-dropdown-box blue-text withdraw-input-blue" id="withdraw-type-display" onclick="toggleWithdrawDropdown('list-withdraw-type')">เลือกประเภท</div>
+                        <ul class="custom-dropdown-list hidden" id="list-withdraw-type">
+                            <!-- JS will populate -->
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="withdraw-form-group">
@@ -190,8 +188,12 @@
                     <input type="text" id="confirm-name" class="modal-input-readonly-gray" readonly>
                 </div>
                 <div class="mb-15">
-                    <label class="modal-label-standard">วัสดุที่เลือก</label>
-                    <input type="text" id="confirm-material" class="modal-input-readonly-gray" readonly>
+                    <label class="modal-label-standard">วัสดุที่เบิก</label>
+                    <input type="text" id="confirm-material-name" class="modal-input-readonly-gray" readonly>
+                </div>
+                <div class="mb-15">
+                    <label class="modal-label-standard">ประเภทวัสดุที่เบิก</label>
+                    <input type="text" id="confirm-material-type" class="modal-input-readonly-gray" readonly>
                 </div>
                 <div class="mb-15">
                     <label class="modal-label-standard">จำนวนวัสดุที่ต้องการเบิก</label>

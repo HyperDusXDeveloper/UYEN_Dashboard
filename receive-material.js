@@ -4,6 +4,19 @@ const monthNames = ["มกราคม", "กุมภาพันธ์", "ม
 let currentDate = new Date(2026, 3, 2); // April 2026
 let selectedDate = new Date(2026, 3, 2);
 
+const RECEIVE_MATERIAL_DATA = {
+    "A4": ["ธรรมดา", "ธรรมดา 80 แกรม", "ธรรมดา 100 แกรม", "สติ๊กเกอร์", "แผ่นปกใส"],
+    "A5": ["ธรรมดา", "สติ๊กเกอร์", "กระดาษอาร์ตมัน", "ร้อยปอนด์", "กระดาษปก"],
+    "หมึก": ["ดำ", "น้ำเงิน", "แดง", "เหลือง", "EPSON GI-71"],
+    "เทป": ["ชนิดใส", "สก๊อตช์เทป", "เทปผ้า", "เทปกาว 2 หน้า", "เทปใส 3M"],
+    "คลิปหนีบกระดาษ": ["อันเล็ก", "อันกลาง", "อันใหญ่", "แบบสี", "แบบเหล็ก"],
+    "กรรไกร": ["เล็ก", "กลาง", "ใหญ่", "สำหรับตัดกระดาษ", "สำหรับงานประดิษฐ์"],
+    "ลวดเย็บกระดาษ": ["35 MM", "10 MM", "เบอร์ 10", "เบอร์ 3", "แบบหนาพิเศษ"]
+};
+
+let selectedMaterial = "";
+let selectedType = "";
+
 function renderCalendar() {
     const month = currentDate.getMonth();
     const year = currentDate.getFullYear();
@@ -45,9 +58,118 @@ function renderCalendar() {
 
 function selectDate(year, month, day) {
     selectedDate = new Date(year, month, day);
-    // Optionally, we could adjust currentDate to match selected if we want
     renderCalendar();
 }
+
+/**
+ * Custom Dropdown Logic
+ */
+function toggleReceiveDropdown(listId) {
+    // Close other dropdowns
+    document.querySelectorAll('.custom-dropdown-list').forEach(el => {
+        if (el.id !== listId) {
+            el.classList.add('hidden');
+            el.closest('.custom-dropdown-container').classList.remove('open');
+        }
+    });
+
+    const list = document.getElementById(listId);
+    const container = list.closest('.custom-dropdown-container');
+    const isHidden = list.classList.contains('hidden');
+
+    if (isHidden) {
+        list.classList.remove('hidden');
+        container.classList.add('open');
+    } else {
+        list.classList.add('hidden');
+        container.classList.remove('open');
+    }
+}
+
+function initReceiveDropdowns() {
+    const matList = document.getElementById('list-receive-material');
+    const typeList = document.getElementById('list-receive-type');
+
+    // Populate materials
+    matList.innerHTML = '';
+    Object.keys(RECEIVE_MATERIAL_DATA).forEach(mat => {
+        const li = document.createElement('li');
+        li.textContent = mat;
+        li.onclick = () => selectMaterialItem(mat);
+        matList.appendChild(li);
+    });
+
+    // Initial population of types (all available initially or prompt to select mat)
+    updateTypeList();
+}
+
+function updateTypeList() {
+    const typeList = document.getElementById('list-receive-type');
+    typeList.innerHTML = '';
+
+    const types = selectedMaterial ? RECEIVE_MATERIAL_DATA[selectedMaterial] : getAllUniqueTypes();
+    
+    types.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        li.onclick = () => selectTypeItem(t);
+        if (t === selectedType) li.classList.add('selected');
+        typeList.appendChild(li);
+    });
+}
+
+function getAllUniqueTypes() {
+    let all = [];
+    Object.values(RECEIVE_MATERIAL_DATA).forEach(types => {
+        all = all.concat(types);
+    });
+    return [...new Set(all)];
+}
+
+function selectMaterialItem(mat) {
+    selectedMaterial = mat;
+    document.getElementById('receive-material-display').textContent = mat;
+    document.getElementById('receive-material-display').style.color = '#1f2937';
+    
+    // Sync: if current selected type is not for this material, reset type
+    if (selectedType && !RECEIVE_MATERIAL_DATA[mat].includes(selectedType)) {
+        selectedType = "";
+        document.getElementById('receive-type-display').textContent = "เลือกประเภทวัสดุ";
+        document.getElementById('receive-type-display').style.color = '#3b82f6';
+    }
+
+    updateTypeList();
+    toggleReceiveDropdown('list-receive-material');
+}
+
+function selectTypeItem(type) {
+    selectedType = type;
+    document.getElementById('receive-type-display').textContent = type;
+    document.getElementById('receive-type-display').style.color = '#1f2937';
+
+    // Sync: if material is not selected, find material for this type
+    if (!selectedMaterial) {
+        for (const mat in RECEIVE_MATERIAL_DATA) {
+            if (RECEIVE_MATERIAL_DATA[mat].includes(type)) {
+                selectedMaterial = mat;
+                document.getElementById('receive-material-display').textContent = mat;
+                document.getElementById('receive-material-display').style.color = '#1f2937';
+                updateTypeList();
+                break;
+            }
+        }
+    }
+
+    toggleReceiveDropdown('list-receive-type');
+}
+
+// Click outside to close
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.custom-dropdown-container')) {
+        document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.custom-dropdown-container').forEach(el => el.classList.remove('open'));
+    }
+});
 
 function flashError(element) {
     const originalBorder = element.style.borderColor;
@@ -58,21 +180,19 @@ function flashError(element) {
 }
 
 function openConfirmModal() {
-    const matNameSelect = document.getElementById('receive-material-name');
-    const matTypeSelect = document.getElementById('receive-material-type');
     const qtyInput = document.getElementById('receive-qty');
     const noteInput = document.getElementById('receive-note');
 
     let isValid = true;
 
-    if (matNameSelect.selectedIndex <= 0) {
+    if (!selectedMaterial) {
         isValid = false;
-        flashError(matNameSelect);
+        flashError(document.getElementById('receive-material-display'));
     }
 
-    if (matTypeSelect.selectedIndex <= 0) {
+    if (!selectedType) {
         isValid = false;
-        flashError(matTypeSelect);
+        flashError(document.getElementById('receive-type-display'));
     }
 
     if (!qtyInput.value || parseInt(qtyInput.value) <= 0) {
@@ -83,8 +203,8 @@ function openConfirmModal() {
     if (!isValid) return;
 
     document.getElementById('confirm-name').value = document.getElementById('receive-name').value;
-    document.getElementById('confirm-material-name').value = matNameSelect.options[matNameSelect.selectedIndex].text;
-    document.getElementById('confirm-material-type').value = matTypeSelect.options[matTypeSelect.selectedIndex].text;
+    document.getElementById('confirm-material-name').value = selectedMaterial;
+    document.getElementById('confirm-material-type').value = selectedType;
     document.getElementById('confirm-qty').value = qtyInput.value;
     document.getElementById('confirm-note').value = noteInput.value.trim() === '' ? '-' : noteInput.value;
 
@@ -98,16 +218,27 @@ function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
 }
 
+function showReceiveStatusModal(type) {
+    let modalId = '';
+    if (type === 'receive-success') {
+        modalId = 'modal-receive-success';
+        closeModal('modal-confirm-receive');
+        addReceiveRowToTable();
+        resetReceiveForm();
+    } else if (type === 'receive-error') {
+        modalId = 'modal-receive-error';
+    }
+
+    if (modalId) {
+        document.getElementById(modalId).classList.remove('hidden');
+        setTimeout(() => {
+            closeModal(modalId);
+        }, 2000);
+    }
+}
+
 function submitReceive() {
-    closeModal('modal-confirm-receive');
-    
-    // Add row to table
-    addReceiveRowToTable();
-    
-    // Reset form
-    resetReceiveForm();
-    
-    alert('บันทึกข้อมูลเรียบร้อย!');
+    showReceiveStatusModal('receive-success');
 }
 
 function addReceiveRowToTable() {
@@ -151,17 +282,17 @@ function addReceiveRowToTable() {
 }
 
 function resetReceiveForm() {
-    document.getElementById('receive-material-name').selectedIndex = 0;
-    document.getElementById('receive-material-type').selectedIndex = 0;
+    selectedMaterial = "";
+    selectedType = "";
+    document.getElementById('receive-material-display').textContent = "เลือกวัสดุ";
+    document.getElementById('receive-material-display').style.color = '#3b82f6';
+    document.getElementById('receive-type-display').textContent = "เลือกประเภทวัสดุ";
+    document.getElementById('receive-type-display').style.color = '#3b82f6';
+    
     document.getElementById('receive-qty').value = '0';
     document.getElementById('receive-note').value = '';
     
-    // Reset selection indicators
-    document.querySelectorAll('.receive-select').forEach(select => {
-        select.classList.remove('has-value');
-    });
-    
-    // Reset calendar to default (optional, keeping current date usually better)
+    updateTypeList();
 }
 
 document.querySelector('.prev-month').addEventListener('click', () => {
@@ -188,14 +319,7 @@ document.querySelector('.next-month').addEventListener('click', () => {
 window.onload = () => {
     syncReceiverName();
     renderCalendar();
-
-    // Ensure select has placeholder color behavior if needed
-    const selectEls = document.querySelectorAll('.receive-select');
-    selectEls.forEach(selectEl => {
-        selectEl.addEventListener('change', function () {
-            this.classList.add('has-value');
-        });
-    });
+    initReceiveDropdowns();
 };
 
 /**

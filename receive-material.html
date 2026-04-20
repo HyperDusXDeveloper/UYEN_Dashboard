@@ -29,34 +29,22 @@
 
                 <div class="receive-form-group">
                     <label>วัสดุที่รับ</label>
-                    <select id="receive-material-name" class="receive-select">
-                        <option value="" disabled selected hidden>เลือกวัสดุ</option>
-                        <option value="A4">A4</option>
-                        <option value="A5">A5</option>
-                        <option value="หมึก">หมึก</option>
-                        <option value="เทป">เทป</option>
-                        <option value="คลิปหนีบกระดาษ">คลิปหนีบกระดาษ</option>
-                        <option value="กรรไกร">กรรไกร</option>
-                        <option value="ลวดเย็บกระดาษ">ลวดเย็บกระดาษ</option>
-                    </select>
+                    <div class="custom-dropdown-container" id="container-receive-material">
+                        <div class="custom-dropdown-box" id="receive-material-display" onclick="toggleReceiveDropdown('list-receive-material')">เลือกวัสดุ</div>
+                        <ul class="custom-dropdown-list hidden" id="list-receive-material">
+                            <!-- JS will populate items -->
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="receive-form-group">
                     <label>ประเภทวัสดุที่รับ</label>
-                    <select id="receive-material-type" class="receive-select">
-                        <option value="" disabled selected hidden>เลือกประเภทวัสดุ</option>
-                        <option value="ธรรมดา">ธรรมดา</option>
-                        <option value="สติ๊กเกอร์">สติ๊กเกอร์</option>
-                        <option value="กระดาษอาร์ตมัน">กระดาษอาร์ตมัน</option>
-                        <option value="ดำ">ดำ</option>
-                        <option value="แผ่นปกใส">แผ่นปกใส</option>
-                        <option value="อันเล็ก">อันเล็ก</option>
-                        <option value="ชนิดใส">ชนิดใส</option>
-                        <option value="35 MM">35 MM</option>
-                        <option value="ใหญ่">ใหญ่</option>
-                        <option value="3M">3M</option>
-                        <option value="EPSON">EPSON</option>
-                    </select>
+                    <div class="custom-dropdown-container" id="container-receive-type">
+                        <div class="custom-dropdown-box" id="receive-type-display" onclick="toggleReceiveDropdown('list-receive-type')">เลือกประเภทวัสดุ</div>
+                        <ul class="custom-dropdown-list hidden" id="list-receive-type">
+                            <!-- JS will populate items -->
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="receive-form-group">
@@ -227,6 +215,35 @@
 
     <script src="receive-material.js"></script>
     <script src="navbar.js"></script>
+
+    <!-- Status Modals -->
+    <!-- Receive Success Modal -->
+    <div class="modal-overlay hidden" id="modal-receive-success">
+        <div class="modal modal-status-large">
+            <div class="modal-header-status-success p-30">
+                <h2 class="modal-status-title-large">รับวัสดุสำเร็จ</h2>
+            </div>
+            <div class="modal-status-body-large">
+                <div class="modal-icon-circle-success-large">✓</div>
+                <h3 class="modal-status-h3-large">ข้อมูลได้รับการบันทึกแล้ว</h3>
+                <p class="modal-p-timer">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receive Error Modal -->
+    <div class="modal-overlay hidden" id="modal-receive-error">
+        <div class="modal modal-status-large">
+            <div class="modal-header-status-error p-30">
+                <h2 class="modal-status-title-large">รับวัสดุไม่สำเร็จ</h2>
+            </div>
+            <div class="modal-status-body-large">
+                <div class="modal-icon-circle-error-large">♻</div>
+                <h3 class="modal-status-h3-large">ไม่สามารถรับวัสดุได้</h3>
+                <p class="modal-p-timer">หน้าต่างจะถูกปิดใน 2 วินาที</p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

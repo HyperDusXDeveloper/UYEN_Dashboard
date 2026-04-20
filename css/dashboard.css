@@ -335,11 +335,15 @@ body {
 
 .modal {
     background-color: #fff;
-    border-radius: 12px;
+    border-radius: 16px;
     width: 90%;
     max-width: 500px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.modal-edit-large {
+    max-width: 650px;
 }
 
 .delete-modal {
@@ -357,7 +361,8 @@ body {
 }
 
 .modal-header-blue {
-    background-color: #3b82f6;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .modal-header h2 {
@@ -405,28 +410,36 @@ body {
 }
 
 .input-group label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
-    color: #000;
+    color: #374151;
+    margin-bottom: 2px;
 }
 
 .input-group input,
 .input-group select {
     font-family: 'Prompt', sans-serif;
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #e1e1e1;
-    border-radius: 4px;
-    font-size: 13px;
-    color: var(--primary-blue);
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1f2937;
     outline: none;
-    background-color: #fff;
+    background-color: #f9fafb;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     appearance: none;
 }
 
 .input-group input:focus,
 .input-group select:focus {
     border-color: var(--primary-blue);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 136, 255, 0.1);
+}
+
+.grid-full {
+    grid-column: 1 / -1;
 }
 
 .select-wrapper {
@@ -444,10 +457,24 @@ body {
     pointer-events: none;
 }
 
+/* Utility Classes for Flex */
+.flex-middle-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-middle-end {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 /* Save / Close buttons inside Modal footers */
 .modal-actions-right {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 12px;
 }
 

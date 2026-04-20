@@ -99,47 +99,49 @@
         <div class="modal modal-edit-large p-0">
             <div class="modal-header modal-header-blue modal-edit-header">
                 <h2 id="edit-modal-title" class="modal-title-edit fw-700 mb-6">Somyot</h2>
-                <p id="edit-modal-subtitle" class="fw-500">แก้ไขผู้ใช้งาน</p>
+                <p id="edit-modal-subtitle" class="fw-500">แก้ไขข้อมูลผู้ใช้งาน</p>
             </div>
             <div class="modal-body p-30">
-                <form id="edit-form" class="form-grid flex-middle-end"
+                <form id="edit-form" class="form-grid"
                     onsubmit="event.preventDefault(); confirmSaveUserData();">
                     <div class="input-group">
-                        <label>Username</label>
-                        <input type="text" id="edit-username" value="Somyot" placeholder="Username" maxlength="50"
+                        <label for="edit-username">ชื่อผู้ใช้ (Username)</label>
+                        <input type="text" id="edit-username" value="Somyot" placeholder="กรอกชื่อผู้ใช้" maxlength="50"
                             oninput="validateUsername(this)">
                     </div>
-                    <div class="input-group" id="group-role">
-                        <label>ตำแหน่งงาน</label>
-                        <div class="select-wrapper">
-                            <select id="edit-role">
-                                <option value="" disabled selected hidden>เลือกตำแหน่งงาน</option>
-                                <option value="Admin">Admin</option>
-                                <option value="พนักงาน">พนักงาน</option>
-                                <option value="เจ้าของร้าน">เจ้าของร้าน</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="input-group">
-                        <label>Email</label>
+                        <label for="edit-email">อีเมล (Email)</label>
                         <input type="text" id="edit-email" placeholder="example@email.com" maxlength="100"
                             autocomplete="off"
                             oninput="validateEmail(this)">
                     </div>
                     <div class="input-group">
-                        <label>Phone No.</label>
+                        <label for="edit-phone">เบอร์โทรศัพท์ (Phone No.)</label>
                         <input type="tel" id="edit-phone" maxlength="16" placeholder="000 - 000 - 0000"
                             oninput="formatPhoneNumber(this)">
                     </div>
                     <div class="input-group">
-                        <label>Password</label>
-                        <input type="text" id="edit-password" placeholder="Password" maxlength="100" minlength="5"
-                            oninput="validatePassword(this)">
+                        <label for="edit-password">รหัสผ่าน (Password)</label>
+                        <div class="password-wrapper">
+                            <input type="text" id="edit-password" placeholder="กรอกรหัสผ่านใหม่" maxlength="100" minlength="5"
+                                oninput="validatePassword(this)">
+                        </div>
+                    </div>
+                    <div class="input-group" id="group-role">
+                        <label for="edit-role">ตำแหน่งงาน (Role)</label>
+                        <div class="select-wrapper">
+                            <select id="edit-role">
+                                <option value="" disabled selected hidden>เลือกตำแหน่งงาน</option>
+
+                                <option value="พนักงาน">พนักงาน</option>
+                                <option value="เจ้าของร้าน">เจ้าของร้าน</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="edit-footer d-flex flex-middle-end gap-15 h-100">
+                    <div class="edit-footer d-flex flex-middle-between gap-15 mt-10">
                         <div class="input-group edit-footer-status hidden" id="status-group-container">
-                            <label class="modal-label-status m-0">สถานะ</label>
+                            <label class="modal-label-status m-0">สถานะการใช้งาน</label>
                             <div class="toggle-container m-0">
                                 <button type="button" class="toggle-btn toggle-normal active"
                                     onclick="setToggle(this)">ปกติ</button>
@@ -148,9 +150,9 @@
                             </div>
                         </div>
 
-                        <div class="modal-actions-right mt-0 d-flex gap-10">
-                            <button type="submit" class="btn-action btn-save-success">บันทึก</button>
-                            <button type="button" class="btn-action btn-close-danger" onclick="confirmCancelEdit()">ปิด</button>
+                        <div class="modal-actions-right d-flex gap-12">
+                            <button type="submit" class="btn-action btn-save-success">บันทึกข้อมูล</button>
+                            <button type="button" class="btn-action btn-close-danger" onclick="confirmCancelEdit()">ยกเลิก</button>
                         </div>
                     </div>
                 </form>

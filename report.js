@@ -28,6 +28,28 @@ document.addEventListener("DOMContentLoaded", function () {
             if (selectedDates.length > 0) filterMonthlySales(selectedDates[0]);
         }
     });
+
+    // Handle Report Downloads
+    const downloadFile = (url, filename) => {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    document.getElementById('btn-print-1')?.addEventListener('click', () => {
+        downloadFile('./item/Report1.png', 'Daily_Print_Report.png');
+    });
+
+    document.getElementById('btn-print-2')?.addEventListener('click', () => {
+        downloadFile('./item/Report3.png', 'Inventory_Report.png');
+    });
+
+    document.getElementById('btn-print-3')?.addEventListener('click', () => {
+        downloadFile('./item/Report2.png', 'Monthly_Sales_Report.png');
+    });
 });
 
 function clearMonthlyFilter() {
