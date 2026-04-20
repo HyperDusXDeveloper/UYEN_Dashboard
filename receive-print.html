@@ -76,10 +76,10 @@
                             <span
                                 style="position: absolute; right: 8px; color: #9ca3af; pointer-events: none; font-size: 13px;">📅</span>
                         </div>
-                        <button onclick="resetDateFilter()" 
-                                style="background-color: #ffffff; color: #ff4d4f; border: 1px solid #ff4d4f; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; font-family: 'Prompt', sans-serif; white-space: nowrap; box-sizing: border-box;"
-                                onmouseover="this.style.backgroundColor='#fff1f0';"
-                                onmouseout="this.style.backgroundColor='#ffffff';">
+                        <button onclick="resetDateFilter()"
+                            style="background-color: #ffffff; color: #ff4d4f; border: 1px solid #ff4d4f; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; font-family: 'Prompt', sans-serif; white-space: nowrap; box-sizing: border-box;"
+                            onmouseover="this.style.backgroundColor='#fff1f0';"
+                            onmouseout="this.style.backgroundColor='#ffffff';">
                             <span style="font-size: 13px; font-weight: bold; line-height: 1;">✕</span> รีเซ็ตปฏิทิน
                         </button>
                     </div>
@@ -89,7 +89,7 @@
 
         <div class="jobs-container" id="jobs-list">
             <!-- Job Card 1 -->
-            <div class="job-card">
+            <div class="job-card job-online">
                 <div class="job-header">
                     <div class="job-header-item">
                         <span class="job-header-label">คิว</span>
@@ -98,27 +98,28 @@
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">สถานะงานพิมพ์</span>
-                        <span class="badge-status bg-orange">กำลังดำเนินการ</span>
+                        <span class="badge-status bg-blue" id="status-Q_001">รอพิมพ์เอกสาร</span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">รวมเงิน</span>
-                        <span class="job-header-value">57 บาท</span>
+                        <span class="job-header-value">23บาท</span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันที่สั่งพิมพ์</span>
-                        <span class="job-header-value">15 - 03 - 2026</span>
+                        <span class="job-header-value">20 - 03 - 2026</span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                        <span class="job-header-value">17 - 03 - 2026 / <span style="color: #460BF9;">09 :
-                                90</span></span>
+                        <span class="job-header-value">21 - 03 - 2026 / <span style="color: #460BF9;">09 :
+                                00 </span></span>
                     </div>
 
                     <div class="job-header-right">
-                        <button class="btn-confirm-success">ยืนยันพิมพ์งานสำเร็จ</button>
+                        <button class="btn-confirm-success" id="btn-confirm-Q_001"
+                            onclick="confirmSuccess('Q_001')">ยืนยันพิมพ์งานสำเร็จ</button>
                     </div>
                 </div>
                 <table class="job-table">
@@ -141,11 +142,12 @@
                             <td>A4</td>
                             <td>ร้อยปอนด์</td>
                             <td>1</td>
-                            <td>17</td>
-                            <td><button class="btn-download">⬇ ดาวโหลดไฟล์</button></td>
-                            <td class="text-color-red" style="font-size: 11px;"
-                                data-fulltext="ปริ้นแค่ครึ่งหน้าเถอะจ้าาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาา">
-                                <span class="remark-content">ปริ้นแค่ครึ่งหน้าเถอะจ้าาา</span>
+                            <td>23</td>
+                            <td><button class="btn-download downloaded" id="btn-Q_001"
+                                    onclick="initiateDownload('Q_001', 'item/receiveprint1.png')">⬇ ดาวโหลดไฟล์</button>
+                            </td>
+                            <td class="text-color-red" style="font-size: 11px;" data-fulltext="ปริ้นงานสี">
+                                <span class="remark-content">ปริ้นงานสี</span>
                             </td>
                         </tr>
                     </tbody>
@@ -153,7 +155,7 @@
             </div>
 
             <!-- Job Card 2 -->
-            <div class="job-card">
+            <div class="job-card job-online">
                 <div class="job-header">
                     <div class="job-header-item">
                         <span class="job-header-label">คิว</span>
@@ -162,27 +164,28 @@
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">สถานะงานพิมพ์</span>
-                        <span class="badge-status bg-blue">รอพิมพ์เอกสาร</span>
+                        <span class="badge-status bg-blue" id="status-Q_002">รอพิมพ์เอกสาร</span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">รวมเงิน</span>
-                        <span class="job-header-value">57 บาท</span>
+                        <span class="job-header-value">18 บาท </span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันที่สั่งพิมพ์</span>
-                        <span class="job-header-value">15 - 03 - 2026</span>
+                        <span class="job-header-value">20 - 03 - 2026</span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                        <span class="job-header-value">17 - 03 - 2026 / <span style="color: #460BF9;">09 :
-                                90</span></span>
+                        <span class="job-header-value">21 - 03 - 2026 / <span style="color: #460BF9;">09 :
+                                10</span></span>
                     </div>
 
                     <div class="job-header-right">
-                        <button class="btn-confirm-success">ยืนยันพิมพ์งานสำเร็จ</button>
+                        <button class="btn-confirm-success" id="btn-confirm-Q_002"
+                            onclick="confirmSuccess('Q_002')">ยืนยันพิมพ์งานสำเร็จ</button>
                     </div>
                 </div>
                 <table class="job-table">
@@ -204,10 +207,12 @@
                             <td>Sad_Project2.PDF</td>
                             <td>ขาว - ดำ</td>
                             <td>A4</td>
-                            <td>ร้อยปอนด์</td>
-                            <td>1</td>
-                            <td>17</td>
-                            <td><button class="btn-download downloaded">⬇ ดาวโหลดไฟล์</button></td>
+                            <td>ธรรมดา</td>
+                            <td>2</td>
+                            <td>9</td>
+                            <td><button class="btn-download downloaded" id="btn-Q_002"
+                                    onclick="initiateDownload('Q_002', 'item/receiveprint2.png')">⬇ ดาวโหลดไฟล์</button>
+                            </td>
                             <td class="text-color-red" data-fulltext="-">
                                 <span class="remark-content">-</span>
                             </td>
@@ -217,7 +222,7 @@
             </div>
 
             <!-- Job Card 3 -->
-            <div class="job-card">
+            <div class="job-card job-online">
                 <div class="job-header">
                     <div class="job-header-item">
                         <span class="job-header-label">คิว</span>
@@ -226,27 +231,28 @@
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">สถานะงานพิมพ์</span>
-                        <span class="badge-status bg-green">ดำเนินการสำเร็จ</span>
+                        <span class="badge-status bg-green" id="status-Q_003">ดำเนินการสำเร็จ</span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">รวมเงิน</span>
-                        <span class="job-header-value">57 บาท</span>
+                        <span class="job-header-value">12 บาท</span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันที่สั่งพิมพ์</span>
-                        <span class="job-header-value">15 - 03 - 2026</span>
+                        <span class="job-header-value">20 - 03 - 2026</span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                        <span class="job-header-value">17 - 03 - 2026 / <span style="color: #460BF9;">09 :
-                                90</span></span>
+                        <span class="job-header-value">21 - 03 - 2026 / <span style="color: #460BF9;">09 :
+                                20</span></span>
                     </div>
 
                     <div class="job-header-right">
-                        <button class="btn-confirm-success" disabled>ยืนยันพิมพ์งานสำเร็จ</button>
+                        <button class="btn-confirm-success" id="btn-confirm-Q_003"
+                            disabled>ยืนยันพิมพ์งานสำเร็จ</button>
                     </div>
                 </div>
                 <table class="job-table">
@@ -267,10 +273,12 @@
                             <td>Sad_Project2.PDF</td>
                             <td><span class="text-color-green">สี</span></td>
                             <td>A4</td>
-                            <td>ร้อยปอนด์</td>
+                            <td>ธรรมดา</td>
                             <td>1</td>
-                            <td>17</td>
-                            <td><button class="btn-download">⬇ ดาวโหลดไฟล์</button></td>
+                            <td>12</td>
+                            <td><button class="btn-download finished" id="btn-Q_003"
+                                    onclick="initiateDownload('Q_003', 'item/receiveprint3.png')">⬇ ดาวโหลดไฟล์</button>
+                            </td>
                             <td class="text-color-red" data-fulltext="-">
                                 <span class="remark-content">-</span>
                             </td>
@@ -279,12 +287,462 @@
                 </table>
             </div>
         </div>
+
+        <!-- Walk-in Jobs -->
+        <!-- Job Card 4 -->
+        <div class="job-card job-walkin">
+            <div class="job-header">
+                <div class="job-header-item">
+                    <span class="job-header-label">คิว</span>
+                    <span class="job-header-value">Q_004</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">สถานะงานพิมพ์</span>
+                    <span class="badge-status bg-blue" id="status-Q_004">รอพิมพ์เอกสาร</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">รวมเงิน</span>
+                    <span class="job-header-value">85 บาท</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันที่สั่งพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">10 : 30</span></span>
+                </div>
+                <div class="job-header-right">
+                    <button class="btn-confirm-success" id="btn-confirm-Q_004"
+                        onclick="confirmSuccess('Q_004')">ยืนยันพิมพ์งานสำเร็จ</button>
+                </div>
+            </div>
+            <table class="job-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">ชื่อไฟล์</th>
+                        <th style="width: 15%">ประเภทงานพิมพ์</th>
+                        <th style="width: 10%">ขนาดเอกสาร</th>
+                        <th style="width: 15%">ประเภทเอกสาร</th>
+                        <th style="width: 10%">จำนวน(ชุด)</th>
+                        <th style="width: 10%">ราคา</th>
+                        <th style="width: 15%">ไฟล์เอกสาร</th>
+                        <th style="width: 10%">หมายเหตุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Walkin_Report.PDF</td>
+                        <td><span class="text-color-green">สี</span></td>
+                        <td>A4</td>
+                        <td>อาตมัน</td>
+                        <td>2</td>
+                        <td>42</td>
+                        <td><button class="btn-download downloaded" id="btn-Q_004"
+                                onclick="initiateDownload('Q_004', 'item/receiveprint3.png')">⬇ ดาวโหลดไฟล์</button>
+                        </td>
+                        <td class="text-color-red" data-fulltext="-">
+                            <span class="remark-content">-</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Job Card 5 -->
+        <div class="job-card job-walkin">
+            <div class="job-header">
+                <div class="job-header-item">
+                    <span class="job-header-label">คิว</span>
+                    <span class="job-header-value">Q_005</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">สถานะงานพิมพ์</span>
+                    <span class="badge-status bg-orange" id="status-Q_005">กำลังดำเนินการ</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">รวมเงิน</span>
+                    <span class="job-header-value">34 บาท</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันที่สั่งพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">11 : 00</span></span>
+                </div>
+                <div class="job-header-right">
+                    <button class="btn-confirm-success" id="btn-confirm-Q_005"
+                        onclick="confirmSuccess('Q_005')">ยืนยันพิมพ์งานสำเร็จ</button>
+                </div>
+            </div>
+            <table class="job-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">ชื่อไฟล์</th>
+                        <th style="width: 15%">ประเภทงานพิมพ์</th>
+                        <th style="width: 10%">ขนาดเอกสาร</th>
+                        <th style="width: 15%">ประเภทเอกสาร</th>
+                        <th style="width: 10%">จำนวน(ชุด)</th>
+                        <th style="width: 10%">ราคา</th>
+                        <th style="width: 15%">ไฟล์เอกสาร</th>
+                        <th style="width: 10%">หมายเหตุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Exercise_Chapter1.PDF</td>
+                        <td>สี</td>
+                        <td>A4</td>
+                        <td>กระดาษมันเงา</td>
+                        <td>2</td>
+                        <td>56</td>
+                        <td><button class="btn-download" id="btn-Q_005"
+                                onclick="initiateDownload('Q_005', 'item/receiveprint3.png')">⬇ ดาวโหลดไฟล์</button>
+                        </td>
+                        <td class="text-color-red" data-fulltext="-">
+                            <span class="remark-content">-</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Job Card 6 -->
+        <div class="job-card job-walkin">
+            <div class="job-header">
+                <div class="job-header-item">
+                    <span class="job-header-label">คิว</span>
+                    <span class="job-header-value">Q_006</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">สถานะงานพิมพ์</span>
+                    <span class="badge-status bg-blue" id="status-Q_006">รอพิมพ์เอกสาร</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">รวมเงิน</span>
+                    <span class="job-header-value">120 บาท</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันที่สั่งพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">11 : 15</span></span>
+                </div>
+                <div class="job-header-right">
+                    <button class="btn-confirm-success" id="btn-confirm-Q_006"
+                        onclick="confirmSuccess('Q_006')">ยืนยันพิมพ์งานสำเร็จ</button>
+                </div>
+            </div>
+            <table class="job-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">ชื่อไฟล์</th>
+                        <th style="width: 15%">ประเภทงานพิมพ์</th>
+                        <th style="width: 10%">ขนาดเอกสาร</th>
+                        <th style="width: 15%">ประเภทเอกสาร</th>
+                        <th style="width: 10%">จำนวน(ชุด)</th>
+                        <th style="width: 10%">ราคา</th>
+                        <th style="width: 15%">ไฟล์เอกสาร</th>
+                        <th style="width: 10%">หมายเหตุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Project_Proposal.PDF</td>
+                        <td><span class="text-color-green">สี</span></td>
+                        <td>A4</td>
+                        <td>ร้อยปอนด์</td>
+                        <td>2</td>
+                        <td>60</td>
+                        <td><button class="btn-download downloaded" id="btn-Q_006"
+                                onclick="initiateDownload('Q_006', 'item/receiveprint3.png')">⬇ ดาวโหลดไฟล์</button>
+                        </td>
+                        <td class="text-color-red" data-fulltext="-">
+                            <span class="remark-content">-</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Job Card 7 -->
+        <div class="job-card job-walkin">
+            <div class="job-header">
+                <div class="job-header-item">
+                    <span class="job-header-label">คิว</span>
+                    <span class="job-header-value">Q_007</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">สถานะงานพิมพ์</span>
+                    <span class="badge-status bg-green" id="status-Q_007">ดำเนินการสำเร็จ</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">รวมเงิน</span>
+                    <span class="job-header-value">45 บาท</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันที่สั่งพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">11 : 45</span></span>
+                </div>
+                <div class="job-header-right">
+                    <button class="btn-confirm-success" id="btn-confirm-Q_007" disabled>ยืนยันพิมพ์งานสำเร็จ</button>
+                </div>
+            </div>
+            <table class="job-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">ชื่อไฟล์</th>
+                        <th style="width: 15%">ประเภทงานพิมพ์</th>
+                        <th style="width: 10%">ขนาดเอกสาร</th>
+                        <th style="width: 15%">ประเภทเอกสาร</th>
+                        <th style="width: 10%">จำนวน(ชุด)</th>
+                        <th style="width: 10%">ราคา</th>
+                        <th style="width: 15%">ไฟล์เอกสาร</th>
+                        <th style="width: 10%">หมายเหตุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Receipt_001.PDF</td>
+                        <td>ขาว - ดำ</td>
+                        <td>A4</td>
+                        <td>กระดาษขาว</td>
+                        <td>3</td>
+                        <td>15</td>
+                        <td><button class="btn-download finished" id="btn-Q_007"
+                                onclick="initiateDownload('Q_007', 'item/receiveprint3.png')">⬇ ดาวโหลดไฟล์</button>
+                        </td>
+                        <td class="text-color-red" data-fulltext="-">
+                            <span class="remark-content">-</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Job Card 8 -->
+        <div class="job-card job-walkin">
+            <div class="job-header">
+                <div class="job-header-item">
+                    <span class="job-header-label">คิว</span>
+                    <span class="job-header-value">Q_008</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">สถานะงานพิมพ์</span>
+                    <span class="badge-status bg-blue" id="status-Q_008">รอพิมพ์เอกสาร</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">รวมเงิน</span>
+                    <span class="job-header-value">55 บาท</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันที่สั่งพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">12 : 00</span></span>
+                </div>
+                <div class="job-header-right">
+                    <button class="btn-confirm-success" id="btn-confirm-Q_008"
+                        onclick="confirmSuccess('Q_008')">ยืนยันพิมพ์งานสำเร็จ</button>
+                </div>
+            </div>
+            <table class="job-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">ชื่อไฟล์</th>
+                        <th style="width: 15%">ประเภทงานพิมพ์</th>
+                        <th style="width: 10%">ขนาดเอกสาร</th>
+                        <th style="width: 15%">ประเภทเอกสาร</th>
+                        <th style="width: 10%">จำนวน(ชุด)</th>
+                        <th style="width: 10%">ราคา</th>
+                        <th style="width: 15%">ไฟล์เอกสาร</th>
+                        <th style="width: 10%">หมายเหตุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Handout_Final.PDF</td>
+                        <td>ขาว - ดำ</td>
+                        <td>A4</td>
+                        <td>ร้อยปอนด์</td>
+                        <td>1</td>
+                        <td>55</td>
+                        <td><button class="btn-download downloaded" id="btn-Q_008"
+                                onclick="initiateDownload('Q_008', 'item/receiveprint3.png')">⬇ ดาวโหลดไฟล์</button>
+                        </td>
+                        <td class="text-color-red" data-fulltext="-">
+                            <span class="remark-content">-</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Job Card 9 -->
+        <div class="job-card job-walkin">
+            <div class="job-header">
+                <div class="job-header-item">
+                    <span class="job-header-label">คิว</span>
+                    <span class="job-header-value">Q_009</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">สถานะงานพิมพ์</span>
+                    <span class="badge-status bg-blue" id="status-Q_009">รอพิมพ์เอกสาร</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">รวมเงิน</span>
+                    <span class="job-header-value">20 บาท</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันที่สั่งพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">12 : 30</span></span>
+                </div>
+                <div class="job-header-right">
+                    <button class="btn-confirm-success" id="btn-confirm-Q_009"
+                        onclick="confirmSuccess('Q_009')">ยืนยันพิมพ์งานสำเร็จ</button>
+                </div>
+            </div>
+            <table class="job-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">ชื่อไฟล์</th>
+                        <th style="width: 15%">ประเภทงานพิมพ์</th>
+                        <th style="width: 10%">ขนาดเอกสาร</th>
+                        <th style="width: 15%">ประเภทเอกสาร</th>
+                        <th style="width: 10%">จำนวน(ชุด)</th>
+                        <th style="width: 10%">ราคา</th>
+                        <th style="width: 15%">ไฟล์เอกสาร</th>
+                        <th style="width: 10%">หมายเหตุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Copy_IdCard.PDF</td>
+                        <td>ขาว - ดำ</td>
+                        <td>A4</td>
+                        <td>กระดาษขาว</td>
+                        <td>4</td>
+                        <td>20</td>
+                        <td><button class="btn-download downloaded" id="btn-Q_009"
+                                onclick="initiateDownload('Q_009', 'item/receiveprint3.png')">⬇ ดาวโหลดไฟล์</button>
+                        </td>
+                        <td class="text-color-red" data-fulltext="-">
+                            <span class="remark-content">-</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Job Card 10 -->
+        <div class="job-card job-walkin">
+            <div class="job-header">
+                <div class="job-header-item">
+                    <span class="job-header-label">คิว</span>
+                    <span class="job-header-value">Q_010</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">สถานะงานพิมพ์</span>
+                    <span class="badge-status bg-orange" id="status-Q_010">กำลังดำเนินการ</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">รวมเงิน</span>
+                    <span class="job-header-value">200 บาท</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันที่สั่งพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026</span>
+                </div>
+                <div class="job-header-divider"></div>
+                <div class="job-header-item">
+                    <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">13 : 00</span></span>
+                </div>
+                <div class="job-header-right">
+                    <button class="btn-confirm-success" id="btn-confirm-Q_010"
+                        onclick="confirmSuccess('Q_010')">ยืนยันพิมพ์งานสำเร็จ</button>
+                </div>
+            </div>
+            <table class="job-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">ชื่อไฟล์</th>
+                        <th style="width: 15%">ประเภทงานพิมพ์</th>
+                        <th style="width: 10%">ขนาดเอกสาร</th>
+                        <th style="width: 15%">ประเภทเอกสาร</th>
+                        <th style="width: 10%">จำนวน(ชุด)</th>
+                        <th style="width: 10%">ราคา</th>
+                        <th style="width: 15%">ไฟล์เอกสาร</th>
+                        <th style="width: 10%">หมายเหตุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>thesis_final_v2.PDF</td>
+                        <td><span class="text-color-green">สี</span></td>
+                        <td>A4</td>
+                        <td>ร้อยปอนด์</td>
+                        <td>1</td>
+                        <td>200</td>
+                        <td><button class="btn-download" id="btn-Q_010"
+                                onclick="initiateDownload('Q_010', 'item/receiveprint3.png')">⬇ ดาวโหลดไฟล์</button>
+                        </td>
+                        <td class="text-color-red" data-fulltext="-">
+                            <span class="remark-content">-</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
     </main>
 
     <script>
         function setTheme(theme) {
             document.body.className = '';
             document.body.classList.add('theme-' + theme);
+            filterJobs(); // Re-filter when theme changes
         }
 
         function resetDateFilter() {
@@ -297,11 +755,19 @@
         function filterJobs() {
             const statusFilter = document.getElementById('statusFilter') ? document.getElementById('statusFilter').value : 'ทั้งหมด';
             const dateFilter = document.getElementById('dateFilter') ? document.getElementById('dateFilter').value : '';
+            const currentTheme = document.body.classList.contains('theme-walkin') ? 'walkin' : 'online';
 
             const jobCards = document.querySelectorAll('.job-card');
 
             jobCards.forEach(card => {
                 let showCard = true;
+
+                // 0. Theme Match (Strict Separation)
+                if (currentTheme === 'online' && card.classList.contains('job-walkin')) {
+                    showCard = false;
+                } else if (currentTheme === 'walkin' && card.classList.contains('job-online')) {
+                    showCard = false;
+                }
 
                 // 1. Status Match
                 if (showCard && statusFilter !== 'ทั้งหมด') {
@@ -333,6 +799,53 @@
             });
             checkRemarks();
         }
+
+        function initiateDownload(queueId, filePath) {
+            // 1. Trigger Download
+            const link = document.createElement('a');
+            link.href = filePath;
+            link.download = filePath.split('/').pop();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // 2. Update Status Badge
+            const statusBadge = document.getElementById('status-' + queueId);
+            if (statusBadge) {
+                statusBadge.textContent = 'กำลังดำเนินการ';
+                statusBadge.classList.remove('bg-blue');
+                statusBadge.classList.add('bg-orange');
+            }
+
+            // 3. Update Button Style (Green -> Gray)
+            const btn = document.getElementById('btn-' + queueId);
+            if (btn) {
+                btn.classList.remove('downloaded');
+            }
+        }
+
+        function confirmSuccess(queueId) {
+            // 1. Update Status Badge
+            const statusBadge = document.getElementById('status-' + queueId);
+            if (statusBadge) {
+                statusBadge.textContent = 'ดำเนินการสำเร็จ';
+                statusBadge.classList.remove('bg-blue', 'bg-orange');
+                statusBadge.classList.add('bg-green');
+            }
+
+            // 2. Disable Download Button (Turn Red)
+            const downloadBtn = document.getElementById('btn-' + queueId);
+            if (downloadBtn) {
+                downloadBtn.classList.remove('downloaded');
+                downloadBtn.classList.add('finished');
+            }
+
+            // 3. Disable Confirm Button
+            const confirmBtn = document.getElementById('btn-confirm-' + queueId);
+            if (confirmBtn) {
+                confirmBtn.disabled = true;
+            }
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/th.js"></script>
@@ -345,6 +858,7 @@
                     filterJobs();
                 }
             });
+            filterJobs(); // Initial filter on load
             checkRemarks();
         });
 

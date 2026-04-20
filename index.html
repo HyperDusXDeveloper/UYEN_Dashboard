@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn-primary" onclick="window.location.href='receive-print.html'">LOGIN</button>
+                <button type="button" class="btn-primary" onclick="handleLogin()">LOGIN</button>
             </form>
 
             <!-- เส้นคั่นที่ปรากฎในหน้า Login -->
@@ -52,33 +52,26 @@
         </div>
     </div>
 
-    <!-- สคริปต์สั้นๆ สำหรับระบบโชว์/ซ่อนรหัสผ่าน -->
+    <!-- utils.js: showValidationError, togglePassword, validateUsername, validatePassword -->
+    <script src="utils.js"></script>
     <script>
-        function togglePassword(inputId, el) {
-            const input = document.getElementById(inputId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                el.innerText = 'HIDE';
-            } else {
-                input.type = 'password';
-                el.innerText = 'SHOW';
-            }
-        }
+        // ─── Login Handler ────────────────────────────────────────────────────
+        function handleLogin() {
+            const userEl = document.getElementById('login-username');
+            const pwdEl  = document.getElementById('login-pwd');
+            const errors = [];
 
-        function validatePassword(input) {
-            let value = input.value.replace(/[^a-zA-Z0-9@#$%&*®™©฿€¥+\-×÷=≠≤≥_ ().,"']/g, '');
-            if (value.length > 100) {
-                value = value.substring(0, 100);
-            }
-            input.value = value;
-        }
+            if (!userEl.value.trim())
+                errors.push({ input: userEl, label: 'Username', message: 'กรุณากรอก Username' });
+            if (!pwdEl.value)
+                errors.push({ input: pwdEl,  label: 'Password', message: 'กรุณากรอก Password' });
 
-        function validateUsername(input) {
-            let value = input.value.replace(/[^a-zA-Z0-9]/g, '');
-            if (value.length > 50) {
-                value = value.substring(0, 50);
+            if (errors.length > 0) {
+                showValidationModal(errors);
+                return;
             }
-            input.value = value;
+            // ผ่าน → เข้าสู่ระบบ
+            window.location.href = 'receive-print.html';
         }
     </script>
 </body>

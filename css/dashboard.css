@@ -142,7 +142,7 @@ body {
     font-family: 'Prompt', sans-serif;
     font-size: 40px;
     font-weight: 700;
-    color: #000;
+    color: #1f2937;
 }
 
 /* Outline Green Button (Add Employee) */
@@ -605,4 +605,22 @@ body {
     .modal-body {
         padding: 20px;
     }
+}
+
+/* ─── Input Validation Error State ──────────────────────────────────────────── */
+@keyframes inputShake {
+    0%   { transform: translateX(0); }
+    20%  { transform: translateX(-5px); }
+    40%  { transform: translateX(5px); }
+    60%  { transform: translateX(-4px); }
+    80%  { transform: translateX(4px); }
+    100% { transform: translateX(0); }
+}
+
+.input-error {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+    background-color: #fff5f5 !important;
+    animation: inputShake 0.35s ease;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
 }

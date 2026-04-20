@@ -149,9 +149,7 @@
                     <div class="input-group">
                         <label>Email</label>
                         <input type="text" id="edit-email" placeholder="example@email.com" maxlength="100"
-                            autocomplete="off" required
-                            pattern="^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*$"
-                            title="รูปแบบต้องมี @ และข้อความทั้งหน้าและหลัง @ โดยห้ามมีจุดติดกันหรือจุดหน้า @"
+                            autocomplete="off"
                             oninput="validateEmail(this)">
                     </div>
                     <div class="input-group">
@@ -312,6 +310,9 @@
         </div>
     </div>
 
+    <!-- utils.js: showValidationError, isValidEmail, validateUsername, validatePassword,
+         validateEmail, formatPhoneNumber -->
+    <script src="utils.js"></script>
     <!-- Scripts for Tab and Modal functionality -->
     <script>
         // dashboard.js - Javascript State Management (React-like data handling)
@@ -458,11 +459,46 @@
         function confirmSaveUserData() {
             if (!currentUserEditId || !currentEditType) return;
 
-            let username = document.getElementById('edit-username').value;
-            if (username.length > 20) {
-                username = username.substring(0, 20) + '...';
+            const usernameEl  = document.getElementById('edit-username');
+            const passwordEl  = document.getElementById('edit-password');
+            const phoneEl     = document.getElementById('edit-phone');
+            const emailEl     = document.getElementById('edit-email');
+
+            const username = usernameEl.value.trim();
+            const password = passwordEl.value;
+            const phoneRaw = phoneEl.value.replace(/\D/g, '');
+            const email    = emailEl.value.trim();
+
+            const errors = [];
+
+            // 1. Username
+            if (username.length < 1)
+                errors.push({ input: usernameEl, label: 'Username', message: 'กรุณากรอกอย่างน้อย 1 ตัวอักษร' });
+
+            // 2. Password
+            if (password.length < 5)
+                errors.push({ input: passwordEl, label: 'Password', message: 'ต้องมีอย่างน้อย 5 ตัวอักษร' });
+            else if (password.length > 100)
+                errors.push({ input: passwordEl, label: 'Password', message: 'ยาวได้สูงสุด 100 ตัวอักษร' });
+
+            // 3. Phone (ถ้ากรอก ต้องครบ 10 หลัก)
+            if (phoneRaw.length > 0 && phoneRaw.length !== 10)
+                errors.push({ input: phoneEl,    label: 'Phone',    message: `ต้องมี 10 หลักพอดี (ปัจจุบัน ${phoneRaw.length} หลัก)` });
+
+            // 4. Email (ถ้ากรอก ต้องผ่าน isValidEmail)
+            if (email && !isValidEmail(email))
+                errors.push({ input: emailEl,    label: 'Email',    message: 'รูปแบบไม่ถูกต้อง (เช่น name@example.com)' });
+
+            if (errors.length > 0) {
+                showValidationModal(errors);
+                return;
             }
-            document.getElementById('confirm-username').innerText = username;
+
+            let displayName = username;
+            if (displayName.length > 20) {
+                displayName = displayName.substring(0, 20) + '...';
+            }
+            document.getElementById('confirm-username').innerText = displayName;
 
             document.getElementById('modal-edit').style.display = 'none';
             document.getElementById('modal-confirm-save').style.display = 'flex';
@@ -632,63 +668,6 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
-        }
-
-        function formatPhoneNumber(input) {
-            let value = input.value.replace(/\D/g, '');
-            if (value.length > 0 && value[0] !== '0') {
-                value = '';
-            }
-            if (value.length > 10) {
-                value = value.substring(0, 10);
-            }
-            let formatted = '';
-            if (value.length > 0) formatted += value.substring(0, 3);
-            if (value.length > 3) formatted += ' - ' + value.substring(3, 6);
-            if (value.length > 6) formatted += ' - ' + value.substring(6, 10);
-            input.value = formatted;
-        }
-
-        function validatePassword(input) {
-            let value = input.value.replace(/[^a-zA-Z0-9@#$%&*®™©฿€¥+\-×÷=≠≤≥_ ().,"']/g, '');
-            if (value.length > 100) {
-                value = value.substring(0, 100);
-            }
-            input.value = value;
-        }
-
-        function validateEmail(input) {
-            let value = input.value;
-
-            value = value.replace(/[^a-zA-Z0-9\.@\-_]/g, '');
-
-            // Prevent @ at the beginning
-            value = value.replace(/^@/, '');
-
-            const firstAt = value.indexOf('@');
-            if (firstAt !== -1) {
-                const beforeAt = value.substring(0, firstAt + 1);
-                const afterAt = value.substring(firstAt + 1).replace(/@/g, '');
-                value = beforeAt + afterAt;
-            }
-
-            value = value.replace(/\.{2,}/g, '.');
-            value = value.replace(/^\./, '');
-            value = value.replace(/\.@/g, '@');
-
-            if (value.length > 100) {
-                value = value.substring(0, 100);
-            }
-
-            input.value = value;
-        }
-
-        function validateUsername(input) {
-            let value = input.value.replace(/[^a-zA-Z0-9]/g, '');
-            if (value.length > 50) {
-                value = value.substring(0, 50);
-            }
-            input.value = value;
         }
 
         let activeSortStatus = '';

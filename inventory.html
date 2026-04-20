@@ -84,7 +84,7 @@
     <main class="dashboard-main">
         <!-- Header -->
         <div class="page-header" style="flex-direction: column; align-items: flex-start; margin-bottom: 25px;">
-            <h1 id="page-title" style="font-size: 32px; margin-bottom: 5px; font-weight: 800; color: #1a1a1a;">
+            <h1 id="page-title" style="font-size: 32px; margin-bottom: 5px; font-weight: 800; color: #1f2937;">
                 จัดการคลังวัสดุ</h1>
             <p style="font-size: 11px; color: #6b7280; font-weight: 500;">วัสดุ (จำนวนรายการของทั้งหมด) รายการ</p>
         </div>
@@ -153,7 +153,8 @@
                             style="text-align: left; padding-left: 30px; word-break: break-word; overflow-wrap: break-word;">
                             <span class="item-name" style="font-weight: 600; color: #111827;">A4</span> <span
                                 style="font-weight: 600; color: #4b5563;">( <span class="item-type">ธรรมดา</span>
-                                )</span></td>
+                                )</span>
+                        </td>
                         <td class="qty-remaining">22</td>
                         <td class="item-unit">รีม</td>
                         <td class="item-price">5</td>
@@ -271,8 +272,14 @@
                 <form onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 20px;">
                     <div class="input-group" style="margin: 0;">
                         <label style="font-weight: 800; color: #374151;">ชนิด วัสดุ</label>
-                        <input type="text" id="add-material-name" value="" maxlength="100"
-                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <div style="display: flex; align-items: center; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; background-color: #fff; box-sizing: border-box;">
+                            <input type="text" id="add-material-name" value="" maxlength="50" placeholder="ชื่อวัสดุ"
+                                style="border: none; outline: none; color: #0ea5e9; font-weight: 400; flex: 1; min-width: 0;">
+                            <span style="font-weight: 700; color: #4b5563; padding: 0 4px;">(</span>
+                            <input type="text" id="add-material-type" value="" maxlength="50" placeholder="ประเภท"
+                                style="border: none; outline: none; color: #0ea5e9; font-weight: 400; flex: 1; min-width: 0;">
+                            <span style="font-weight: 700; color: #4b5563; padding: 0 4px;">)</span>
+                        </div>
                     </div>
                     <div class="input-group custom-dropdown-container" style="margin: 0; position: relative;">
                         <label style="font-weight: 800; color: #374151;">หน่วย</label>
@@ -330,8 +337,14 @@
 
                     <div class="input-group" style="margin: 0;">
                         <label style="font-weight: 800; color: #374151;">ชนิด วัสดุ</label>
-                        <input type="text" id="edit-material-combined" value="A4 ( ร้อยปอนด์ )" maxlength="100"
-                            style="color: #0ea5e9; font-weight: 400; width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; box-sizing: border-box;">
+                        <div style="display: flex; align-items: center; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; background-color: #fff; box-sizing: border-box;">
+                            <input type="text" id="edit-material-name" value="" maxlength="50" placeholder="ชื่อวัสดุ"
+                                style="border: none; outline: none; color: #0ea5e9; font-weight: 400; flex: 1; min-width: 0;">
+                            <span style="font-weight: 700; color: #4b5563; padding: 0 4px;">(</span>
+                            <input type="text" id="edit-material-type" value="" maxlength="50" placeholder="ประเภท"
+                                style="border: none; outline: none; color: #0ea5e9; font-weight: 400; flex: 1; min-width: 0;">
+                            <span style="font-weight: 700; color: #4b5563; padding: 0 4px;">)</span>
+                        </div>
                     </div>
 
                     <div class="input-group custom-dropdown-container" style="margin: 0; position: relative;">
@@ -734,13 +747,10 @@
             const price = currentRowToEdit.querySelector('.item-price') ? currentRowToEdit.querySelector('.item-price').innerText.trim() : '';
             const reorder = currentRowToEdit.querySelector('.reorder-point') ? currentRowToEdit.querySelector('.reorder-point').innerText.trim() : '';
 
-            const nameField = document.getElementById('edit-material-name');
-            if (nameField) nameField.value = name;
-            const typeField = document.getElementById('edit-material-type');
-            if (typeField) typeField.value = type;
-
-            const combinedField = document.getElementById('edit-material-combined');
-            if (combinedField) combinedField.value = type ? `${name} ( ${type} )` : name;
+            const editNameField = document.getElementById('edit-material-name');
+            if (editNameField) editNameField.value = name;
+            const editTypeField = document.getElementById('edit-material-type');
+            if (editTypeField) editTypeField.value = type;
 
             const qtyField = document.getElementById('edit-material-qty');
             if (qtyField) qtyField.value = qty;
@@ -849,6 +859,7 @@
 
         function openAddMaterialModal() {
             document.getElementById('add-material-name').value = '';
+            document.getElementById('add-material-type').value = '';
             document.getElementById('add-material-unit').value = '';
             document.getElementById('add-material-price').value = '';
             const reorderField = document.getElementById('add-material-reorder');
@@ -858,24 +869,18 @@
             document.getElementById('modal-add-material').style.display = 'flex';
         }
 
+
+
         function saveNewMaterial() {
-            const combined = document.getElementById('add-material-name').value.trim();
+            const name = document.getElementById('add-material-name').value.trim();
+            const type = document.getElementById('add-material-type').value.trim();
             const unit = document.getElementById('add-material-unit').value.trim();
             const price = document.getElementById('add-material-price').value.trim();
             const reorder = document.getElementById('add-material-reorder').value.trim() || '0';
             const qty = document.getElementById('add-material-qty').value.trim() || '0';
 
-            if (!combined) {
+            if (!name) {
                 return;
-            }
-
-            let name = combined;
-            let type = '';
-
-            const match = combined.match(/^(.*?)\s*\(\s*(.*?)\s*\)$/);
-            if (match) {
-                name = match[1].trim();
-                type = match[2].trim();
             }
 
             const tbody = document.querySelector('.inventory-table tbody');
@@ -914,20 +919,12 @@
 
         function saveMaterialData() {
             if (currentRowToEdit) {
-                const combined = document.getElementById('edit-material-combined').value.trim();
+                const name = document.getElementById('edit-material-name').value.trim();
+                const type = document.getElementById('edit-material-type').value.trim();
                 const unit = document.getElementById('edit-material-unit').value.trim();
                 const price = document.getElementById('edit-material-price').value.trim();
                 const reorder = document.getElementById('edit-material-reorder').value.trim() || '0';
                 const qty = document.getElementById('edit-material-qty').value.trim() || '0';
-
-                let name = combined;
-                let type = '';
-
-                const match = combined.match(/^(.*?)\s*\(\s*(.*?)\s*\)$/);
-                if (match) {
-                    name = match[1].trim();
-                    type = match[2].trim();
-                }
 
                 const nameSpan = currentRowToEdit.querySelector('.item-name');
                 if (nameSpan) nameSpan.innerText = name;
@@ -946,7 +943,7 @@
 
                 const priceTd = currentRowToEdit.querySelector('.item-price');
                 if (priceTd) priceTd.innerText = price;
-                
+
                 const reorderTd = currentRowToEdit.querySelector('.reorder-point');
                 if (reorderTd) reorderTd.innerText = reorder;
 
