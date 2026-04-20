@@ -12,47 +12,19 @@
 </head>
 
 <body class="theme-online"> <!-- Start with online theme by default -->
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-left">
-            <div class="nav-logo">
-                <img src="Item/Group%20466.png" alt="logo" style="height: 40px;"
-                    onerror="this.src='https://cdn-icons-png.flaticon.com/512/3214/3214341.png'">
-            </div>
-            <ul class="nav-links">
-                <li class="active"><a href="receive-print.html">รับงานพิมพ์</a></li>
-                <li><a href="dashboard.html">จัดการผู้ใช้</a></li>
-                <li><a href="inventory.html">จัดการคลัง</a></li>
-                <li><a href="withdraw.html">เบิกวัสดุ</a></li>
-                <li><a href="receive-material.html">รับวัสดุ</a></li>
-
-                <li><a href="report.html">รายงานข้อมูล</a></li>
-            </ul>
-        </div>
-        <div class="nav-right" style="display: flex; align-items: center; gap: 12px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="username" style="margin: 0; font-weight: 500;">User_Genrate</span>
-                <span class="role-badge"
-                    style="background-color: #6236FF; color: white; padding: 4px 12px; border-radius: 8px; font-size: 14px; font-weight: 600;">Employee</span>
-            </div>
-            <div style="width: 1px; height: 28px; background-color: #ADADAD;"></div>
-            <button class="btn-logout" onclick="window.location.href='index.html'">ออกจากระบบ</button>
-        </div>
-    </nav>
+    <div id="navbar-placeholder"></div>
 
     <!-- Main Content -->
     <main class="dashboard-main receive-print-main">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <div class="flex-between flex-middle-start mb-20">
             <!-- Left: Title + Toggle -->
-            <div class="page-header" style="margin-bottom: 0;">
+            <div class="page-header mt-0">
                 <h1 class="page-title">รับงานพิมพ์</h1>
                 <div class="toggle-group">
                     <button class="btn-toggle online" onclick="setTheme('online')">Online</button>
                     <button class="btn-toggle walkin" onclick="setTheme('walkin')">Walk In</button>
                 </div>
             </div>
-
-
         </div>
 
         <div class="filters-row">
@@ -69,18 +41,13 @@
 
                 <div class="filter-group">
                     <label>วันที่สั่งพิมพ์ :</label>
-                    <div style="display: inline-flex; align-items: stretch; gap: 8px;">
-                        <div style="position: relative; display: inline-flex; align-items: center;">
-                            <input type="text" id="dateFilter" class="filter-input" placeholder="วัน - เดือน - ปี"
-                                style="padding-right: 28px; background-color: #fff; cursor: pointer; box-sizing: border-box;">
-                            <span
-                                style="position: absolute; right: 8px; color: #9ca3af; pointer-events: none; font-size: 13px;">📅</span>
+                    <div class="inline-flex-stretch gap-8">
+                        <div class="relative inline-flex-middle">
+                            <input type="text" id="dateFilter" class="filter-input pr-28 bg-white cursor-pointer box-border" placeholder="วัน - เดือน - ปี">
+                            <span class="absolute right-8 text-gray-muted pointer-none f-13">📅</span>
                         </div>
-                        <button onclick="resetDateFilter()"
-                            style="background-color: #ffffff; color: #ff4d4f; border: 1px solid #ff4d4f; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; font-family: 'Prompt', sans-serif; white-space: nowrap; box-sizing: border-box;"
-                            onmouseover="this.style.backgroundColor='#fff1f0';"
-                            onmouseout="this.style.backgroundColor='#ffffff';">
-                            <span style="font-size: 13px; font-weight: bold; line-height: 1;">✕</span> รีเซ็ตปฏิทิน
+                        <button onclick="resetDateFilter()" class="btn-reset-outline">
+                            <span class="f-13 fw-bold lh-1">✕</span> รีเซ็ตปฏิทิน
                         </button>
                     </div>
                 </div>
@@ -113,7 +80,7 @@
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                        <span class="job-header-value">21 - 03 - 2026 / <span style="color: #460BF9;">09 :
+                        <span class="job-header-value">21 - 03 - 2026 / <span class="text-purple-accent">09 :
                                 00 </span></span>
                     </div>
 
@@ -125,14 +92,14 @@
                 <table class="job-table">
                     <thead>
                         <tr>
-                            <th style="width: 15%">ชื่อไฟล์</th>
-                            <th style="width: 15%">ประเภทงานพิมพ์</th>
-                            <th style="width: 10%">ขนาดเอกสาร</th>
-                            <th style="width: 15%">ประเภทเอกสาร</th>
-                            <th style="width: 10%">จำนวน(ชุด)</th>
-                            <th style="width: 10%">ราคา</th>
-                            <th style="width: 15%">ไฟล์เอกสาร</th>
-                            <th style="width: 10%">หมายเหตุ</th>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,7 +113,7 @@
                             <td><button class="btn-download downloaded" id="btn-Q_001"
                                     onclick="initiateDownload('Q_001', 'item/receiveprint1.png')">⬇ ดาวโหลดไฟล์</button>
                             </td>
-                            <td class="text-color-red" style="font-size: 11px;" data-fulltext="ปริ้นงานสี">
+                            <td class="text-color-red f-11" data-fulltext="ปริ้นงานสี">
                                 <span class="remark-content">ปริ้นงานสี</span>
                             </td>
                         </tr>
@@ -179,7 +146,7 @@
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                        <span class="job-header-value">21 - 03 - 2026 / <span style="color: #460BF9;">09 :
+                        <span class="job-header-value">21 - 03 - 2026 / <span class="text-purple-accent">09 :
                                 10</span></span>
                     </div>
 
@@ -190,16 +157,15 @@
                 </div>
                 <table class="job-table">
                     <thead>
-                        <!-- omitted to match design, design has it but we should probably put headers since they are in the image -->
                         <tr>
-                            <th style="width: 15%">ชื่อไฟล์</th>
-                            <th style="width: 15%">ประเภทงานพิมพ์</th>
-                            <th style="width: 10%">ขนาดเอกสาร</th>
-                            <th style="width: 15%">ประเภทเอกสาร</th>
-                            <th style="width: 10%">จำนวน(ชุด)</th>
-                            <th style="width: 10%">ราคา</th>
-                            <th style="width: 15%">ไฟล์เอกสาร</th>
-                            <th style="width: 10%">หมายเหตุ</th>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -246,7 +212,7 @@
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                        <span class="job-header-value">21 - 03 - 2026 / <span style="color: #460BF9;">09 :
+                        <span class="job-header-value">21 - 03 - 2026 / <span class="text-purple-accent">09 :
                                 20</span></span>
                     </div>
 
@@ -258,14 +224,14 @@
                 <table class="job-table">
                     <thead>
                         <tr>
-                            <th style="width: 15%">ชื่อไฟล์</th>
-                            <th style="width: 15%">ประเภทงานพิมพ์</th>
-                            <th style="width: 10%">ขนาดเอกสาร</th>
-                            <th style="width: 15%">ประเภทเอกสาร</th>
-                            <th style="width: 10%">จำนวน(ชุด)</th>
-                            <th style="width: 10%">ราคา</th>
-                            <th style="width: 15%">ไฟล์เอกสาร</th>
-                            <th style="width: 10%">หมายเหตุ</th>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -314,7 +280,7 @@
                 <div class="job-header-divider"></div>
                 <div class="job-header-item">
                     <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">10 : 30</span></span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span class="text-purple-accent">10 : 30</span></span>
                 </div>
                 <div class="job-header-right">
                     <button class="btn-confirm-success" id="btn-confirm-Q_004"
@@ -322,18 +288,18 @@
                 </div>
             </div>
             <table class="job-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%">ชื่อไฟล์</th>
-                        <th style="width: 15%">ประเภทงานพิมพ์</th>
-                        <th style="width: 10%">ขนาดเอกสาร</th>
-                        <th style="width: 15%">ประเภทเอกสาร</th>
-                        <th style="width: 10%">จำนวน(ชุด)</th>
-                        <th style="width: 10%">ราคา</th>
-                        <th style="width: 15%">ไฟล์เอกสาร</th>
-                        <th style="width: 10%">หมายเหตุ</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
+                        </tr>
+                    </thead>
                 <tbody>
                     <tr>
                         <td>Walkin_Report.PDF</td>
@@ -378,7 +344,7 @@
                 <div class="job-header-divider"></div>
                 <div class="job-header-item">
                     <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">11 : 00</span></span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span class="text-purple-accent">11 : 00</span></span>
                 </div>
                 <div class="job-header-right">
                     <button class="btn-confirm-success" id="btn-confirm-Q_005"
@@ -386,18 +352,18 @@
                 </div>
             </div>
             <table class="job-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%">ชื่อไฟล์</th>
-                        <th style="width: 15%">ประเภทงานพิมพ์</th>
-                        <th style="width: 10%">ขนาดเอกสาร</th>
-                        <th style="width: 15%">ประเภทเอกสาร</th>
-                        <th style="width: 10%">จำนวน(ชุด)</th>
-                        <th style="width: 10%">ราคา</th>
-                        <th style="width: 15%">ไฟล์เอกสาร</th>
-                        <th style="width: 10%">หมายเหตุ</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
+                        </tr>
+                    </thead>
                 <tbody>
                     <tr>
                         <td>Exercise_Chapter1.PDF</td>
@@ -442,7 +408,7 @@
                 <div class="job-header-divider"></div>
                 <div class="job-header-item">
                     <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">11 : 15</span></span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span class="text-purple-accent">11 : 15</span></span>
                 </div>
                 <div class="job-header-right">
                     <button class="btn-confirm-success" id="btn-confirm-Q_006"
@@ -450,18 +416,18 @@
                 </div>
             </div>
             <table class="job-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%">ชื่อไฟล์</th>
-                        <th style="width: 15%">ประเภทงานพิมพ์</th>
-                        <th style="width: 10%">ขนาดเอกสาร</th>
-                        <th style="width: 15%">ประเภทเอกสาร</th>
-                        <th style="width: 10%">จำนวน(ชุด)</th>
-                        <th style="width: 10%">ราคา</th>
-                        <th style="width: 15%">ไฟล์เอกสาร</th>
-                        <th style="width: 10%">หมายเหตุ</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
+                        </tr>
+                    </thead>
                 <tbody>
                     <tr>
                         <td>Project_Proposal.PDF</td>
@@ -506,25 +472,25 @@
                 <div class="job-header-divider"></div>
                 <div class="job-header-item">
                     <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">11 : 45</span></span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span class="text-purple-accent">11 : 45</span></span>
                 </div>
                 <div class="job-header-right">
                     <button class="btn-confirm-success" id="btn-confirm-Q_007" disabled>ยืนยันพิมพ์งานสำเร็จ</button>
                 </div>
             </div>
             <table class="job-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%">ชื่อไฟล์</th>
-                        <th style="width: 15%">ประเภทงานพิมพ์</th>
-                        <th style="width: 10%">ขนาดเอกสาร</th>
-                        <th style="width: 15%">ประเภทเอกสาร</th>
-                        <th style="width: 10%">จำนวน(ชุด)</th>
-                        <th style="width: 10%">ราคา</th>
-                        <th style="width: 15%">ไฟล์เอกสาร</th>
-                        <th style="width: 10%">หมายเหตุ</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
+                        </tr>
+                    </thead>
                 <tbody>
                     <tr>
                         <td>Receipt_001.PDF</td>
@@ -569,7 +535,7 @@
                 <div class="job-header-divider"></div>
                 <div class="job-header-item">
                     <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">12 : 00</span></span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span class="text-purple-accent">12 : 00</span></span>
                 </div>
                 <div class="job-header-right">
                     <button class="btn-confirm-success" id="btn-confirm-Q_008"
@@ -577,18 +543,18 @@
                 </div>
             </div>
             <table class="job-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%">ชื่อไฟล์</th>
-                        <th style="width: 15%">ประเภทงานพิมพ์</th>
-                        <th style="width: 10%">ขนาดเอกสาร</th>
-                        <th style="width: 15%">ประเภทเอกสาร</th>
-                        <th style="width: 10%">จำนวน(ชุด)</th>
-                        <th style="width: 10%">ราคา</th>
-                        <th style="width: 15%">ไฟล์เอกสาร</th>
-                        <th style="width: 10%">หมายเหตุ</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
+                        </tr>
+                    </thead>
                 <tbody>
                     <tr>
                         <td>Handout_Final.PDF</td>
@@ -633,7 +599,7 @@
                 <div class="job-header-divider"></div>
                 <div class="job-header-item">
                     <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">12 : 30</span></span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span class="text-purple-accent">12 : 30</span></span>
                 </div>
                 <div class="job-header-right">
                     <button class="btn-confirm-success" id="btn-confirm-Q_009"
@@ -641,18 +607,18 @@
                 </div>
             </div>
             <table class="job-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%">ชื่อไฟล์</th>
-                        <th style="width: 15%">ประเภทงานพิมพ์</th>
-                        <th style="width: 10%">ขนาดเอกสาร</th>
-                        <th style="width: 15%">ประเภทเอกสาร</th>
-                        <th style="width: 10%">จำนวน(ชุด)</th>
-                        <th style="width: 10%">ราคา</th>
-                        <th style="width: 15%">ไฟล์เอกสาร</th>
-                        <th style="width: 10%">หมายเหตุ</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
+                        </tr>
+                    </thead>
                 <tbody>
                     <tr>
                         <td>Copy_IdCard.PDF</td>
@@ -697,7 +663,7 @@
                 <div class="job-header-divider"></div>
                 <div class="job-header-item">
                     <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                    <span class="job-header-value">21 - 04 - 2026 / <span style="color: #460BF9;">13 : 00</span></span>
+                    <span class="job-header-value">21 - 04 - 2026 / <span class="text-purple-accent">13 : 00</span></span>
                 </div>
                 <div class="job-header-right">
                     <button class="btn-confirm-success" id="btn-confirm-Q_010"
@@ -705,18 +671,18 @@
                 </div>
             </div>
             <table class="job-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%">ชื่อไฟล์</th>
-                        <th style="width: 15%">ประเภทงานพิมพ์</th>
-                        <th style="width: 10%">ขนาดเอกสาร</th>
-                        <th style="width: 15%">ประเภทเอกสาร</th>
-                        <th style="width: 10%">จำนวน(ชุด)</th>
-                        <th style="width: 10%">ราคา</th>
-                        <th style="width: 15%">ไฟล์เอกสาร</th>
-                        <th style="width: 10%">หมายเหตุ</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th class="w-15">ชื่อไฟล์</th>
+                            <th class="w-15">ประเภทงานพิมพ์</th>
+                            <th class="w-10">ขนาดเอกสาร</th>
+                            <th class="w-15">ประเภทเอกสาร</th>
+                            <th class="w-10">จำนวน(ชุด)</th>
+                            <th class="w-10">ราคา</th>
+                            <th class="w-15">ไฟล์เอกสาร</th>
+                            <th class="w-10">หมายเหตุ</th>
+                        </tr>
+                    </thead>
                 <tbody>
                     <tr>
                         <td>thesis_final_v2.PDF</td>
@@ -737,148 +703,10 @@
         </div>
         </div>
     </main>
-
-    <script>
-        function setTheme(theme) {
-            document.body.className = '';
-            document.body.classList.add('theme-' + theme);
-            filterJobs(); // Re-filter when theme changes
-        }
-
-        function resetDateFilter() {
-            const dateInput = document.getElementById("dateFilter");
-            if (dateInput && dateInput._flatpickr) {
-                dateInput._flatpickr.clear();
-            }
-        }
-
-        function filterJobs() {
-            const statusFilter = document.getElementById('statusFilter') ? document.getElementById('statusFilter').value : 'ทั้งหมด';
-            const dateFilter = document.getElementById('dateFilter') ? document.getElementById('dateFilter').value : '';
-            const currentTheme = document.body.classList.contains('theme-walkin') ? 'walkin' : 'online';
-
-            const jobCards = document.querySelectorAll('.job-card');
-
-            jobCards.forEach(card => {
-                let showCard = true;
-
-                // 0. Theme Match (Strict Separation)
-                if (currentTheme === 'online' && card.classList.contains('job-walkin')) {
-                    showCard = false;
-                } else if (currentTheme === 'walkin' && card.classList.contains('job-online')) {
-                    showCard = false;
-                }
-
-                // 1. Status Match
-                if (showCard && statusFilter !== 'ทั้งหมด') {
-                    const statusElement = card.querySelector('.badge-status');
-                    const statusText = statusElement ? statusElement.textContent.trim() : '';
-                    if (statusText !== statusFilter) showCard = false;
-                }
-
-                // 2. Date Match
-                if (showCard && dateFilter) {
-                    let dateMatch = false;
-                    const headerItems = card.querySelectorAll('.job-header-item');
-                    headerItems.forEach(item => {
-                        const label = item.querySelector('.job-header-label');
-                        if (label && label.textContent.includes('วันที่สั่งพิมพ์')) {
-                            const val = item.querySelector('.job-header-value');
-                            if (val) {
-                                const cardDateStr = val.textContent.trim(); // format: "15 - 03 - 2026"
-                                if (cardDateStr === dateFilter) {
-                                    dateMatch = true;
-                                }
-                            }
-                        }
-                    });
-                    if (!dateMatch) showCard = false;
-                }
-
-                card.style.display = showCard ? '' : 'none';
-            });
-            checkRemarks();
-        }
-
-        function initiateDownload(queueId, filePath) {
-            // 1. Trigger Download
-            const link = document.createElement('a');
-            link.href = filePath;
-            link.download = filePath.split('/').pop();
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            // 2. Update Status Badge
-            const statusBadge = document.getElementById('status-' + queueId);
-            if (statusBadge) {
-                statusBadge.textContent = 'กำลังดำเนินการ';
-                statusBadge.classList.remove('bg-blue');
-                statusBadge.classList.add('bg-orange');
-            }
-
-            // 3. Update Button Style (Green -> Gray)
-            const btn = document.getElementById('btn-' + queueId);
-            if (btn) {
-                btn.classList.remove('downloaded');
-            }
-        }
-
-        function confirmSuccess(queueId) {
-            // 1. Update Status Badge
-            const statusBadge = document.getElementById('status-' + queueId);
-            if (statusBadge) {
-                statusBadge.textContent = 'ดำเนินการสำเร็จ';
-                statusBadge.classList.remove('bg-blue', 'bg-orange');
-                statusBadge.classList.add('bg-green');
-            }
-
-            // 2. Disable Download Button (Turn Red)
-            const downloadBtn = document.getElementById('btn-' + queueId);
-            if (downloadBtn) {
-                downloadBtn.classList.remove('downloaded');
-                downloadBtn.classList.add('finished');
-            }
-
-            // 3. Disable Confirm Button
-            const confirmBtn = document.getElementById('btn-confirm-' + queueId);
-            if (confirmBtn) {
-                confirmBtn.disabled = true;
-            }
-        }
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/th.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            flatpickr("#dateFilter", {
-                dateFormat: "d - m - Y",
-                locale: "th",
-                onChange: function (selectedDates, dateStr, instance) {
-                    filterJobs();
-                }
-            });
-            filterJobs(); // Initial filter on load
-            checkRemarks();
-        });
-
-        function checkRemarks() {
-            const remarks = document.querySelectorAll('.remark-content');
-            remarks.forEach(span => {
-                const td = span.closest('td');
-                const fullText = td.getAttribute('data-fulltext');
-
-                // If text overflows, we just keep the CSS tooltip ready
-                if (span.scrollWidth > span.clientWidth) {
-                    td.classList.add('has-overflow');
-                } else {
-                    td.classList.remove('has-overflow');
-                }
-            });
-        }
-
-        window.addEventListener('resize', checkRemarks);
-    </script>
+    <script src="receive-print.js"></script>
+    <script src="navbar.js"></script>
 </body>
 
 </html>

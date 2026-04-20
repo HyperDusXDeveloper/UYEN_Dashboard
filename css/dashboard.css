@@ -40,6 +40,12 @@ body {
     color: var(--text-dark);
 }
 
+/* Navbar Placeholder (prevents layout shift during load) */
+#navbar-placeholder {
+    min-height: 72px;
+    margin: 10px 20px;
+}
+
 /* Navbar */
 .navbar {
     display: flex;
