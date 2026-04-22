@@ -131,8 +131,8 @@ body {
 
 /* Main Dashboard wrapper */
 .dashboard-main {
-    padding: 40px 60px;
-    max-width: 1400px;
+    padding: 40px 80px;
+    max-width: 1700px;
     margin: 0 auto;
 }
 
@@ -214,7 +214,7 @@ body {
 
 .data-table th {
     background-color: var(--table-header-bg);
-    padding: 16px;
+    padding: 20px 30px;
     font-size: 15px;
     font-weight: 800;
     text-align: center;
@@ -268,8 +268,8 @@ body {
 }
 
 .data-table td {
-    padding: 16px;
-    font-size: 12px;
+    padding: 22px 30px;
+    font-size: 14px;
     font-weight: 500;
     text-align: center;
     color: var(--text-dark);
@@ -357,12 +357,18 @@ body {
 }
 
 .modal-header-red {
-    background-color: #ef4444;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
 }
 
 .modal-header-blue {
     background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.modal-header-save {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
 }
 
 .modal-header h2 {
@@ -487,31 +493,41 @@ body {
 
 /* Larger size for Save and Close Buttons */
 .btn-save {
-    color: var(--btn-save-text);
-    border: 1px solid var(--btn-save-border);
-    background-color: var(--btn-save-bg);
-    padding: 10px 24px;
-    font-size: 12px;
+    color: #fff;
+    border: none;
+    background-color: #22c55e;
+    padding: 10px 28px;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
 }
 
 .btn-close {
-    color: var(--btn-delete-text);
-    border: 1px solid var(--btn-delete-border);
-    background-color: var(--btn-delete-bg);
-    padding: 10px 24px;
-    font-size: 12px;
+    color: #fff;
+    border: none;
+    background-color: #ef4444;
+    padding: 10px 28px;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .btn-cancel {
-    color: #333;
-    border: 1px solid var(--border-gray);
-    background-color: #fff;
-    padding: 8px 24px;
-    font-size: 12px;
+    color: #475569;
+    border: none;
+    background-color: #f1f5f9;
+    padding: 10px 28px;
+    font-size: 14px;
+    border-radius: 8px;
 }
 
 .btn-delete-confirm {
-    padding: 8px 24px;
+    padding: 10px 28px;
+    background-color: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 /* Toggles */
@@ -656,4 +672,17 @@ body {
     background-color: #fff5f5 !important;
     animation: inputShake 0.35s ease;
     transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+/* Utility Classes */
+.align-center {
+    align-items: center !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.justify-center {
+    justify-content: center !important;
 }

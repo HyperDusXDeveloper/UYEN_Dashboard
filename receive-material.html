@@ -38,6 +38,16 @@
                 </div>
 
                 <div class="receive-form-group">
+                    <label>ชนิดวัสดุที่รับ</label>
+                    <div class="custom-dropdown-container" id="container-receive-subtype">
+                        <div class="custom-dropdown-box" id="receive-subtype-display" onclick="toggleReceiveDropdown('list-receive-subtype')">เลือกชนิดวัสดุ</div>
+                        <ul class="custom-dropdown-list hidden" id="list-receive-subtype">
+                            <!-- JS will populate items -->
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="receive-form-group">
                     <label>ประเภทวัสดุที่รับ</label>
                     <div class="custom-dropdown-container" id="container-receive-type">
                         <div class="custom-dropdown-box" id="receive-type-display" onclick="toggleReceiveDropdown('list-receive-type')">เลือกประเภทวัสดุ</div>
@@ -88,10 +98,11 @@
                         <tr>
                             <th class="w-15">ชื่อผู้รับ</th>
                             <th class="w-15">วัสดุ</th>
+                            <th class="w-15">ชนิดวัสดุ</th>
                             <th class="w-10">ประเภท</th>
-                            <th class="w-15">จำนวนที่รับ</th>
-                            <th class="w-25">วันที่รับ</th>
-                            <th class="w-20">หมายเหตุ</th>
+                            <th class="w-10">จำนวนที่รับ</th>
+                            <th class="w-20">วันที่รับ</th>
+                            <th class="w-15">หมายเหตุ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,6 +127,10 @@
                 <div class="mb-15">
                     <label class="modal-label-standard">วัสดุที่รับ</label>
                     <input type="text" id="confirm-material-name" class="modal-input-readonly-gray" readonly>
+                </div>
+                <div class="mb-15">
+                    <label class="modal-label-standard">ชนิดวัสดุที่รับ</label>
+                    <input type="text" id="confirm-material-subtype" class="modal-input-readonly-gray" readonly>
                 </div>
                 <div class="mb-15">
                     <label class="modal-label-standard">ประเภทวัสดุที่รับ</label>

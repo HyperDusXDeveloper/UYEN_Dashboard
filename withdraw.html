@@ -38,6 +38,16 @@
                 </div>
 
                 <div class="withdraw-form-group">
+                    <label class="withdraw-label-std">ชนิดวัสดุ</label>
+                    <div class="custom-dropdown-container" id="container-withdraw-subtype">
+                        <div class="custom-dropdown-box blue-text withdraw-input-blue" id="withdraw-subtype-display" onclick="toggleWithdrawDropdown('list-withdraw-subtype')">เลือกชนิดวัสดุ</div>
+                        <ul class="custom-dropdown-list hidden" id="list-withdraw-subtype">
+                            <!-- JS will populate -->
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="withdraw-form-group">
                     <label class="withdraw-label-std">ประเภทวัสดุ</label>
                     <div class="custom-dropdown-container" id="container-withdraw-type">
                         <div class="custom-dropdown-box blue-text withdraw-input-blue" id="withdraw-type-display" onclick="toggleWithdrawDropdown('list-withdraw-type')">เลือกประเภท</div>
@@ -64,7 +74,7 @@
                 <h3 class="summary-title modal-title-confirm text-center mb-25">วัสดุที่เลือก</h3>
                 <div class="withdraw-summary-inner">
                     <div class="summary-box summary-mat-box withdraw-summary-box mb-10" id="summary-mat-name">
-                        วัสดุ</div>
+                        วัสดุ + ชนิดวัสดุ</div>
                     <div class="summary-box summary-mat-box withdraw-summary-box mb-20" id="summary-mat-type" style="color: #6b7280; font-size: 13px;">
                         ประเภทวัสดุ</div>
                     <div class="summary-grid withdraw-summary-grid">
@@ -96,12 +106,13 @@
                 <table class="data-table withdraw-table w-100 border-separate">
                     <thead>
                         <tr>
-                            <th class="w-20">ชื่อผู้เบิก</th>
+                            <th class="w-15">ชื่อผู้เบิก</th>
                             <th class="w-15">วัสดุ</th>
+                            <th class="w-15">ชนิดวัสดุ</th>
                             <th class="w-15">ประเภท</th>
                             <th class="w-10">จำนวนที่เบิก</th>
-                            <th class="w-20">วัน - เวลา</th>
-                            <th class="w-20">หมายเหตุ</th>
+                            <th class="w-15">วัน - เวลา</th>
+                            <th class="w-15">หมายเหตุ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -127,6 +138,10 @@
                 <div class="mb-15">
                     <label class="modal-label-standard">วัสดุที่เบิก</label>
                     <input type="text" id="confirm-material-name" class="modal-input-readonly-gray" readonly>
+                </div>
+                <div class="mb-15">
+                    <label class="modal-label-standard">ชนิดวัสดุที่เบิก</label>
+                    <input type="text" id="confirm-material-subtype" class="modal-input-readonly-gray" readonly>
                 </div>
                 <div class="mb-15">
                     <label class="modal-label-standard">ประเภทวัสดุที่เบิก</label>

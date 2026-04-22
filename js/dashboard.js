@@ -21,8 +21,8 @@ function renderTables() {
             <td>${u.name}</td>
             <td class="${classStat}">${u.status}</td>
             <td>
-                <button class="btn-action btn-edit" onclick="openEditModal('user', '${u.id}')">แก้ไข</button>
-                <button class="btn-action btn-delete" onclick="openDeleteModal('user', '${u.id}')">🗑 ลบ</button>
+                <button class="custom-btn-edit" onclick="openEditModal('user', '${u.id}')">แก้ไข</button>
+                <button class="custom-btn-delete" onclick="openDeleteModal('user', '${u.id}')">ลบ</button>
             </td>
         </tr>
     `;
@@ -43,8 +43,8 @@ function renderTables() {
                 ${e.phone && e.phone.length === 10 ? e.phone.substring(0, 3) + ' - ' + e.phone.substring(3, 6) + ' - ' + e.phone.substring(6, 10) : e.phone}
             </td>
             <td>
-                <button class="btn-action btn-edit" onclick="openEditModal('employee', '${e.id}')">แก้ไข</button>
-                <button class="btn-action btn-delete" onclick="openDeleteModal('employee', '${e.id}')">🗑 ลบ</button>
+                <button class="custom-btn-edit" onclick="openEditModal('employee', '${e.id}')">แก้ไข</button>
+                <button class="custom-btn-delete" onclick="openDeleteModal('employee', '${e.id}')">ลบ</button>
             </td>
         </tr>
     `;
@@ -88,9 +88,7 @@ function openEditModal(type, id) {
     const toggleNormal = document.querySelector('.toggle-normal');
     const toggleBlacklist = document.querySelector('.toggle-blacklist');
     const statusGroup = document.getElementById('status-group-container');
-
-    // Role selection
-    const roleGroup = document.getElementById('group-role');
+    const roleGroup = document.getElementById('role-group-container');
     const subtitle = document.getElementById('edit-modal-subtitle');
 
     if (type === 'user') {
@@ -104,21 +102,16 @@ function openEditModal(type, id) {
             toggleNormal.classList.add('active');
             toggleBlacklist.classList.remove('active');
         }
-        if (statusGroup) statusGroup.classList.remove('hidden'); // Show status toggle
 
-        // Let it span both columns for user mode
-        const editFooter = document.querySelector('.edit-footer');
-        if (editFooter) editFooter.style.gridColumn = '1 / -1';
+        if (statusGroup) statusGroup.classList.remove('hidden');
 
     } else {
         if (subtitle) subtitle.innerText = 'แก้ไขพนักงาน';
         if (roleGroup) roleGroup.classList.remove('hidden');
         document.getElementById('edit-role').value = person.role || '';
-        if (statusGroup) statusGroup.classList.add('hidden'); // Hide status toggle for employees
 
-        // Put in the second column alongside the password for employee mode
-        const editFooter = document.querySelector('.edit-footer');
-        if (editFooter) editFooter.style.gridColumn = 'auto';
+        if (statusGroup) statusGroup.classList.add('hidden');
+        if (roleGroup) roleGroup.classList.remove('hidden');
     }
 
     document.getElementById('modal-edit').classList.remove('hidden');
@@ -127,15 +120,15 @@ function openEditModal(type, id) {
 function confirmSaveUserData() {
     if (!currentUserEditId || !currentEditType) return;
 
-    const usernameEl  = document.getElementById('edit-username');
-    const passwordEl  = document.getElementById('edit-password');
-    const phoneEl     = document.getElementById('edit-phone');
-    const emailEl     = document.getElementById('edit-email');
+    const usernameEl = document.getElementById('edit-username');
+    const passwordEl = document.getElementById('edit-password');
+    const phoneEl = document.getElementById('edit-phone');
+    const emailEl = document.getElementById('edit-email');
 
     const username = usernameEl.value.trim();
     const password = passwordEl.value;
     const phoneRaw = phoneEl.value.replace(/\D/g, '');
-    const email    = emailEl.value.trim();
+    const email = emailEl.value.trim();
 
     const errors = [];
 
@@ -151,11 +144,11 @@ function confirmSaveUserData() {
 
     // 3. Phone (ถ้ากรอก ต้องครบ 10 หลัก)
     if (phoneRaw.length > 0 && phoneRaw.length !== 10)
-        errors.push({ input: phoneEl,    label: 'Phone',    message: `ต้องมี 10 หลักพอดี (ปัจจุบัน ${phoneRaw.length} หลัก)` });
+        errors.push({ input: phoneEl, label: 'Phone', message: `ต้องมี 10 หลักพอดี (ปัจจุบัน ${phoneRaw.length} หลัก)` });
 
     // 4. Email (ถ้ากรอก ต้องผ่าน isValidEmail)
     if (email && !isValidEmail(email))
-        errors.push({ input: emailEl,    label: 'Email',    message: 'รูปแบบไม่ถูกต้อง (เช่น name@example.com)' });
+        errors.push({ input: emailEl, label: 'Email', message: 'รูปแบบไม่ถูกต้อง (เช่น name@example.com)' });
 
     if (errors.length > 0) {
         showValidationModal(errors);
@@ -197,11 +190,6 @@ function abortCancelEdit() {
 
 function executeCancelEdit() {
     document.getElementById('modal-cancel-confirm').classList.add('hidden');
-
-    document.getElementById('modal-cancel-success').classList.remove('hidden');
-    setTimeout(() => {
-        document.getElementById('modal-cancel-success').classList.add('hidden');
-    }, 2000);
 }
 
 function executeSaveUserData() {
@@ -247,12 +235,6 @@ function executeSaveUserData() {
     // Close modals
     document.getElementById('modal-confirm-save').classList.add('hidden');
     document.getElementById('modal-edit').classList.add('hidden');
-
-    // Show success modal
-    document.getElementById('modal-success').classList.remove('hidden');
-    setTimeout(() => {
-        document.getElementById('modal-success').classList.add('hidden');
-    }, 2000);
 }
 
 let currentDeleteId = null;
@@ -281,13 +263,289 @@ function confirmDelete() {
     renderTables();
     document.getElementById('modal-delete').classList.add('hidden');
 
-    document.getElementById('modal-delete-success').classList.remove('hidden');
-    setTimeout(() => {
-        document.getElementById('modal-delete-success').classList.add('hidden');
-    }, 2000);
-
     currentDeleteId = null;
     currentDeleteType = null;
+}
+
+// ─── Register Employee Modal ──────────────────────────────────────────────────
+function showRegisterEmployeeModal() {
+    const existing = document.getElementById('register-modal-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'register-modal-overlay';
+    overlay.style.cssText = [
+        'position:fixed', 'inset:0', 'background:rgba(0,0,0,0.45)',
+        'z-index:9999', 'display:flex', 'justify-content:center',
+        'align-items:center', 'backdrop-filter:blur(3px)', 'padding:20px'
+    ].join(';');
+
+    const modal = document.createElement('div');
+    modal.style.cssText = [
+        'background:#fff', 'border-radius:24px', 'overflow:hidden',
+        'max-width:440px', 'width:100%',
+        'box-shadow:0 25px 60px rgba(0,0,0,0.15)',
+        'font-family:"Prompt",sans-serif', 'padding:30px',
+        'opacity:0', 'transform:scale(0.95) translateY(-10px)',
+        'transition:all 0.3s ease-out', 'position:relative'
+    ].join(';');
+
+    // Close Button (Red X)
+    const closeX = document.createElement('button');
+    closeX.innerHTML = '&#10005;'; // X character
+    closeX.style.cssText = [
+        'position:absolute', 'top:25px', 'right:25px',
+        'background:none', 'border:none', 'color:#ef4444',
+        'font-size:24px', 'font-weight:700', 'cursor:pointer',
+        'padding:5px', 'line-height:1'
+    ].join(';');
+    closeX.onclick = () => {
+        overlay.style.opacity = '0';
+        modal.style.transform = 'scale(0.95) translateY(-10px)';
+        setTimeout(() => overlay.remove(), 300);
+    };
+
+    // Title
+    const title = document.createElement('h2');
+    title.innerText = 'ลงทะเบียนพนักงาน';
+    title.style.cssText = 'font-size:24px;font-weight:700;color:#1f2937;margin-bottom:25px;';
+
+    // Form Container
+    const form = document.createElement('div');
+    form.style.cssText = 'display:flex;flex-direction:column;gap:18px;';
+
+    const createField = (label, id, type = 'text', placeholder = '', oninput = null) => {
+        const group = document.createElement('div');
+        group.className = 'input-group';
+        group.style.cssText = 'display:flex;flex-direction:column;gap:6px;position:relative;';
+
+        const lb = document.createElement('label');
+        lb.innerText = label;
+        lb.style.cssText = 'font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;';
+
+        const input = document.createElement('input');
+        input.id = id;
+        input.type = type;
+        input.placeholder = placeholder;
+        input.style.cssText = [
+            'padding:12px 14px', 'border:1px solid #e5e7eb',
+            'border-radius:8px', 'font-size:14px', 'background:#f9fafb',
+            'transition:all 0.2s', 'font-family:"Prompt",sans-serif'
+        ].join(';');
+        input.onfocus = () => {
+            input.style.borderColor = '#0088ff';
+            input.style.background = '#fff';
+            input.style.boxShadow = '0 0 0 4px rgba(0,136,255,0.1)';
+        };
+        input.onblur = () => {
+            input.style.borderColor = '#e5e7eb';
+            input.style.background = '#f9fafb';
+            input.style.boxShadow = 'none';
+        };
+        if (oninput) input.oninput = () => oninput(input);
+
+        group.append(lb, input);
+        return { group, input };
+    };
+
+    // Password fields need a wrapper for SHOW/HIDE
+    const createPasswordField = (label, id, placeholder) => {
+        const { group, input } = createField(label, id, 'password', placeholder, (el) => validatePassword(el));
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'password-wrapper';
+        wrapper.style.cssText = 'position:relative;';
+
+        // Move input into wrapper
+        input.style.paddingRight = '50px';
+        wrapper.appendChild(input);
+
+        const toggle = document.createElement('span');
+        toggle.innerText = 'SHOW';
+        toggle.style.cssText = [
+            'position:absolute', 'right:14px', 'top:50%',
+            'transform:translateY(-50%)', 'font-size:10px',
+            'font-weight:700', 'color:#9ca3af', 'cursor:pointer',
+            'user-select:none'
+        ].join(';');
+        toggle.onclick = () => togglePassword(id, toggle);
+
+        wrapper.appendChild(toggle);
+        group.appendChild(wrapper);
+        // Remove the original input from group since it's now in wrapper
+        // group.removeChild(input); // Wait, createField already appended it.
+        // Actually, let's fix createField to support wrappers or just do it manually.
+        return { group, input };
+    };
+
+    const usernameRes = createField('USERNAME', 'reg-username', 'text', 'Username', (el) => validateUsername(el));
+    const emailRes = createField('EMAIL', 'reg-email', 'text', 'example@gmail.com', (el) => validateEmail(el));
+
+    // Manually handle password fields to avoid double appending
+    const createPw = (label, id, placeholder) => {
+        const group = document.createElement('div');
+        group.className = 'input-group';
+        group.style.cssText = 'display:flex;flex-direction:column;gap:6px;position:relative;';
+        const lb = document.createElement('label');
+        lb.innerText = label;
+        lb.style.cssText = 'font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'password-wrapper';
+        wrapper.style.cssText = 'position:relative;';
+        const input = document.createElement('input');
+        input.id = id;
+        input.type = 'password';
+        input.placeholder = placeholder;
+        input.style.cssText = [
+            'width:100%', 'padding:12px 14px', 'padding-right:50px',
+            'border:1px solid #e5e7eb', 'border-radius:8px',
+            'font-size:14px', 'background:#f9fafb',
+            'transition:all 0.2s', 'font-family:"Prompt",sans-serif'
+        ].join(';');
+        input.onfocus = () => {
+            input.style.borderColor = '#0088ff';
+            input.style.background = '#fff';
+            input.style.boxShadow = '0 0 0 4px rgba(0,136,255,0.1)';
+        };
+        input.onblur = () => {
+            input.style.borderColor = '#e5e7eb';
+            input.style.background = '#f9fafb';
+            input.style.boxShadow = 'none';
+        };
+        input.oninput = () => validatePassword(input);
+        const toggle = document.createElement('span');
+        toggle.innerText = 'SHOW';
+        toggle.style.cssText = 'position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;color:#9ca3af;cursor:pointer;user-select:none;';
+        toggle.onclick = () => togglePassword(id, toggle);
+        wrapper.append(input, toggle);
+        group.append(lb, wrapper);
+        return { group, input };
+    };
+
+    const passwordRes = createPw('PASSWORD', 'reg-password', '');
+    const confirmPwRes = createPw('COMFIRM PASSWORD', 'reg-confirm-password', '');
+    const phoneRes = createField('PHONE NO.', 'reg-phone', 'text', '000 - 000 - 0000', (el) => formatPhoneNumber(el));
+
+    // Role Dropdown
+    const roleGroup = document.createElement('div');
+    roleGroup.className = 'input-group';
+    roleGroup.style.cssText = 'display:flex;flex-direction:column;gap:6px;position:relative;';
+    const roleLabel = document.createElement('label');
+    roleLabel.innerText = 'ROLE';
+    roleLabel.style.cssText = 'font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;';
+    const roleWrapper = document.createElement('div');
+    roleWrapper.className = 'select-wrapper';
+    roleWrapper.style.cssText = 'position:relative;';
+    const roleSelect = document.createElement('select');
+    roleSelect.id = 'reg-role';
+    roleSelect.style.cssText = [
+        'width:100%', 'padding:12px 14px', 'border:1px solid #e5e7eb',
+        'border-radius:8px', 'font-size:14px', 'background:#f9fafb',
+        'appearance:none', 'font-family:"Prompt",sans-serif', 'color:#1f2937'
+    ].join(';');
+    roleSelect.innerHTML = `
+        <option value="" disabled selected hidden>เลือกตำแหน่งงาน</option>
+        <option value="Admin">ผู้ดูแลระบบ (Admin)</option>
+        <option value="พนักงาน">พนักงาน</option>
+        <option value="เจ้าของร้าน">เจ้าของร้าน</option>
+    `;
+    const arrow = document.createElement('span');
+    arrow.innerHTML = '&#9660;'; // Down arrow
+    arrow.style.cssText = 'position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:10px;color:#9ca3af;pointer-events:none;';
+    roleWrapper.append(roleSelect, arrow);
+    roleGroup.append(roleLabel, roleWrapper);
+
+    // Register Button
+    const regBtn = document.createElement('button');
+    regBtn.innerText = 'ลงทะเบียน';
+    regBtn.style.cssText = [
+        'width:100%', 'padding:15px', 'margin-top:10px',
+        'background:#0088ff', 'color:white', 'border:none',
+        'border-radius:10px', 'font-size:18px', 'font-weight:700',
+        'cursor:pointer', 'transition:background 0.2s',
+        'font-family:"Prompt",sans-serif',
+        'box-shadow:0 4px 12px rgba(0,136,255,0.2)'
+    ].join(';');
+    regBtn.onmouseover = () => { regBtn.style.background = '#0077ee'; };
+    regBtn.onmouseout = () => { regBtn.style.background = '#0088ff'; };
+    regBtn.onclick = () => handleEmployeeRegistration();
+
+    form.append(
+        usernameRes.group,
+        emailRes.group,
+        passwordRes.group,
+        confirmPwRes.group,
+        phoneRes.group,
+        roleGroup,
+        regBtn
+    );
+
+    modal.append(closeX, title, form);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            overlay.style.opacity = '1';
+            modal.style.opacity = '1';
+            modal.style.transform = 'scale(1) translateY(0)';
+        });
+    });
+}
+
+function handleEmployeeRegistration() {
+    const usernameEl = document.getElementById('reg-username');
+    const emailEl = document.getElementById('reg-email');
+    const passwordEl = document.getElementById('reg-password');
+    const confirmPwEl = document.getElementById('reg-confirm-password');
+    const phoneEl = document.getElementById('reg-phone');
+    const roleEl = document.getElementById('reg-role');
+
+    const username = usernameEl.value.trim();
+    const email = emailEl.value.trim();
+    const password = passwordEl.value;
+    const confirmPw = confirmPwEl.value;
+    const phoneRaw = phoneEl.value.replace(/\D/g, '');
+    const role = roleEl.value;
+
+    const errors = [];
+
+    if (!username) errors.push({ input: usernameEl, label: 'Username', message: 'กรุณากรอกชื่อผู้ใช้' });
+    if (!email) errors.push({ input: emailEl, label: 'Email', message: 'กรุณากรอกอีเมล' });
+    else if (!isValidEmail(email)) errors.push({ input: emailEl, label: 'Email', message: 'รูปแบบอีเมลไม่ถูกต้อง' });
+
+    if (!password) errors.push({ input: passwordEl, label: 'Password', message: 'กรุณากรอกรหัสผ่าน' });
+    else if (password.length < 5) errors.push({ input: passwordEl, label: 'Password', message: 'รหัสผ่านต้องมีอย่างน้อย 5 ตัวอักษร' });
+
+    if (password !== confirmPw) errors.push({ input: confirmPwEl, label: 'Confirm Password', message: 'รหัสผ่านไม่ตรงกัน' });
+
+    if (phoneRaw.length > 0 && phoneRaw.length !== 10) errors.push({ input: phoneEl, label: 'Phone', message: 'เบอร์โทรศัพท์ต้องมี 10 หลัก' });
+
+    if (!role) errors.push({ input: roleEl, label: 'Role', message: 'กรุณาเลือกตำแหน่งงาน' });
+
+    if (errors.length > 0) {
+        showValidationModal(errors);
+        return;
+    }
+
+    // Success! Add to state
+    const newId = 'USER_' + String(employees.length + users.length + 1).padStart(2, '0');
+    const newEmp = {
+        id: newId,
+        name: username,
+        email: email,
+        password: password,
+        phone: phoneRaw,
+        role: role,
+        status: 'ปกติ'
+    };
+
+    employees.push(newEmp);
+    renderTables();
+
+    // Close Modal
+    const overlay = document.getElementById('register-modal-overlay');
+    if (overlay) overlay.remove();
 }
 
 // 4. Tab & Modal Helpers
@@ -297,6 +555,7 @@ function switchTab(tabIndex) {
     const view1 = document.getElementById('view-users');
     const view2 = document.getElementById('view-employees');
     const title = document.getElementById('page-title');
+    const btnAddEmp = document.getElementById('btn-add-employee');
 
     if (tabIndex === 1) {
         btn1.classList.add('active');
@@ -304,12 +563,14 @@ function switchTab(tabIndex) {
         view1.classList.remove('hidden');
         view2.classList.add('hidden');
         title.innerText = 'จัดการผู้ใช้งาน';
+        if (btnAddEmp) btnAddEmp.classList.add('hidden');
     } else {
         btn2.classList.add('active');
         btn1.classList.remove('active');
         view2.classList.remove('hidden');
         view1.classList.add('hidden');
         title.innerText = 'จัดการข้อมูลพนักงาน';
+        if (btnAddEmp) btnAddEmp.classList.remove('hidden');
     }
 }
 
@@ -374,7 +635,7 @@ async function loadData() {
             fetchApi('/api/users'),
             fetchApi('/api/employees')
         ]);
-        
+
         users = usersRes;
         employees = empRes;
 

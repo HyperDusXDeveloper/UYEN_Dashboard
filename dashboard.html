@@ -28,6 +28,8 @@
                 <button class="tab-btn active" onclick="switchTab(1)" id="tab1-btn">จัดการข้อมูลผู้ใช้งาน</button>
                 <button class="tab-btn" onclick="switchTab(2)" id="tab2-btn">จัดการข้อมูลพนักงาน</button>
             </div>
+            <button class="btn-outline-green hidden" id="btn-add-employee"
+                onclick="showRegisterEmployeeModal()">ลงทะเบียนพนักงาน</button>
         </div>
 
         <!-- Table View 1 (Users) -->
@@ -79,16 +81,19 @@
 
     <!-- Delete Modal -->
     <div class="modal-overlay hidden" id="modal-delete">
-        <div class="modal delete-modal">
-            <div class="modal-header modal-header-red">
-                <h2>ยืนยันการลบ</h2>
+        <div class="modal modal-confirm-small p-0">
+            <div class="modal-header-confirm modal-header-cancel">
+                <h2 class="modal-title-confirm">ยืนยันการลบข้อมูล</h2>
             </div>
-            <div class="modal-body delete-body">
-                <p>คุณต้องการลบ ชื่อผู้ใช้ : <span id="delete-username-text" class="fw-700"></span> หรือไม่?
-                </p>
-                <div class="modal-actions-right">
-                    <button class="btn-action btn-delete btn-delete-confirm" onclick="confirmDelete()">🗑 ลบ</button>
-                    <button class="btn-action btn-cancel" onclick="closeModal('modal-delete')">ยกเลิก</button>
+            <div class="modal-body-standard d-flex flex-col align-center text-center">
+                <h3 class="modal-h3-confirm" style="text-align: center;">
+                    คุณต้องการลบชื่อผู้ใช้ : <br>
+                    <span id="delete-username-text" class="text-cancel fw-700">Username</span> ใช่หรือไม่ ?
+                </h3>
+                <div class="modal-actions-center d-flex gap-10 mt-25">
+                    <button class="btn-action btn-close" onclick="confirmDelete()">ยืนยันการลบ</button>
+                    <button type="button" class="btn-action btn-cancel"
+                        onclick="closeModal('modal-delete')">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -102,8 +107,7 @@
                 <p id="edit-modal-subtitle" class="fw-500">แก้ไขข้อมูลผู้ใช้งาน</p>
             </div>
             <div class="modal-body p-30">
-                <form id="edit-form" class="form-grid"
-                    onsubmit="event.preventDefault(); confirmSaveUserData();">
+                <form id="edit-form" class="form-grid" onsubmit="event.preventDefault(); confirmSaveUserData();">
                     <div class="input-group">
                         <label for="edit-username">ชื่อผู้ใช้ (Username)</label>
                         <input type="text" id="edit-username" value="Somyot" placeholder="กรอกชื่อผู้ใช้" maxlength="50"
@@ -112,8 +116,7 @@
                     <div class="input-group">
                         <label for="edit-email">อีเมล (Email)</label>
                         <input type="text" id="edit-email" placeholder="example@email.com" maxlength="100"
-                            autocomplete="off"
-                            oninput="validateEmail(this)">
+                            autocomplete="off" oninput="validateEmail(this)">
                     </div>
                     <div class="input-group">
                         <label for="edit-phone">เบอร์โทรศัพท์ (Phone No.)</label>
@@ -123,25 +126,15 @@
                     <div class="input-group">
                         <label for="edit-password">รหัสผ่าน (Password)</label>
                         <div class="password-wrapper">
-                            <input type="text" id="edit-password" placeholder="กรอกรหัสผ่านใหม่" maxlength="100" minlength="5"
-                                oninput="validatePassword(this)">
+                            <input type="text" id="edit-password" placeholder="กรอกรหัสผ่านใหม่" maxlength="100"
+                                minlength="5" oninput="validatePassword(this)">
                         </div>
                     </div>
-                    <div class="input-group" id="group-role">
-                        <label for="edit-role">ตำแหน่งงาน (Role)</label>
-                        <div class="select-wrapper">
-                            <select id="edit-role">
-                                <option value="" disabled selected hidden>เลือกตำแหน่งงาน</option>
-
-                                <option value="พนักงาน">พนักงาน</option>
-                                <option value="เจ้าของร้าน">เจ้าของร้าน</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="edit-footer d-flex flex-middle-between gap-15 mt-10">
-                        <div class="input-group edit-footer-status hidden" id="status-group-container">
-                            <label class="modal-label-status m-0">สถานะการใช้งาน</label>
+                    <!-- Row 3: Role/Status (Left) + Buttons (Right) -->
+                    <div id="footer-left-side">
+                        <!-- Status Section (for Users) -->
+                        <div id="status-group-container" class="input-group hidden">
+                            <label class="modal-label-status">สถานะการใช้งาน</label>
                             <div class="toggle-container m-0">
                                 <button type="button" class="toggle-btn toggle-normal active"
                                     onclick="setToggle(this)">ปกติ</button>
@@ -150,9 +143,25 @@
                             </div>
                         </div>
 
-                        <div class="modal-actions-right d-flex gap-12">
+                        <!-- Role Section (for Employees) -->
+                        <div id="role-group-container" class="input-group hidden">
+                            <label class="modal-label-status">ตำแหน่งงาน (Role)</label>
+                            <div class="select-wrapper">
+                                <select id="edit-role" style="height: 45px;">
+                                    <option value="" disabled selected hidden>เลือกตำแหน่งงาน</option>
+                                    <option value="Admin">ผู้ดูแลระบบ (Admin)</option>
+                                    <option value="พนักงาน">พนักงาน</option>
+                                    <option value="เจ้าของร้าน">เจ้าของร้าน</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="footer-right-side" class="d-flex align-end justify-end">
+                        <div class="modal-actions-right d-flex gap-12" style="margin-top: 0;">
                             <button type="submit" class="btn-action btn-save-success">บันทึกข้อมูล</button>
-                            <button type="button" class="btn-action btn-close-danger" onclick="confirmCancelEdit()">ยกเลิก</button>
+                            <button type="button" class="btn-action btn-close-danger"
+                                onclick="confirmCancelEdit()">ยกเลิก</button>
                         </div>
                     </div>
                 </form>
@@ -168,15 +177,15 @@
             <div class="modal-header-confirm modal-header-save">
                 <h2 class="modal-title-confirm">ยืนยันการบันทึกข้อมูล</h2>
             </div>
-            <div class="modal-body-standard d-flex flex-col">
-                <h3 class="modal-h3-confirm">
-                    คุณต้องการบันทึกข้อมูลของ <br> <span id="confirm-username"
-                        class="text-save fw-700">Username</span> ใช่หรือไม่ ?
+            <div class="modal-body-standard d-flex flex-col align-center text-center">
+                <h3 class="modal-h3-confirm" style="text-align: center;">
+                    คุณต้องการบันทึกข้อมูลของ <br> <span id="confirm-username" class="text-save fw-700">Username</span>
+                    ใช่หรือไม่ ?
                 </h3>
-                <div class="modal-actions-right d-flex gap-10">
-                    <button class="btn-action btn-save-action"
+                <div class="modal-actions-center d-flex gap-10">
+                    <button class="btn-action btn-save"
                         onclick="executeSaveUserData()">บันทึกข้อมูลผู้ใช้</button>
-                    <button type="button" class="btn-action btn-close-danger-action"
+                    <button type="button" class="btn-action btn-cancel"
                         onclick="abortSaveUserData()">ยกเลิก</button>
                 </div>
             </div>
@@ -205,15 +214,15 @@
             <div class="modal-header-confirm modal-header-cancel">
                 <h2 class="modal-title-confirm">ยืนยันการยกเลิกบันทึกข้อมูล</h2>
             </div>
-            <div class="modal-body-standard d-flex flex-col">
-                <h3 class="modal-h3-confirm">
+            <div class="modal-body-standard d-flex flex-col align-center text-center">
+                <h3 class="modal-h3-confirm" style="text-align: center;">
                     คุณต้องยืนยันการยกเลิกบันทึกข้อมูลของ <br> <span id="cancel-confirm-username"
                         class="text-cancel fw-700">Username</span> ใช่หรือไม่ ?
                 </h3>
-                <div class="modal-actions-right d-flex gap-10">
-                    <button class="btn-action btn-cancel-confirm-action"
+                <div class="modal-actions-center d-flex gap-10">
+                    <button class="btn-action btn-close"
                         onclick="executeCancelEdit()">ยกเลิกบันทึกข้อมูลผู้ใช้</button>
-                    <button type="button" class="btn-action btn-cancel-abort-action"
+                    <button type="button" class="btn-action btn-cancel"
                         onclick="abortCancelEdit()">ยกเลิก</button>
                 </div>
             </div>

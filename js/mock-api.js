@@ -18,18 +18,21 @@ const MockDatabase = {
         { id: 'USER_04', name: 'Prakob', role: 'พนักงาน', phone: '0876667777', email: 'prakob@bumail.net', password: '12345' }
     ],
     inventory: [
-        { id: 'INV_01', name: 'A4', type: 'ธรรมดา', qty: 22, unit: 'รีม', price: 5, reorder: 10, statusInfo: 'instock' },
-        { id: 'INV_02', name: 'หมึก', type: 'ดำ', qty: 3, unit: 'ขวด', price: 3, reorder: 10, statusInfo: 'low' },
-        { id: 'INV_03', name: 'A4', type: 'แผ่นปกใส', qty: 0, unit: 'รีม', price: 6, reorder: 15, statusInfo: 'out' },
-        { id: 'INV_04', name: 'คลิปหนีบกระดาษ', type: 'อันเล็ก', qty: 300, unit: 'ชิ้น', price: 7, reorder: 50, statusInfo: 'instock' },
-        { id: 'INV_05', name: 'เทป', type: 'ชนิดใส', qty: 2, unit: 'ม้วน', price: 10, reorder: 15, statusInfo: 'low' },
-        { id: 'INV_06', name: 'ลวดเย็บกระดาษ', type: '35 MM', qty: 70, unit: 'อัน', price: 22, reorder: 10, statusInfo: 'instock' },
-        { id: 'INV_07', name: 'กรรไกร', type: 'ใหญ่', qty: 3, unit: 'ด้าม', price: 45, reorder: 3, statusInfo: 'low' }
+        { id: 'INV_01', name: 'กระดาษ', subType: 'A4', type: 'กระดาษปอนด์ 70 แกรม', qty: 22, unit: 'รีม', price: 5, reorder: 10, statusInfo: 'instock' },
+        { id: 'INV_02', name: 'หมึกพิมพ์', subType: 'เครื่องอิงค์เจ็ท (Inkjet)', type: 'สีดำ (Black - K)', qty: 3, unit: 'ขวด', price: 3, reorder: 10, statusInfo: 'low' },
+        { id: 'INV_03', name: 'กระดาษ', subType: 'A4', type: 'กระดาษอาร์ตมัน 120g', qty: 0, unit: 'รีม', price: 6, reorder: 15, statusInfo: 'out' },
+        { id: 'INV_04', name: 'กระดาษ', subType: 'นามบัตร (54x90 mm)', type: 'กระดาษอาร์ตมัน 160g', qty: 300, unit: 'กล่อง', price: 7, reorder: 50, statusInfo: 'instock' },
+        { id: 'INV_05', name: 'หมึกพิมพ์', subType: 'เครื่องเลเซอร์ (Laser)', type: 'สีน้ำเงินอ่อน (Light Cyan)', qty: 2, unit: 'ตลับ', price: 10, reorder: 15, statusInfo: 'low' },
+        { id: 'INV_06', name: 'กระดาษ', subType: 'A3', type: 'สติ๊กเกอร์ PVC (ใส)', qty: 70, unit: 'รีม', price: 22, reorder: 10, statusInfo: 'instock' },
+        { id: 'INV_07', name: 'หมึกพิมพ์', subType: 'หมึกพิมพ์ใบเสร็จ', type: 'สีดำ (Black - K)', qty: 3, unit: 'ม้วน', price: 45, reorder: 3, statusInfo: 'low' },
+        { id: 'INV_08', name: 'กระดาษ', subType: 'F4', type: 'กระดาษปอนด์ 80 แกรม', qty: 15, unit: 'รีม', price: 8, reorder: 5, statusInfo: 'instock' },
+        { id: 'INV_09', name: 'กระดาษ', subType: 'A2', type: 'กระดาษคราฟท์ (สีน้ำตาล)', qty: 5, unit: 'รีม', price: 15, reorder: 10, statusInfo: 'low' },
+        { id: 'INV_10', name: 'หมึกพิมพ์', subType: 'อิงค์แทงค์ (Ink Tank)', type: 'สีเหลือง (Yellow - Y)', qty: 8, unit: 'ขวด', price: 12, reorder: 5, statusInfo: 'instock' }
     ],
     receiveMaterials: [
         // Dummy data for receive materials log
-        { id: 'RM_01', name: 'Somyot', matName: 'A4', matType: 'ธรรมดา', qty: 10, date: '12 เม.ย. 2026 10:30', note: '-' },
-        { id: 'RM_02', name: 'Somyot', matName: 'หมึก', matType: 'ดำ', qty: 5, date: '12 เม.ย. 2026 14:15', note: 'เติมด่วน' }
+        { id: 'RM_01', name: 'Somyot', matName: 'กระดาษ', subType: 'A4', matType: 'กระดาษปอนด์ 70 แกรม (กระดาษปกติ)', qty: 10, date: '12 เม.ย. 2026', note: '-' },
+        { id: 'RM_02', name: 'Somyot', matName: 'หมึกพิมพ์', subType: 'เครื่องอิงค์เจ็ท (Inkjet)', matType: 'สีดำ (Black - K)', qty: 5, date: '12 เม.ย. 2026', note: 'เติมด่วน' }
     ],
     receivePrints: [
         { 
@@ -53,8 +56,8 @@ const MockDatabase = {
     ],
     withdraws: [
         // Dummy data for withdraw log
-        { id: 'WD_01', name: 'Somporn', matName: 'เทป', matType: 'ชนิดใส', qty: 2, date: '13 เม.ย. 2026 11:20', note: 'ใช้งานออฟฟิศ' },
-        { id: 'WD_02', name: 'Amporn', matName: 'กระดาษ', matType: 'A4', qty: 5, date: '05 มี.ค. 2026 14:15', note: 'เบิกใช้ในสำนักงาน' }
+        { id: 'WD_01', name: 'Somporn', matName: 'เทป', subType: 'ชนิดใส', matType: 'แกนเล็ก 1 นิ้ว', qty: 2, date: '13 เม.ย. 2026', note: 'ใช้งานออฟฟิศ' },
+        { id: 'WD_02', name: 'Amporn', matName: 'กระดาษ', subType: 'A4', matType: 'กระดาษปอนด์ 70 แกรม (กระดาษปกติ)', qty: 5, date: '05 มี.ค. 2026', note: 'เบิกใช้ในสำนักงาน' }
     ],
     reportDailyPrints: [
         { customer: 'สมชาติ ทองเหม็น', material: 'A4', type: 'ร้อยปอนด์', qty: 1, printType: 'สี', time: '12 : 49', price: 17 },

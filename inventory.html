@@ -45,13 +45,16 @@
                 <thead class="table-inventory-header">
                     <tr>
                         <th class="w-15 table-th-inventory table-th-left-30">วัสดุ</th>
-                        <th class="w-10 table-th-inventory">ประเภท</th>
+                        <th class="w-15 table-th-inventory">ชนิดวัสดุ</th>
+                        <th class="w-10 table-th-inventory">ประเภทวัสดุ</th>
                         <th class="w-15 table-th-inventory">
                             <div class="flex-center gap-4">
                                 คลังคงเหลือ
                                 <span class="sort-arrows-vertical">
-                                    <span id="arrow-stock-up" class="sort-arrow-up" onclick="sortByStock('desc')" title="มากไปน้อย">▲</span>
-                                    <span id="arrow-stock-down" class="sort-arrow-down" onclick="sortByStock('asc')" title="น้อยไปมาก">▼</span>
+                                    <span id="arrow-stock-up" class="sort-arrow-up" onclick="sortByStock('desc')"
+                                        title="มากไปน้อย">▲</span>
+                                    <span id="arrow-stock-down" class="sort-arrow-down" onclick="sortByStock('asc')"
+                                        title="น้อยไปมาก">▼</span>
                                 </span>
                             </div>
                         </th>
@@ -62,8 +65,10 @@
                             <div class="flex-center gap-4">
                                 สถานะ
                                 <span class="sort-arrows-vertical">
-                                    <span id="arrow-status-up" class="sort-arrow-up sort-arrow-blue" onclick="sortByStatus('instock')" title="มีวัสดุก่อน">▲</span>
-                                    <span id="arrow-status-down" class="sort-arrow-down" onclick="sortByStatus('low')" title="วัสดุใกล้หมดก่อน">▼</span>
+                                    <span id="arrow-status-up" class="sort-arrow-up sort-arrow-blue"
+                                        onclick="sortByStatus('instock')" title="มีวัสดุก่อน">▲</span>
+                                    <span id="arrow-status-down" class="sort-arrow-down" onclick="sortByStatus('low')"
+                                        title="วัสดุใกล้หมดก่อน">▼</span>
                                 </span>
                             </div>
                         </th>
@@ -81,48 +86,79 @@
     <div class="modal-overlay hidden" id="modal-add-material">
         <div class="modal modal-edit-large p-0 border-blue-dark bg-white">
             <div class="modal-header-blue-dark">
-                <h2 class="modal-title-center-24">ต้องการเพิ่มวัสดุใช่หรือไม่</h2>
+                <h2 class="modal-title-center-24">เพิ่มวัสดุ</h2>
             </div>
             <div class="modal-body p-30">
                 <form onsubmit="event.preventDefault();" class="modal-input-group-gap-20">
-                    <div class="input-group m-0">
-                        <label class="fw-800 text-gray-modal">วัสดุ</label>
-                        <input type="text" id="add-material-name" value="" maxlength="50" placeholder="ชื่อวัสดุ"
-                            class="modal-input-text-blue">
-                    </div>
-                    <div class="input-group m-0">
-                        <label class="fw-800 text-gray-modal">ประเภทวัสดุ</label>
-                        <input type="text" id="add-material-type" value="" maxlength="50" placeholder="ประเภทวัสดุ"
-                            class="modal-input-text-blue">
-                    </div>
+                    <!-- วัสดุ -->
                     <div class="input-group custom-dropdown-container m-0 relative">
-                        <label class="fw-800 text-gray-modal">หน่วย</label>
-                        <input type="text" id="add-material-unit" readonly placeholder="เลือกหน่วย"
-                            class="modal-input-text-blue"
-                            onclick="toggleUnitDropdown('list-add-unit')" />
-                        <svg class="dropdown-arrow-icon" width="20"
-                            height="20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                        <ul id="list-add-unit" class="dropdown-list-standard hidden">
+                        <label class="fw-800 text-gray-modal">วัสดุ</label>
+                        <div class="modal-input-text-blue flex-between pointer" id="add-material-display" onclick="toggleInventoryDropdown('list-add-material')">
+                            <span id="text-add-material">ชื่อวัสดุ</span>
+                            <svg class="dropdown-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                        <ul id="list-add-material" class="dropdown-list-standard hidden">
+                            <!-- JS populated -->
                         </ul>
                     </div>
+
+                    <!-- ชนิดวัสดุ -->
+                    <div class="input-group custom-dropdown-container m-0 relative">
+                        <label class="fw-800 text-gray-modal">ชนิดวัสดุ</label>
+                        <div class="modal-input-text-blue flex-between pointer" id="add-subtype-display" onclick="toggleInventoryDropdown('list-add-subtype')">
+                            <span id="text-add-subtype">ชนิดวัสดุ</span>
+                            <svg class="dropdown-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                        <ul id="list-add-subtype" class="dropdown-list-standard hidden">
+                            <!-- JS populated -->
+                        </ul>
+                    </div>
+
+                    <!-- ประเภทวัสดุ -->
+                    <div class="input-group custom-dropdown-container m-0 relative">
+                        <label class="fw-800 text-gray-modal">ประเภทวัสดุ</label>
+                        <div class="modal-input-text-blue flex-between pointer" id="add-type-display" onclick="toggleInventoryDropdown('list-add-type')">
+                            <span id="text-add-type">ประเภทวัสดุ</span>
+                            <svg class="dropdown-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                        <ul id="list-add-type" class="dropdown-list-standard hidden">
+                            <!-- JS populated -->
+                        </ul>
+                    </div>
+
+                    <!-- หน่วย -->
+                    <div class="input-group custom-dropdown-container m-0 relative">
+                        <label class="fw-800 text-gray-modal">หน่วย</label>
+                        <div class="modal-input-text-blue flex-between pointer" id="add-unit-display" onclick="toggleInventoryDropdown('list-add-unit')">
+                            <span id="text-add-unit">เลือกหน่วย</span>
+                            <svg class="dropdown-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                        <ul id="list-add-unit" class="dropdown-list-standard hidden">
+                            <!-- JS populated -->
+                        </ul>
+                    </div>
+
+                    <!-- ราคา/หน่วย -->
                     <div class="input-group m-0">
                         <label class="fw-800 text-gray-modal">ราคา/หน่วย</label>
                         <input type="text" id="add-material-price" value="" oninput="validatePrice(this)"
                             class="modal-input-text-blue">
                     </div>
+
+                    <!-- จุดสั่งซื้อ -->
                     <div class="input-group m-0">
                         <label class="fw-800 text-gray-modal">จุดสั่งซื้อ</label>
                         <input type="text" id="add-material-reorder" value="" oninput="validatePrice(this)"
                             class="modal-input-text-blue">
                     </div>
+
+                    <!-- คลังวัสดุคงเหลือ -->
                     <div class="input-group m-0 mb-10">
                         <label class="fw-800 text-gray-modal">คลังวัสดุคงเหลือ</label>
                         <input type="text" id="add-material-qty" value="0" oninput="validatePrice(this)"
                             class="modal-input-text-blue">
                     </div>
+
                     <div class="modal-actions-right d-flex flex-middle-end gap-15 mt-5">
                         <button type="button" class="btn-action btn-save-success px-40 h-auto"
                             onclick="initiateSaveMaterial('add')">บันทึก</button>
@@ -133,6 +169,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!-- Settings Modal -->
     <div class="modal-overlay hidden" id="modal-settings">
@@ -146,21 +184,24 @@
                     <div class="input-group m-0">
                         <label class="fw-800 text-gray-modal">วัสดุ</label>
                         <input type="text" id="edit-material-name" value="" maxlength="50" placeholder="ชื่อวัสดุ"
-                            class="modal-input-text-blue">
+                            readonly class="modal-input-text-blue modal-input-readonly">
+                    </div>
+                    <div class="input-group m-0">
+                        <label class="fw-800 text-gray-modal">ชนิดวัสดุ</label>
+                        <input type="text" id="edit-material-subtype" value="" maxlength="50" placeholder="ชนิดวัสดุ"
+                            readonly class="modal-input-text-blue modal-input-readonly">
                     </div>
                     <div class="input-group m-0">
                         <label class="fw-800 text-gray-modal">ประเภทวัสดุ</label>
                         <input type="text" id="edit-material-type" value="" maxlength="50" placeholder="ประเภทวัสดุ"
-                            class="modal-input-text-blue">
+                            readonly class="modal-input-text-blue modal-input-readonly">
                     </div>
 
                     <div class="input-group custom-dropdown-container m-0 relative">
                         <label class="fw-800 text-gray-modal">หน่วย</label>
                         <input type="text" id="edit-material-unit" readonly placeholder="เลือกหน่วย"
-                            class="modal-input-text-blue"
-                            onclick="toggleUnitDropdown('list-edit-unit')" />
-                        <svg class="dropdown-arrow-icon" width="20"
-                            height="20" xmlns="http://www.w3.org/2000/svg">
+                            class="modal-input-text-blue" onclick="toggleUnitDropdown('list-edit-unit')" />
+                        <svg class="dropdown-arrow-icon" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" />
                         </svg>
@@ -187,7 +228,8 @@
                     </div>
 
                     <div class="modal-actions-right d-flex flex-middle-end gap-10">
-                        <button type="button" id="btn-save-material" class="btn-action btn-save-success px-25 h-auto f-14"
+                        <button type="button" id="btn-save-material"
+                            class="btn-action btn-save-success px-25 h-auto f-14"
                             onclick="initiateSaveMaterial('edit')">บันทึกข้อมูลวัสดุ</button>
                         <button type="button" class="btn-action btn-close-danger px-30 h-auto f-14"
                             onclick="initiateCancelMaterial('edit')">ยกเลิก</button>
@@ -247,40 +289,21 @@
     </div>
 
     <!-- Delete Material Modal -->
-    <div class="modal-overlay hidden" id="modal-delete-material">
-        <div class="modal modal-edit-large p-0 border-none bg-white">
-            <div class="modal-header-error">
-                <h2 class="modal-title-center-24">ต้องการลบวัสดุใช่หรือไม่</h2>
+    <div class="modal-overlay hidden z-2000" id="modal-delete-material">
+        <div class="modal modal-confirm-small">
+            <div class="modal-header-confirm modal-header-cancel">
+                <h2 class="modal-title-confirm">ยืนยันการลบ</h2>
             </div>
-            <div class="modal-body p-30">
-                <form onsubmit="event.preventDefault();" class="modal-input-group-gap-20">
-                    <div class="input-group m-0">
-                        <label class="fw-800 text-gray-modal">ชนิด วัสดุ</label>
-                        <input type="text" id="delete-material-combined" value="" readonly class="modal-input-readonly-gray">
-                    </div>
-                    <div class="input-group m-0">
-                        <label class="fw-800 text-gray-modal">หน่วย</label>
-                        <input type="text" id="delete-material-unit" value="" readonly class="modal-input-readonly-gray">
-                    </div>
-                    <div class="input-group m-0">
-                        <label class="fw-800 text-gray-modal">ราคา/หน่วย</label>
-                        <input type="text" id="delete-material-price" value="" readonly class="modal-input-readonly-gray">
-                    </div>
-                    <div class="input-group m-0">
-                        <label class="fw-800 text-gray-modal">จุดสั่งซื้อ</label>
-                        <input type="text" id="delete-material-reorder" value="" readonly class="modal-input-readonly-gray">
-                    </div>
-                    <div class="input-group m-0 mb-10">
-                        <label class="fw-800 text-gray-modal">คลังวัสดุคงเหลือ</label>
-                        <input type="text" id="delete-material-qty" value="" readonly class="modal-input-readonly-gray">
-                    </div>
-                    <div class="modal-actions-center d-flex flex-center gap-15 mt-5">
-                        <button class="btn-action btn-close-danger px-40 h-auto"
-                            onclick="confirmDelete()">ยืนยันลบข้อมูลวัสดุ</button>
-                        <button class="btn-action btn-close-variant px-40 h-auto"
-                            onclick="closeModal('modal-delete-material')">ยกเลิก</button>
-                    </div>
-                </form>
+            <div class="modal-body-confirm">
+                <div class="confirm-content">
+                    <p class="confirm-text">คุณต้องการลบวัสดุ</p>
+                    <h3 class="confirm-target" id="delete-material-name-text">ชื่อวัสดุ</h3>
+                    <p class="confirm-subtext">ออกจากคลังวัสดุใช่หรือไม่? เมื่อลบแล้วข้อมูลจะไม่สามารถกู้คืนได้</p>
+                </div>
+                <div class="modal-actions-confirm">
+                    <button class="btn-action btn-cancel-confirm-action" onclick="confirmDeleteMaterial()">ยืนยันการลบ</button>
+                    <button class="btn-action btn-close-danger-action" onclick="closeDeleteMaterialModal()">ยกเลิก</button>
+                </div>
             </div>
         </div>
     </div>
@@ -318,21 +341,27 @@
     </div>
 
 
+
+
+    <script src="js/mock-api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/inventory.js"></script>
+    <!-- inventory.js loaded above handles all inventory logic -->
+    <script src="js/navbar.js"></script>
+
     <!-- Confirm Save Material -->
     <div class="modal-overlay hidden z-2000" id="modal-confirm-save-material">
         <div class="modal modal-confirm-small p-0">
-            <div class="modal-header-confirm modal-header-save">
-                <h2 class="modal-title-confirm">ยืนยันการบันทึกข้อมูลวัสดุ</h2>
+            <div class="modal-header-confirm modal-header-save bg-green-light">
+                <h2 class="modal-title-confirm text-white">ยืนยันการบันทึกข้อมูลวัสดุ</h2>
             </div>
-            <div class="modal-body-standard d-flex flex-col">
-                <h3 class="modal-h3-confirm">
+            <div class="modal-body-standard d-flex flex-col align-center text-center">
+                <h3 class="modal-h3-confirm" style="text-align: center;">
                     คุณต้องการบันทึกข้อมูลวัสดุ ใช่หรือไม่ ?
                 </h3>
-                <div class="modal-actions-right d-flex flex-middle-end gap-10">
-                    <button class="btn-action btn-save-action"
-                        onclick="executeSaveMaterial()">บันทึกวัสดุ</button>
-                    <button type="button" class="btn-action btn-close-danger-action"
-                        onclick="abortSaveMaterial()">ยกเลิก</button>
+                <div class="modal-actions-center d-flex gap-15">
+                    <button class="btn-action btn-save" onclick="executeSaveMaterial()">บันทึกวัสดุ</button>
+                    <button type="button" class="btn-action btn-cancel" onclick="abortSaveMaterial()">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -341,48 +370,20 @@
     <!-- Confirm Cancel Material -->
     <div class="modal-overlay hidden z-2000" id="modal-confirm-cancel-material">
         <div class="modal modal-confirm-small p-0">
-            <div class="modal-header-confirm modal-header-cancel">
-                <h2 class="modal-title-confirm">ยืนยันการยกเลิกบันทึกวัสดุ</h2>
+            <div class="modal-header-confirm modal-header-cancel bg-red-main">
+                <h2 class="modal-title-confirm text-white">ยืนยันการยกเลิกบันทึกวัสดุ</h2>
             </div>
-            <div class="modal-body-standard d-flex flex-col">
-                <h3 class="modal-h3-confirm">
+            <div class="modal-body-standard d-flex flex-col align-center text-center">
+                <h3 class="modal-h3-confirm" style="text-align: center;">
                     คุณต้องการยกเลิกการบันทึกวัสดุ ใช่หรือไม่ ?
                 </h3>
-                <div class="modal-actions-right d-flex flex-middle-end gap-10">
-                    <button class="btn-action btn-cancel-confirm-action"
-                        onclick="executeCancelMaterial()">ยกเลิกบันทึกวัสดุ</button>
-                    <button type="button" class="btn-action btn-close-variant px-16 h-auto f-13 fw-700"
-                        onclick="abortCancelMaterial()">ย้อนกลับ</button>
+                <div class="modal-actions-center d-flex gap-15">
+                    <button class="btn-action btn-close" onclick="executeCancelMaterial()">ยกเลิกบันทึกวัสดุ</button>
+                    <button type="button" class="btn-action btn-cancel" onclick="abortCancelMaterial()">ย้อนกลับ</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Success Cancel Material -->
-    <div class="modal-overlay hidden z-2000" id="modal-success-cancel-material">
-        <div class="modal modal-status-mini">
-            <div class="modal-header-status-error modal-header-compact">
-                <h2 class="modal-title-status-smaller">ยกเลิกการบันทึกวัสดุสำเร็จ</h2>
-            </div>
-            <div class="modal-body-status-compact">
-                <div class="modal-icon-circle-large-error mb-20">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none"
-                        stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="23 4 23 10 17 10"></polyline>
-                        <polyline points="1 20 1 14 7 14"></polyline>
-                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                    </svg>
-                </div>
-                <h3 class="modal-h3-status fw-700">ยกเลิกการบันทึกวัสดุสำเร็จ</h3>
-                <p class="modal-p-timer">หน้าต่างจะถูกปิดใน 2 วินาที</p>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/mock-api.js"></script>
-    <script src="js/inventory.js"></script>
-    <!-- inventory.js loaded above handles all inventory logic -->
-    <script src="js/navbar.js"></script>
 </body>
 
 </html>
