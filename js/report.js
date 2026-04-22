@@ -1,6 +1,97 @@
 // report.js
+let dailyPrintsData = [];
+let stockData = [];
+let monthlySalesData = [];
+
+async function loadData() {
+    try {
+        const tbody1 = document.querySelector('#view-1 tbody');
+        const tbody2 = document.querySelector('#view-2 tbody');
+        const tbody3 = document.querySelector('#view-3 tbody');
+        
+        const loaderHtml = (colspan) => `<tr><td colspan="${colspan}" class="text-center" style="padding: 30px;"><div class="loader-spinner" style="margin: 0 auto 10px;"></div><div style="color:#6b7280;">กำลังโหลดข้อมูลสมมติ...</div></td></tr>`;
+        
+        if (tbody1) tbody1.innerHTML = loaderHtml(7);
+        if (tbody2) tbody2.innerHTML = loaderHtml(4);
+        if (tbody3) tbody3.innerHTML = loaderHtml(3);
+
+        const [dp, st, ms] = await Promise.all([
+            fetchApi('/api/report-daily-prints'),
+            fetchApi('/api/report-stock'),
+            fetchApi('/api/report-monthly-sales')
+        ]);
+        
+        dailyPrintsData = dp;
+        stockData = st;
+        monthlySalesData = ms;
+
+        renderView1();
+        renderView2();
+        renderView3();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
+function renderView1() {
+    const tbody = document.querySelector('#view-1 tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    dailyPrintsData.forEach(item => {
+        tbody.innerHTML += `
+            <tr>
+                <td class="report-td-left-padded">${item.customer}</td>
+                <td>${item.material}</td>
+                <td>${item.type}</td>
+                <td>${item.qty}</td>
+                <td>${item.printType}</td>
+                <td>${item.time}</td>
+                <td><span class="text-blue">${item.price}</span> บาท</td>
+            </tr>
+        `;
+    });
+}
+
+function renderView2() {
+    const tbody = document.querySelector('#view-2 tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    stockData.forEach(item => {
+        const stockTdClass = item.lowStock ? 'text-red' : '';
+        const trClass = item.lowStock ? 'bg-gray-lighter' : '';
+        tbody.innerHTML += `
+            <tr class="${trClass}">
+                <td>${item.material}</td>
+                <td>${item.type}</td>
+                <td class="${stockTdClass}">${item.qty.toLocaleString()}</td>
+                <td>${item.price}</td>
+            </tr>
+        `;
+    });
+}
+
+function renderView3() {
+    const tbody = document.querySelector('#view-3 tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    monthlySalesData.forEach(item => {
+        tbody.innerHTML += `
+            <tr>
+                <td class="report-td-left-wide-padded">${item.date}</td>
+                <td>${item.items}</td>
+                <td><span class="text-blue">${item.sales.toLocaleString()}</span> บาท</td>
+            </tr>
+        `;
+    });
+    
+    showAllMonthlySales();
+}
 
 document.addEventListener("DOMContentLoaded", function () {
+    loadData();
     flatpickr("#report-date-1", {
         dateFormat: "d M Y",
         locale: "th",

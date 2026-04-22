@@ -2,6 +2,66 @@
 
 let currentRowToDelete = null;
 let currentRowToEdit = null;
+let inventoryData = [];
+
+async function loadData() {
+    try {
+        const tbody = document.querySelector('.inventory-table tbody');
+        if (tbody) tbody.innerHTML = createLoadingSpinner(8);
+        
+        inventoryData = await fetchApi('/api/inventory');
+        renderInventoryTable();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
+function renderInventoryTable() {
+    const tbody = document.querySelector('.inventory-table tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    inventoryData.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'custom-table-row';
+        tr.style.backgroundColor = (index % 2 === 0) ? '#fff' : '#fafafa';
+        tr.style.borderBottom = `1px solid ${tr.style.backgroundColor}`;
+        
+        let statusHtml = '';
+        let qtyClass = '';
+        if (item.statusInfo === 'instock') {
+            statusHtml = '<span class="status-instock text-blue fw-600">มีสินค้า</span>';
+        } else if (item.statusInfo === 'low') {
+            statusHtml = '<span class="status-low text-orange fw-600">สินค้าใกล้หมด</span>';
+            qtyClass = 'text-red fw-700';
+        } else {
+            statusHtml = '<span class="status-out text-red fw-600">หมด</span>';
+            qtyClass = 'text-red fw-700';
+        }
+
+        const typeHtml = item.type ? item.type : '';
+        
+        tr.innerHTML = `
+            <td class="table-td-left-30 item-name item-name-bold">${item.name}</td>
+            <td class="item-type item-type-muted">${typeHtml}</td>
+            <td class="qty-remaining ${qtyClass}">${item.qty}</td>
+            <td class="item-unit">${item.unit}</td>
+            <td class="item-price">${item.price}</td>
+            <td class="reorder-point fw-700 text-dark-main">${item.reorder}</td>
+            <td>${statusHtml}</td>
+            <td>
+                <button class="custom-btn-edit" onclick="openSettingsModal(this)">แก้ไข</button>
+                <button class="custom-btn-delete" onclick="openDeleteMaterialModal(this)">ลบสินค้า</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+    
+    updateItemCount();
+    checkStockColors();
+    initializeRowIndices();
+}
+
 
 function updateItemCount() {
     const tbody = document.querySelector('.inventory-table tbody');
@@ -491,8 +551,6 @@ function validatePrice(input) {
 }
 
 window.onload = function () {
-    initializeRowIndices();
-    updateItemCount();
-    checkStockColors();
+    loadData();
     initUnitDropdowns();
 };

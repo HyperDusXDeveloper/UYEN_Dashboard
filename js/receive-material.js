@@ -17,6 +17,42 @@ const RECEIVE_MATERIAL_DATA = {
 let selectedMaterial = "";
 let selectedType = "";
 
+let receiveData = [];
+
+async function loadData() {
+    try {
+        const tbody = document.querySelector('.receive-table tbody');
+        if (tbody) tbody.innerHTML = createLoadingSpinner(6);
+        
+        receiveData = await fetchApi('/api/receive-materials');
+        renderReceiveTable();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
+function renderReceiveTable() {
+    const tbody = document.querySelector('.receive-table tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    receiveData.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        if (index % 2 === 1) tr.classList.add('alt-row');
+        
+        tr.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.matName}</td>
+            <td>${item.matType}</td>
+            <td>${item.qty}</td>
+            <td>${item.date}</td>
+            <td class="dash-red">${item.note}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+
 function renderCalendar() {
     const month = currentDate.getMonth();
     const year = currentDate.getFullYear();
@@ -322,6 +358,7 @@ document.querySelector('.next-month').addEventListener('click', () => {
 });
 
 window.onload = () => {
+    loadData();
     syncReceiverName();
     renderCalendar();
     initReceiveDropdowns();

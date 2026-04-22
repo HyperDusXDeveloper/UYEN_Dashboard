@@ -1,19 +1,8 @@
 // dashboard.js - Javascript State Management (React-like data handling)
 
 // 1. Define State
-let users = [
-    { id: 'USER_01', name: 'Natchanon', status: 'Blacklist', phone: '0622360567', email: 'natchanon@bumail.net', password: '12345' },
-    { id: 'USER_02', name: 'Jeerapat', status: 'ปกติ', phone: '0621112222', email: 'jeerapat@bumail.net', password: '12345' },
-    { id: 'USER_03', name: 'Akkarawin', status: 'ปกติ', phone: '0623334444', email: 'akkarawin@bumail.net', password: '12345' },
-    { id: 'USER_04', name: 'Stefan', status: 'ปกติ', phone: '0625556666', email: 'stefan@bumail.net', password: '12345' }
-];
-
-let employees = [
-    { id: 'USER_01', name: 'Somporn', role: 'Admin', phone: '0871234550', email: 'somporn@bumail.net', password: '12345' },
-    { id: 'USER_02', name: 'Pornchai', role: 'พนักงาน', phone: '0872223333', email: 'pornchai@bumail.net', password: '12345' },
-    { id: 'USER_03', name: 'Anutin', role: 'พนักงาน', phone: '0874445555', email: 'anutin@bumail.net', password: '12345' },
-    { id: 'USER_04', name: 'Prakob', role: 'พนักงาน', phone: '0876667777', email: 'prakob@bumail.net', password: '12345' }
-];
+let users = [];
+let employees = [];
 
 let currentUserEditId = null;
 let currentEditType = null; // 'user' or 'employee'
@@ -371,7 +360,30 @@ function sortByStatus(direction) {
     renderTables();
 }
 
-// 5. Initialize Data on Screen
+// 5. Initialize Data from Mock API
+async function loadData() {
+    try {
+        // Show Loaders
+        const usersTbody = document.querySelector('#view-users tbody');
+        const empTbody = document.querySelector('#view-employees tbody');
+        if (usersTbody) usersTbody.innerHTML = createLoadingSpinner(4);
+        if (empTbody) empTbody.innerHTML = createLoadingSpinner(5);
+
+        // Fetch concurrently
+        const [usersRes, empRes] = await Promise.all([
+            fetchApi('/api/users'),
+            fetchApi('/api/employees')
+        ]);
+        
+        users = usersRes;
+        employees = empRes;
+
+        renderTables();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    renderTables();
+    loadData();
 });

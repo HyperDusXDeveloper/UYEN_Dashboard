@@ -1,4 +1,39 @@
 // withdraw.js
+let withdrawData = [];
+
+async function loadData() {
+    try {
+        const tbody = document.querySelector('.withdraw-table tbody');
+        if (tbody) tbody.innerHTML = `<tr><td colspan="6" class="text-center" style="padding: 30px;"><div class="loader-spinner" style="margin: 0 auto 10px;"></div><div style="color:#6b7280;">กำลังโหลดข้อมูลจำลองผ่าน JWT Flow...</div></td></tr>`;
+        
+        withdrawData = await fetchApi('/api/withdraws');
+        renderWithdrawTable();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
+function renderWithdrawTable() {
+    const tbody = document.querySelector('.withdraw-table tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    
+    withdrawData.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.className = index % 2 === 0 ? 'bg-white' : 'alt-row bg-gray-light';
+        const tdClass = index % 2 === 0 ? 'bold-text withdraw-td-std' : 'bold-text withdraw-td-std withdraw-alt-td';
+        
+        tr.innerHTML = `
+            <td class="${tdClass}">${item.name}</td>
+            <td class="${tdClass}">${item.matName}</td>
+            <td class="${tdClass}">${item.matType}</td>
+            <td class="${tdClass}">${item.qty}</td>
+            <td class="${tdClass}">${item.date}</td>
+            <td class="${tdClass}">${item.note}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
 
 const MATERIAL_DATA = {
     "A5": {
@@ -297,6 +332,7 @@ window.onload = function () {
     syncWithdrawerName();
     initWithdrawDropdowns();
     updateSummary();
+    loadData();
 };
 
 function syncWithdrawerName() {
