@@ -1,54 +1,54 @@
-# U-VEND Receive Print Management System
+# U-YEN Receive Print Management System
 
-ระบบจัดการสำหรับพนักงานเพื่อควบคุมและติดตามสถานะงานพิมพ์ของลูกค้า แบ่งแยกตามประเภทคิวออนไลน์ (Online) และคิวหน้าร้าน (Walk In)
+A management system for employees to control and track the status of customer print jobs, categorized by online and walk-in queues.
 
-## 📋 ขั้นตอนการทำงาน (Workflow)
+## 📋 Workflow
 
-ระบบถูกออกแบบมาให้ทำงานตามลำดับขั้นตอนดังนี้:
+The system is designed to work in the following sequence:
 
-1.  **คิวรอดำเนินการ (Waiting)**:
-    *   งานใหม่จะเข้ามาที่สถานะ **"รอพิมพ์เอกสาร"** (Badge สีน้ำเงิน)
-    *   ปุ่มดาวน์โหลดจะเป็น **สีเขียว**
-2.  **เริ่มพิมพ์งาน (Processing)**:
-    *   เมื่อพนักงานกดปุ่ม **"⬇ ดาวโหลดไฟล์"** ระบบจะทำการดาวน์โหลดไฟล์ลงเครื่องอัตโนมัติ
-    *   สถานะจะเปลี่ยนเป็น **"กำลังดำเนินการ"** (Badge สีส้ม) ทันที
-    *   ปุ่มดาวน์โหลดจะเปลี่ยนเป็น **สีเทา** เพื่อแสดงว่าไฟล์ถูกเปิดดูแล้ว
-3.  **ยืนยันงานสำเร็จ (Completed)**:
-    *   เมื่อพิมพ์งานเสร็จสิ้น พนักงานกดปุ่ม **"ยืนยันพิมพ์งานสำเร็จ"**
-    *   สถานะจะเปลี่ยนเป็น **"ดำเนินการสำเร็จ"** (Badge สีเขียว)
-    *   ปุ่มดาวน์โหลดจะเปลี่ยนเป็น **สีแดง** และถูกล็อค (Disabled) เพื่อป้องกันการเข้าถึงไฟล์ซ้ำ
-
----
-
-## 🔍 ฟีเจอร์หลัก (Key Features)
-
-### 1. การแยกประเภทคิว (Mode Separation)
-*   **Online Mode**: แสดงคิวงานที่มาจากแอปพลิเคชันหรือเว็บไซต์ (Q_001 - Q_003)
-*   **Walk In Mode**: แสดงคิวงานที่ลูกค้ามาหน้าร้านโดยเฉพาะ (Q_004 - Q_010)
-*   *หมายเหตุ: เมื่อเปิดหน้าจอครั้งแรก ระบบจะแสดงผลโหมด Online เป็นค่าเริ่มต้น*
-
-### 2. ระบบตัวกรอง (Filtering System)
-*   **Filter by Status**: สามารถเลือกดูเฉพาะงานที่ "รอพิมพ์", "กำลังดำเนินการ" หรือ "สำเร็จแล้ว"
-*   **Filter by Date**: เลือกดูประวัติงานพิมพ์ตามวันที่สั่งงาน (รองรับปฏิทินภาษาไทย)
-
-### 3. ระบบแสดงหมายเหตุ (Remarks System)
-*   รองรับการแสดงข้อความหมายเหตุสั้น-ยาว หากข้อความยาวเกินไป พนักงานสามารถนำเมาส์ไปชี้ (Hover) เพื่อดูข้อความทั้งหมดได้
+1. **Waiting Queue:**
+* New jobs will enter the status **"Waiting to Print"** (blue badge).
+* The download button will be **green**.
+2. **Processing:**
+* When the employee clicks the **"⬇ Download File"** button, the system will automatically download the file to the computer.
+* The status will immediately change to **"Processing"** (orange badge).
+* The download button will turn **gray** to indicate that the file has been viewed.
+3. **Completed:**
+* When printing is complete, the employee clicks the **"Confirm Print Completed"** button.
+* The status will change to... **"Operation Successful"** (Green Badge)
+* The download button will turn **red** and be locked (disabled) to prevent duplicate file access.
 
 ---
 
-## 🎨 ความหมายของสัญลักษณ์สี
+## 🔍 Key Features
 
-| สัญลักษณ์ | ความหมาย | สื่อถึง |
+### 1. Queue Separation Mode
+* **Online Mode**: Displays job queues from applications or websites (Q_001 - Q_003)
+* **Walk In Mode**: Displays job queues specifically for customers visiting the store (Q_004 - Q_010)
+* *Note: When the screen is opened for the first time, the system will display Online mode by default.*
+
+### 2. Filtering System
+* **Filter by Status**: Allows you to view only jobs that are "Pending Print", "In Progress", or "Completed".
+* **Filter by Date**: Allows you to view print history by order date (supports Thai calendar).
+
+### 3. Remarks System
+* Supports displaying short and long remarks. If the remarks are too long, Employees can hover their mouse over the text to view the full message.
+
+---
+
+## 🎨 Meaning of Color Symbols
+
+| Symbol | Meaning | Represents |
 | :--- | :--- | :--- |
-| **Badge สีน้ำเงิน** | รอพิมพ์เอกสาร | ยังไม่มีการเริ่มงาน |
-| **Badge สีส้ม** | กำลังดำเนินการ | ดาวน์โหลดไฟล์ไปพิมพ์แล้ว |
-| **Badge สีเขียว** | ดำเนินการสำเร็จ | จบงานเรียบร้อย |
-| **ปุ่มสีเขียว** | พร้อมดาวน์โหลด | ไฟล์ใหม่ยังไม่ถูกเปิด |
-| **ปุ่มสีแดง** | ปิดการเข้าถึง | งานสำเร็จแล้ว ห้ามโหลดซ้ำ |
+| **Blue Badge** | Document awaiting printing | Work has not yet started |
+| **Orange Badge** | In progress | File downloaded for printing |
+| **Green Badge** | Completed | Job finished |
+| **Green Button** | Ready to download | New file not yet opened |
+| **Red Button** | Access restricted | Job completed. Do not re-download. |
 
 ---
 
-## 🛠 ข้อมูลทางเทคโนโลยี
-*   **HTML5/CSS3**: โครงสร้างแบบ Responsive และระบบ Theme Toggle
-*   **JavaScript (Vanilla)**: ควบคุม Logic การเปลี่ยนสถานะโดยใช้คิวรี DOM (Queue IDs)
-*   **Flatpickr**: ไลบรารีสำหรับเลือกวันที่ที่ใช้งานง่ายและรองรับภาษาไทย
+## 🛠 Technological Information
+* **HTML5/CSS3**: Responsive design and Theme Toggle system
+* **JavaScript (Vanilla)**: Controls state transition logic using DOM queries (Queue IDs)
+* **Flatpickr**: Easy-to-use date selection library with Thai language support
