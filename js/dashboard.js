@@ -54,6 +54,9 @@ function renderTables() {
 
 // 3. Actions (Edit & Save Data)
 function openEditModal(type, id) {
+    // Clear any previous validation errors
+    clearValidationErrors('edit-form');
+
     currentUserEditId = id;
     currentEditType = type;
 
@@ -124,31 +127,42 @@ function confirmSaveUserData() {
     const passwordEl = document.getElementById('edit-password');
     const phoneEl = document.getElementById('edit-phone');
     const emailEl = document.getElementById('edit-email');
+    const roleEl = document.getElementById('edit-role');
 
     const username = usernameEl.value.trim();
     const password = passwordEl.value;
     const phoneRaw = phoneEl.value.replace(/\D/g, '');
     const email = emailEl.value.trim();
+    const role = roleEl ? roleEl.value : '';
 
     const errors = [];
 
     // 1. Username
     if (username.length < 1)
-        errors.push({ input: usernameEl, label: 'Username', message: 'กรุณากรอกอย่างน้อย 1 ตัวอักษร' });
+        errors.push({ input: usernameEl, label: 'ชื่อผู้ใช้', message: 'กรุณากรอกชื่อผู้ใช้' });
 
-    // 2. Password
+    // 2. Email
+    if (email.length < 1)
+        errors.push({ input: emailEl, label: 'อีเมล', message: 'กรุณากรอกอีเมล' });
+    else if (!isValidEmail(email))
+        errors.push({ input: emailEl, label: 'อีเมล', message: 'รูปแบบไม่ถูกต้อง (เช่น name@example.com)' });
+
+    // 3. Phone (ต้องกรอก และต้องครบ 10 หลัก)
+    if (phoneRaw.length < 1)
+        errors.push({ input: phoneEl, label: 'เบอร์โทรศัพท์', message: 'กรุณากรอกเบอร์โทรศัพท์' });
+    else if (phoneRaw.length !== 10)
+        errors.push({ input: phoneEl, label: 'เบอร์โทรศัพท์', message: `ต้องมี 10 หลักพอดี (ปัจจุบัน ${phoneRaw.length} หลัก)` });
+
+    // 4. Password
     if (password.length < 5)
-        errors.push({ input: passwordEl, label: 'Password', message: 'ต้องมีอย่างน้อย 5 ตัวอักษร' });
+        errors.push({ input: passwordEl, label: 'รหัสผ่าน', message: 'ต้องมีอย่างน้อย 5 ตัวอักษร' });
     else if (password.length > 100)
-        errors.push({ input: passwordEl, label: 'Password', message: 'ยาวได้สูงสุด 100 ตัวอักษร' });
+        errors.push({ input: passwordEl, label: 'รหัสผ่าน', message: 'ยาวได้สูงสุด 100 ตัวอักษร' });
 
-    // 3. Phone (ถ้ากรอก ต้องครบ 10 หลัก)
-    if (phoneRaw.length > 0 && phoneRaw.length !== 10)
-        errors.push({ input: phoneEl, label: 'Phone', message: `ต้องมี 10 หลักพอดี (ปัจจุบัน ${phoneRaw.length} หลัก)` });
-
-    // 4. Email (ถ้ากรอก ต้องผ่าน isValidEmail)
-    if (email && !isValidEmail(email))
-        errors.push({ input: emailEl, label: 'Email', message: 'รูปแบบไม่ถูกต้อง (เช่น name@example.com)' });
+    // 5. Role (ถ้าเป็นพนักงาน ต้องเลือก)
+    if (currentEditType === 'employee' && !role) {
+        errors.push({ input: roleEl, label: 'ตำแหน่งงาน', message: 'กรุณาเลือกตำแหน่งงาน' });
+    }
 
     if (errors.length > 0) {
         showValidationModal(errors);
@@ -510,18 +524,35 @@ function handleEmployeeRegistration() {
 
     const errors = [];
 
-    if (!username) errors.push({ input: usernameEl, label: 'Username', message: 'กรุณากรอกชื่อผู้ใช้' });
-    if (!email) errors.push({ input: emailEl, label: 'Email', message: 'กรุณากรอกอีเมล' });
-    else if (!isValidEmail(email)) errors.push({ input: emailEl, label: 'Email', message: 'รูปแบบอีเมลไม่ถูกต้อง' });
+    // 1. Username
+    if (!username) 
+        errors.push({ input: usernameEl, label: 'ชื่อผู้ใช้', message: 'กรุณากรอกชื่อผู้ใช้' });
 
-    if (!password) errors.push({ input: passwordEl, label: 'Password', message: 'กรุณากรอกรหัสผ่าน' });
-    else if (password.length < 5) errors.push({ input: passwordEl, label: 'Password', message: 'รหัสผ่านต้องมีอย่างน้อย 5 ตัวอักษร' });
+    // 2. Email
+    if (!email) 
+        errors.push({ input: emailEl, label: 'อีเมล', message: 'กรุณากรอกอีเมล' });
+    else if (!isValidEmail(email)) 
+        errors.push({ input: emailEl, label: 'อีเมล', message: 'รูปแบบอีเมลไม่ถูกต้อง' });
 
-    if (password !== confirmPw) errors.push({ input: confirmPwEl, label: 'Confirm Password', message: 'รหัสผ่านไม่ตรงกัน' });
+    // 3. Password
+    if (!password) 
+        errors.push({ input: passwordEl, label: 'รหัสผ่าน', message: 'กรุณากรอกรหัสผ่าน' });
+    else if (password.length < 5) 
+        errors.push({ input: passwordEl, label: 'รหัสผ่าน', message: 'รหัสผ่านต้องมีอย่างน้อย 5 ตัวอักษร' });
 
-    if (phoneRaw.length > 0 && phoneRaw.length !== 10) errors.push({ input: phoneEl, label: 'Phone', message: 'เบอร์โทรศัพท์ต้องมี 10 หลัก' });
+    // 4. Confirm Password
+    if (password !== confirmPw) 
+        errors.push({ input: confirmPwEl, label: 'ยืนยันรหัสผ่าน', message: 'รหัสผ่านไม่ตรงกัน' });
 
-    if (!role) errors.push({ input: roleEl, label: 'Role', message: 'กรุณาเลือกตำแหน่งงาน' });
+    // 5. Phone
+    if (phoneRaw.length < 1) 
+        errors.push({ input: phoneEl, label: 'เบอร์โทรศัพท์', message: 'กรุณากรอกเบอร์โทรศัพท์' });
+    else if (phoneRaw.length !== 10) 
+        errors.push({ input: phoneEl, label: 'เบอร์โทรศัพท์', message: 'เบอร์โทรศัพท์ต้องมี 10 หลัก' });
+
+    // 6. Role
+    if (!role) 
+        errors.push({ input: roleEl, label: 'ตำแหน่งงาน', message: 'กรุณาเลือกตำแหน่งงาน' });
 
     if (errors.length > 0) {
         showValidationModal(errors);

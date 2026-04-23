@@ -315,7 +315,7 @@ function openAddMaterialModal() {
 function initiateSaveMaterial(type) {
     currentMaterialActionType = type;
     
-    let name, subType, typeVal, unit, price;
+    let name, subType, typeVal, unit, price, reorder, qty;
     
     if (type === 'add') {
         name = document.getElementById('text-add-material').innerText.trim();
@@ -323,12 +323,16 @@ function initiateSaveMaterial(type) {
         typeVal = document.getElementById('text-add-type').innerText.trim();
         unit = document.getElementById('text-add-unit').innerText.trim();
         price = document.getElementById('add-material-price').value.trim();
+        reorder = document.getElementById('add-material-reorder').value.trim();
+        qty = document.getElementById('add-material-qty').value.trim();
     } else {
         name = document.getElementById('edit-material-name').value.trim();
         subType = document.getElementById('edit-material-subtype').value.trim();
         typeVal = document.getElementById('edit-material-type').value.trim();
         unit = document.getElementById('edit-material-unit').value.trim();
         price = document.getElementById('edit-material-price').value.trim();
+        reorder = document.getElementById('edit-material-reorder').value.trim();
+        qty = document.getElementById('edit-material-qty').value.trim();
     }
 
     const errors = [];
@@ -338,14 +342,42 @@ function initiateSaveMaterial(type) {
         if (typeVal === 'ประเภทวัสดุ') errors.push({ label: 'ประเภทวัสดุ', message: 'กรุณาเลือกประเภทวัสดุ' });
         if (unit === 'เลือกหน่วย') errors.push({ label: 'หน่วย', message: 'กรุณาเลือกหน่วย' });
     } else {
-        // In edit mode, we just check if they are not empty (though they are readonly in some cases)
         if (!name) errors.push({ label: 'วัสดุ', message: 'กรุณาเลือกวัสดุ' });
         if (!subType) errors.push({ label: 'ชนิดวัสดุ', message: 'กรุณาเลือกชนิดวัสดุ' });
         if (!typeVal) errors.push({ label: 'ประเภทวัสดุ', message: 'กรุณาเลือกประเภทวัสดุ' });
         if (!unit) errors.push({ label: 'หน่วย', message: 'กรุณาเลือกหน่วย' });
     }
     
-    if (!price) errors.push({ label: 'ราคา/หน่วย', message: 'กรุณากรอกราคา' });
+    // 1. ราคา/หน่วย
+    if (!price) {
+        errors.push({ label: 'ราคา/หน่วย', message: 'กรุณากรอกราคา' });
+    } else if (parseFloat(price) < 1) {
+        errors.push({ label: 'ราคา/หน่วย', message: 'ราคาต้องไม่น้อยกว่า 1' });
+    }
+
+    // 2. จุดสั่งซื้อ
+    if (!reorder) {
+        errors.push({ label: 'จุดสั่งซื้อ', message: 'กรุณากรอกจุดสั่งซื้อ' });
+    } else {
+        const reorderNum = parseFloat(reorder);
+        if (reorderNum < 1) {
+            errors.push({ label: 'จุดสั่งซื้อ', message: 'จุดสั่งซื้อต้องไม่น้อยกว่า 1' });
+        } else if (reorder.includes('.')) {
+            errors.push({ label: 'จุดสั่งซื้อ', message: 'จุดสั่งซื้อห้ามเป็นทศนิยม' });
+        }
+    }
+
+    // 3. คลังวัสดุคงเหลือ
+    if (!qty) {
+        errors.push({ label: 'คลังวัสดุคงเหลือ', message: 'กรุณากรอกจำนวนคงเหลือ' });
+    } else {
+        const qtyNum = parseFloat(qty);
+        if (qtyNum < 1) {
+            errors.push({ label: 'คลังวัสดุคงเหลือ', message: 'คลังวัสดุคงเหลือต้องไม่น้อยกว่า 1' });
+        } else if (qty.includes('.')) {
+            errors.push({ label: 'คลังวัสดุคงเหลือ', message: 'คลังวัสดุคงเหลือห้ามเป็นทศนิยม' });
+        }
+    }
 
     if (errors.length > 0) {
         showValidationModal(errors);
@@ -794,6 +826,19 @@ function validatePrice(input) {
         value = formatParts[0] + '.' + formatParts[1];
     } else {
         value = formatParts[0];
+    }
+
+    input.value = value;
+}
+
+function validateInteger(input) {
+    let value = input.value;
+    // Remove anything that is not a digit
+    value = value.replace(/[^0-9]/g, '');
+
+    // Limit to 4 digits for consistency with price logic if needed
+    if (value.length > 4) {
+        value = value.substring(0, 4);
     }
 
     input.value = value;

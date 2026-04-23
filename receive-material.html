@@ -59,8 +59,8 @@
 
                 <div class="receive-form-group">
                     <label>จำนวนที่รับ</label>
-                    <input type="number" id="receive-qty" value="0" min="0" max="1000" class="receive-input blue-text"
-                        oninput="if(this.value && this.value < 0) this.value = 0; if(this.value > 1000) this.value = 1000;">
+                    <input type="text" id="receive-qty" value="0" class="receive-input blue-text"
+                        oninput="validateInteger(this); clearSingleFieldError(this); if(this.value > 1000) this.value = 1000;">
                 </div>
 
                 <div class="receive-form-group">
@@ -158,6 +158,7 @@
     </div>
 
     <script src="js/mock-api.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/receive-material.js"></script>
     <script src="js/navbar.js"></script>
 

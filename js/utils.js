@@ -47,6 +47,7 @@ function showValidationError(input, message) {
     }, 2500);
 }
 
+
 // ─── Validation Error Modal (แสดงข้อผิดพลาดทั้งหมด + ไฮไลต์ field เมื่อกด ตกลง) ────
 // errors: Array of { input: DOMElement|null, label: 'Field Name', message: 'error text' }
 function showValidationModal(errors) {
@@ -299,4 +300,46 @@ function formatPhoneNumber(input) {
     if (value.length > 3) formatted += ' - ' + value.substring(3, 6);
     if (value.length > 6) formatted += ' - ' + value.substring(6, 10);
     input.value = formatted;
+}
+
+// ─── Number Validation ────────────────────────────────────────────────────────
+function validateInteger(input) {
+    let value = input.value;
+    // Remove anything that is not a digit
+    value = value.replace(/[^0-9]/g, '');
+
+    // Limit to 4 digits for consistency with price logic
+    if (value.length > 4) {
+        value = value.substring(0, 4);
+    }
+
+    input.value = value;
+}
+
+// ─── Clear Validation Errors ──────────────────────────────────────────────────
+function clearValidationErrors(containerId = null) {
+    const root = containerId ? document.getElementById(containerId) : document;
+    if (!root) return;
+
+    // Remove red borders
+    root.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+    
+    // Remove error message spans
+    root.querySelectorAll('.field-error-msg').forEach(el => el.remove());
+}
+
+function clearSingleFieldError(element) {
+    if (!element) return;
+    element.classList.remove('input-error');
+    const inputGroup = element.parentElement;
+    if (inputGroup) {
+        const msg = inputGroup.querySelector(`.field-error-msg[data-for="${element.id}"]`);
+        if (msg) msg.remove();
+        // also check for messages without data-for if they were appended directly
+        inputGroup.querySelectorAll('.field-error-msg').forEach(m => {
+            if (!m.getAttribute('data-for') || m.getAttribute('data-for') === element.id) {
+                m.remove();
+            }
+        });
+    }
 }

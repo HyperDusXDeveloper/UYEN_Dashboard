@@ -272,6 +272,7 @@ function selectMaterialItem(mat) {
     updateSubTypeList();
     updateTypeList();
     updateSummary();
+    clearSingleFieldError(display);
     toggleWithdrawDropdown('list-withdraw-material');
 }
 
@@ -300,6 +301,7 @@ function selectSubTypeItem(sub) {
 
     updateSummary();
     updateTypeList();
+    clearSingleFieldError(display);
     toggleWithdrawDropdown('list-withdraw-subtype');
 }
 
@@ -325,6 +327,7 @@ function selectTypeItem(type) {
     }
 
     updateSummary();
+    clearSingleFieldError(display);
     toggleWithdrawDropdown('list-withdraw-type');
 }
 
@@ -348,30 +351,35 @@ function openConfirmModal() {
     const nameInput = document.getElementById('withdrawer-name');
     const qtyInput = document.getElementById('withdraw-qty');
 
-    let isValid = true;
+    const errors = [];
 
     if (!nameInput.value.trim()) {
-        isValid = false;
-        flashError(nameInput);
+        errors.push({ input: nameInput, label: 'ชื่อผู้เบิกวัสดุ', message: 'กรุณากรอกชื่อผู้เบิก' });
     }
     if (!selectedMaterial) {
-        isValid = false;
-        flashError(document.getElementById('withdraw-material-display'));
+        errors.push({ input: document.getElementById('withdraw-material-display'), label: 'วัสดุ', message: 'กรุณาเลือกวัสดุ' });
     }
     if (!selectedSubType) {
-        isValid = false;
-        flashError(document.getElementById('withdraw-subtype-display'));
+        errors.push({ input: document.getElementById('withdraw-subtype-display'), label: 'ชนิดวัสดุ', message: 'กรุณาเลือกชนิดวัสดุ' });
     }
     if (!selectedType) {
-        isValid = false;
-        flashError(document.getElementById('withdraw-type-display'));
+        errors.push({ input: document.getElementById('withdraw-type-display'), label: 'ประเภทวัสดุ', message: 'กรุณาเลือกประเภท' });
     }
-    if (!qtyInput.value.trim()) {
-        isValid = false;
-        flashError(qtyInput);
+    
+    const qtyValue = qtyInput.value.trim();
+    if (!qtyValue) {
+        errors.push({ input: qtyInput, label: 'จำนวนที่ต้องการเบิก', message: 'กรุณากรอกจำนวน' });
+    } else {
+        const qtyNum = parseInt(qtyValue, 10);
+        if (qtyNum < 1) {
+            errors.push({ input: qtyInput, label: 'จำนวนที่ต้องการเบิก', message: 'จำนวนต้องไม่น้อยกว่า 1' });
+        }
     }
 
-    if (!isValid) return;
+    if (errors.length > 0) {
+        showValidationModal(errors);
+        return;
+    }
 
     document.getElementById('confirm-name').value = nameInput.value || '';
     document.getElementById('confirm-material-name').value = selectedMaterial;

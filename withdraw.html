@@ -59,8 +59,8 @@
 
                 <div class="withdraw-form-group">
                     <label class="withdraw-label-std">จำนวนที่ต้องการเบิกวัสดุ</label>
-                    <input type="number" id="withdraw-qty" class="withdraw-input blue-text withdraw-input-blue" min="1" max="1000"
-                        oninput="if(this.value > 1000) this.value = 1000; if(this.value < 0) this.value = ''; updateSummary()">
+                    <input type="text" id="withdraw-qty" class="withdraw-input blue-text withdraw-input-blue"
+                        oninput="validateInteger(this); clearSingleFieldError(this); if(this.value > 1000) this.value = 1000; updateSummary()">
                 </div>
 
                 <div class="withdraw-form-group">
@@ -193,6 +193,7 @@
     </div>
 
     <script src="js/mock-api.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/withdraw.js"></script>
     <script src="js/navbar.js"></script>
 </body>

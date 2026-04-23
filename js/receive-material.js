@@ -271,6 +271,7 @@ function selectMaterialItem(mat) {
 
     updateSubTypeList();
     updateTypeList();
+    clearSingleFieldError(document.getElementById('receive-material-display'));
     toggleReceiveDropdown('list-receive-material');
 }
 
@@ -297,6 +298,7 @@ function selectSubTypeItem(sub) {
     }
 
     updateTypeList();
+    clearSingleFieldError(display);
     toggleReceiveDropdown('list-receive-subtype');
 }
 
@@ -319,6 +321,7 @@ function selectTypeItem(type) {
         }
     }
 
+    clearSingleFieldError(document.getElementById('receive-type-display'));
     toggleReceiveDropdown('list-receive-type');
 }
 
@@ -342,29 +345,34 @@ function openConfirmModal() {
     const qtyInput = document.getElementById('receive-qty');
     const noteInput = document.getElementById('receive-note');
 
-    let isValid = true;
+    const errors = [];
 
     if (!selectedMaterial) {
-        isValid = false;
-        flashError(document.getElementById('receive-material-display'));
+        errors.push({ input: document.getElementById('receive-material-display'), label: 'วัสดุที่รับ', message: 'กรุณาเลือกวัสดุ' });
     }
 
     if (!selectedSubType) {
-        isValid = false;
-        flashError(document.getElementById('receive-subtype-display'));
+        errors.push({ input: document.getElementById('receive-subtype-display'), label: 'ชนิดวัสดุที่รับ', message: 'กรุณาเลือกชนิดวัสดุ' });
     }
 
     if (!selectedType) {
-        isValid = false;
-        flashError(document.getElementById('receive-type-display'));
+        errors.push({ input: document.getElementById('receive-type-display'), label: 'ประเภทวัสดุที่รับ', message: 'กรุณาเลือกประเภทวัสดุ' });
     }
 
-    if (!qtyInput.value || parseInt(qtyInput.value) <= 0) {
-        isValid = false;
-        flashError(qtyInput);
+    const qtyValue = qtyInput.value.trim();
+    if (!qtyValue) {
+        errors.push({ input: qtyInput, label: 'จำนวนที่รับ', message: 'กรุณากรอกจำนวน' });
+    } else {
+        const qtyNum = parseInt(qtyValue, 10);
+        if (qtyNum < 1) {
+            errors.push({ input: qtyInput, label: 'จำนวนที่รับ', message: 'จำนวนต้องไม่น้อยกว่า 1' });
+        }
     }
 
-    if (!isValid) return;
+    if (errors.length > 0) {
+        showValidationModal(errors);
+        return;
+    }
 
     document.getElementById('confirm-name').value = document.getElementById('receive-name').value;
     document.getElementById('confirm-material-name').value = selectedMaterial;
