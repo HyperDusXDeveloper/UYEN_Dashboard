@@ -4,6 +4,117 @@ let currentRowToDelete = null;
 let currentRowToEdit = null;
 let inventoryData = [];
 
+function injectAddMaterialModal() {
+    if(document.getElementById('modal-add-material')) return;
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay hidden';
+    overlay.id = 'modal-add-material';
+    overlay.innerHTML = `
+        <div class="modal modal-edit-large p-0 border-blue-dark bg-white">
+            <div class="modal-header-blue-dark">
+                <h2 class="modal-title-center-24">เพิ่มวัสดุ</h2>
+            </div>
+            <div class="modal-body p-30">
+                <form onsubmit="event.preventDefault();" class="modal-input-group-gap-20">
+                    <div class="input-group custom-dropdown-container m-0 relative">
+                        <label class="fw-800 text-gray-modal">วัสดุ</label>
+                        <div class="modal-input-text-blue flex-between pointer" id="add-material-display" onclick="toggleInventoryDropdown('list-add-material')">
+                            <span id="text-add-material">ชื่อวัสดุ</span>
+                            <svg class="dropdown-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                        <ul id="list-add-material" class="dropdown-list-standard hidden"></ul>
+                    </div>
+                    <div class="input-group custom-dropdown-container m-0 relative">
+                        <label class="fw-800 text-gray-modal">ชนิดวัสดุ</label>
+                        <div class="modal-input-text-blue flex-between pointer" id="add-subtype-display" onclick="toggleInventoryDropdown('list-add-subtype')">
+                            <span id="text-add-subtype">ชนิดวัสดุ</span>
+                            <svg class="dropdown-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                        <ul id="list-add-subtype" class="dropdown-list-standard hidden"></ul>
+                    </div>
+                    <div class="input-group custom-dropdown-container m-0 relative">
+                        <label class="fw-800 text-gray-modal">ประเภทวัสดุ</label>
+                        <div class="modal-input-text-blue flex-between pointer" id="add-type-display" onclick="toggleInventoryDropdown('list-add-type')">
+                            <span id="text-add-type">ประเภทวัสดุ</span>
+                            <svg class="dropdown-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                        <ul id="list-add-type" class="dropdown-list-standard hidden"></ul>
+                    </div>
+                    <div class="input-group custom-dropdown-container m-0 relative">
+                        <label class="fw-800 text-gray-modal">หน่วย</label>
+                        <div class="modal-input-text-blue flex-between pointer" id="add-unit-display" onclick="toggleInventoryDropdown('list-add-unit')">
+                            <span id="text-add-unit">เลือกหน่วย</span>
+                            <svg class="dropdown-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                        <ul id="list-add-unit" class="dropdown-list-standard hidden"></ul>
+                    </div>
+                    <div class="input-group m-0"><label class="fw-800 text-gray-modal">ราคา/หน่วย</label><input type="text" id="add-material-price" oninput="validatePrice(this)" class="modal-input-text-blue"></div>
+                    <div class="input-group m-0"><label class="fw-800 text-gray-modal">จุดสั่งซื้อ</label><input type="text" id="add-material-reorder" oninput="validateInteger(this)" class="modal-input-text-blue"></div>
+                    <div class="input-group m-0 mb-10"><label class="fw-800 text-gray-modal">คลังวัสดุคงเหลือ</label><input type="text" id="add-material-qty" value="0" oninput="validateInteger(this)" class="modal-input-text-blue"></div>
+                    <div class="modal-actions-right d-flex flex-middle-end gap-15 mt-5">
+                        <button type="button" class="btn-action btn-save-success px-40 h-auto" onclick="initiateSaveMaterial('add')">บันทึก</button>
+                        <button type="button" class="btn-action btn-close-danger px-40 h-auto" onclick="initiateCancelMaterial('add')">ยกเลิก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+function injectSettingsModal() {
+    if(document.getElementById('modal-settings')) return;
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay hidden';
+    overlay.id = 'modal-settings';
+    overlay.innerHTML = `
+        <div class="modal modal-edit-large p-0 border-none bg-white">
+            <div class="modal-header-blue-dark border-radius-top">
+                <h2 id="modal-settings-title" class="title-28 text-white fw-700 m-0">ตั้งค่าวัสดุ</h2>
+            </div>
+            <div class="modal-body p-30">
+                <form onsubmit="event.preventDefault();" class="modal-input-group-gap-20">
+                    <div class="input-group m-0">
+                        <label class="fw-800 text-gray-modal">วัสดุ</label>
+                        <input type="text" id="edit-material-name" maxlength="50" placeholder="ชื่อวัสดุ" readonly class="modal-input-text-blue modal-input-readonly">
+                    </div>
+                    <div class="input-group m-0">
+                        <label class="fw-800 text-gray-modal">ชนิดวัสดุ</label>
+                        <input type="text" id="edit-material-subtype" maxlength="50" placeholder="ชนิดวัสดุ" readonly class="modal-input-text-blue modal-input-readonly">
+                    </div>
+                    <div class="input-group m-0">
+                        <label class="fw-800 text-gray-modal">ประเภทวัสดุ</label>
+                        <input type="text" id="edit-material-type" maxlength="50" placeholder="ประเภทวัสดุ" readonly class="modal-input-text-blue modal-input-readonly">
+                    </div>
+                    <div class="input-group custom-dropdown-container m-0 relative">
+                        <label class="fw-800 text-gray-modal">หน่วย</label>
+                        <input type="text" id="edit-material-unit" readonly placeholder="เลือกหน่วย" class="modal-input-text-blue" onclick="toggleUnitDropdown('list-edit-unit')" />
+                        <svg class="dropdown-arrow-icon" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 8l5 5 5-5" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        <ul id="list-edit-unit" class="dropdown-list-standard max-h-200 hidden"></ul>
+                    </div>
+                    <div class="input-group m-0">
+                        <label class="fw-800 text-gray-modal">ราคา/หน่วย</label>
+                        <input type="text" id="edit-material-price" value="25" oninput="validatePrice(this)" class="modal-input-text-blue">
+                    </div>
+                    <div class="input-group m-0">
+                        <label class="fw-800 text-gray-modal">จุดสั่งซื้อ</label>
+                        <input type="text" id="edit-material-reorder" value="50" oninput="validateInteger(this)" class="modal-input-text-blue">
+                    </div>
+                    <div class="input-group m-0 mb-10">
+                        <label class="fw-800 text-gray-modal">คลังวัสดุคงเหลือ</label>
+                        <input type="text" id="edit-material-qty" value="5" oninput="validateInteger(this)" class="modal-input-text-blue">
+                    </div>
+                    <div class="modal-actions-right d-flex flex-middle-end gap-10">
+                        <button type="button" id="btn-save-material" class="btn-action btn-save-success px-25 h-auto f-14" onclick="initiateSaveMaterial('edit')">บันทึกข้อมูลวัสดุ</button>
+                        <button type="button" class="btn-action btn-close-danger px-30 h-auto f-14" onclick="initiateCancelMaterial('edit')">ยกเลิก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
 const INVENTORY_MATERIAL_DATA = {
     "กระดาษ": {
         subTypes: ["A0", "A1", "A2", "A3", "A4", "A5", "F4", "นามบัตร (54x90 mm)"],
@@ -389,25 +500,24 @@ function initiateSaveMaterial(type) {
     } else {
         document.getElementById('modal-settings').classList.add('hidden');
     }
-    document.getElementById('modal-confirm-save-material').classList.remove('hidden');
-}
 
-function executeSaveMaterial() {
-    document.getElementById('modal-confirm-save-material').classList.add('hidden');
-    if (currentMaterialActionType === 'add') {
-        saveNewMaterial();
-    } else {
-        saveMaterialData();
-    }
-}
-
-function abortSaveMaterial() {
-    document.getElementById('modal-confirm-save-material').classList.add('hidden');
-    if (currentMaterialActionType === 'add') {
-        document.getElementById('modal-add-material').classList.remove('hidden');
-    } else {
-        document.getElementById('modal-settings').classList.remove('hidden');
-    }
+    showConfirmModal({
+        title: 'ยืนยันการบันทึกข้อมูลวัสดุ',
+        headerClass: 'modal-header-confirm modal-header-save bg-green-light',
+        bodyHtml: `<h3 class="modal-h3-confirm" style="text-align: center;">คุณต้องการบันทึกข้อมูลวัสดุ ใช่หรือไม่ ?</h3>`,
+        confirmText: 'บันทึกวัสดุ',
+        confirmBtnClass: 'btn-action btn-save',
+        cancelText: 'ยกเลิก',
+        cancelBtnClass: 'btn-action btn-cancel',
+        onConfirm: () => {
+             if (currentMaterialActionType === 'add') saveNewMaterial();
+             else saveMaterialData();
+        },
+        onCancel: () => {
+             if (currentMaterialActionType === 'add') document.getElementById('modal-add-material').classList.remove('hidden');
+             else document.getElementById('modal-settings').classList.remove('hidden');
+        }
+    });
 }
 
 function initiateCancelMaterial(type) {
@@ -417,21 +527,33 @@ function initiateCancelMaterial(type) {
     } else {
         document.getElementById('modal-settings').classList.add('hidden');
     }
-    document.getElementById('modal-confirm-cancel-material').classList.remove('hidden');
-}
 
-function executeCancelMaterial() {
-    document.getElementById('modal-confirm-cancel-material').classList.add('hidden');
-    // No success popup as per user request (Pop up 2 วิ ปิด ลบออกไปเลย)
-}
-
-function abortCancelMaterial() {
-    document.getElementById('modal-confirm-cancel-material').classList.add('hidden');
-    if (currentMaterialActionType === 'add') {
-        document.getElementById('modal-add-material').classList.remove('hidden');
-    } else {
-        document.getElementById('modal-settings').classList.remove('hidden');
-    }
+    showConfirmModal({
+        title: 'ยืนยันการยกเลิกบันทึกวัสดุ',
+        headerClass: 'modal-header-confirm modal-header-cancel bg-red-main',
+        bodyHtml: `<h3 class="modal-h3-confirm" style="text-align: center;">คุณต้องการยกเลิกการบันทึกวัสดุ ใช่หรือไม่ ?</h3>`,
+        confirmText: 'ยกเลิกบันทึกวัสดุ',
+        confirmBtnClass: 'btn-action btn-close',
+        cancelText: 'ย้อนกลับ',
+        cancelBtnClass: 'btn-action btn-cancel',
+        onConfirm: () => {
+            if (currentMaterialActionType === 'add') {
+                removeModalCompletely('modal-add-material');
+            } else {
+                removeModalCompletely('modal-settings');
+            }
+        },
+        onCancel: () => {
+             if (currentMaterialActionType === 'add') {
+                 const el = document.getElementById('modal-add-material');
+                 if(el) el.classList.remove('hidden');
+             }
+             else {
+                 const el = document.getElementById('modal-settings');
+                 if(el) el.classList.remove('hidden');
+             }
+        }
+    });
 }
 
 function openDeleteMaterialModal(btn) {
@@ -442,14 +564,31 @@ function openDeleteMaterialModal(btn) {
 
     const combined = type ? `${name} ( ${type} )` : name;
 
-    const nameDisplay = document.getElementById('delete-material-name-text');
-    if (nameDisplay) nameDisplay.innerText = combined;
-
-    document.getElementById('modal-delete-material').classList.remove('hidden');
+    showConfirmModal({
+        title: 'ยืนยันการลบ',
+        headerClass: 'modal-header-confirm modal-header-cancel',
+        bodyClass: 'modal-body-confirm',
+        actionsContainerClass: 'modal-actions-confirm',
+        bodyHtml: `
+            <div class="confirm-content" style="text-align: left;">
+                <p class="confirm-text">คุณต้องการลบวัสดุ</p>
+                <h3 class="confirm-target" style="word-break: break-all;">${combined}</h3>
+                <p class="confirm-subtext">ออกจากคลังวัสดุใช่หรือไม่? เมื่อลบแล้วข้อมูลจะไม่สามารถกู้คืนได้</p>
+            </div>
+        `,
+        confirmText: 'ยืนยันการลบ',
+        confirmBtnClass: 'btn-action btn-cancel-confirm-action',
+        cancelText: 'ยกเลิก',
+        cancelBtnClass: 'btn-action btn-close-danger-action',
+        onConfirm: confirmDeleteMaterial,
+        onCancel: () => {
+            currentRowToDelete = null;
+        }
+    });
 }
 
 function closeDeleteMaterialModal() {
-    document.getElementById('modal-delete-material').classList.add('hidden');
+    // left empty for compatibility
 }
 
 
@@ -497,7 +636,7 @@ function saveNewMaterial() {
         updateItemCount();
     }
 
-    // showStatusModal('success'); // Removed 2s popup
+    showStatusModal('บันทึกข้อมูลวัสดุสำเร็จ', 'ข้อมูลวัสดุได้รับการบันทึกแล้ว', 'success');
     checkStockColors();
 }
 
@@ -715,30 +854,8 @@ function confirmDeleteMaterial() {
     if (currentRowToDelete) {
         currentRowToDelete.remove();
         currentRowToDelete = null;
-        closeDeleteMaterialModal();
         updateItemCount();
-    }
-}
-
-function showStatusModal(type) {
-    if (type === 'success') {
-        closeModal('modal-settings');
-        return; // Bypass showing success modal
-    } else if (type === 'delete-success') {
-        closeModal('modal-delete-material');
-        return; // Bypass showing success modal
-    }
-
-    let modalId = '';
-    if (type === 'delete-error') {
-        modalId = 'modal-delete-error';
-    }
-
-    if (modalId) {
-        document.getElementById(modalId).classList.remove('hidden');
-        setTimeout(() => {
-            closeModal(modalId);
-        }, 2000);
+        showStatusModal('ลบวัสดุสำเร็จ', 'ข้อมูลถูกลบสำเร็จแล้ว', 'success');
     }
 }
 

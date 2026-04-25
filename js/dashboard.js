@@ -53,7 +53,81 @@ function renderTables() {
 }
 
 // 3. Actions (Edit & Save Data)
+function injectEditModal() {
+    if (document.getElementById('modal-edit')) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay hidden';
+    overlay.id = 'modal-edit';
+    overlay.innerHTML = `
+        <div class="modal modal-edit-large p-0">
+            <div class="modal-header modal-header-blue modal-edit-header">
+                <h2 id="edit-modal-title" class="modal-title-edit fw-700 mb-6">User</h2>
+                <p id="edit-modal-subtitle" class="fw-500">แก้ไขข้อมูลผู้ใช้งาน</p>
+            </div>
+            <div class="modal-body p-30">
+                <form id="edit-form" class="form-grid" onsubmit="event.preventDefault(); confirmSaveUserData();">
+                    <div class="input-group">
+                        <label for="edit-username">ชื่อผู้ใช้ (Username)</label>
+                        <input type="text" id="edit-username" placeholder="กรอกชื่อผู้ใช้" maxlength="50" oninput="validateUsername(this)">
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-email">อีเมล (Email)</label>
+                        <input type="text" id="edit-email" placeholder="example@email.com" maxlength="100" autocomplete="off" oninput="validateEmail(this)">
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-phone">เบอร์โทรศัพท์ (Phone No.)</label>
+                        <input type="tel" id="edit-phone" maxlength="16" placeholder="000 - 000 - 0000" oninput="formatPhoneNumber(this)">
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-password">รหัสผ่าน (Password)</label>
+                        <div class="password-wrapper">
+                            <input type="text" id="edit-password" placeholder="กรอกรหัสผ่านใหม่" maxlength="100" minlength="5" oninput="validatePassword(this)">
+                        </div>
+                    </div>
+                    <div id="footer-left-side">
+                        <div id="status-group-container" class="input-group hidden">
+                            <label class="modal-label-status">สถานะการใช้งาน</label>
+                            <div class="toggle-container m-0">
+                                <button type="button" class="toggle-btn toggle-normal active" onclick="setToggle(this)">ปกติ</button>
+                                <button type="button" class="toggle-btn toggle-blacklist" onclick="setToggle(this)">Blacklist</button>
+                            </div>
+                        </div>
+                        <div id="role-group-container" class="input-group hidden">
+                            <label class="modal-label-status">ตำแหน่งงาน (Role)</label>
+                            <div class="select-wrapper">
+                                <select id="edit-role" style="height: 45px;">
+                                    <option value="" disabled selected hidden>เลือกตำแหน่งงาน</option>
+                                    <option value="Admin">ผู้ดูแลระบบ (Admin)</option>
+                                    <option value="พนักงาน">พนักงาน</option>
+                                    <option value="เจ้าของร้าน">เจ้าของร้าน</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer-right-side" class="d-flex align-end justify-end">
+                        <div class="modal-actions-right d-flex gap-12" style="margin-top: 0;">
+                            <button type="submit" class="btn-action btn-save-success">บันทึกข้อมูล</button>
+                            <button type="button" class="btn-action btn-close-danger" onclick="confirmCancelEdit()">ยกเลิก</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+function removeEditModal() {
+    const modal = document.getElementById('modal-edit');
+    if (modal) {
+        modal.classList.add('closing');
+        setTimeout(() => modal.remove(), 250);
+    }
+}
+
 function openEditModal(type, id) {
+    injectEditModal();
     // Clear any previous validation errors
     clearValidationErrors('edit-form');
 
@@ -173,15 +247,29 @@ function confirmSaveUserData() {
     if (displayName.length > 20) {
         displayName = displayName.substring(0, 20) + '...';
     }
-    document.getElementById('confirm-username').innerText = displayName;
 
     document.getElementById('modal-edit').classList.add('hidden');
-    document.getElementById('modal-confirm-save').classList.remove('hidden');
-}
-
-function abortSaveUserData() {
-    document.getElementById('modal-confirm-save').classList.add('hidden');
-    document.getElementById('modal-edit').classList.remove('hidden');
+    
+    showConfirmModal({
+        title: 'ยืนยันการบันทึกข้อมูล',
+        bodyHtml: `
+            <h3 class="modal-h3-confirm" style="text-align: center;">
+                คุณต้องการบันทึกข้อมูลของ <br> <span class="text-save fw-700">${displayName}</span>
+                ใช่หรือไม่ ?
+            </h3>
+        `,
+        confirmText: 'บันทึกข้อมูลผู้ใช้',
+        cancelText: 'ยกเลิก',
+        confirmBtnClass: 'btn-action btn-save',
+        cancelBtnClass: 'btn-action btn-cancel',
+        onConfirm: () => {
+            executeSaveUserData();
+        },
+        onCancel: () => {
+            const el = document.getElementById('modal-edit');
+            if(el) el.classList.remove('hidden');
+        }
+    });
 }
 
 function confirmCancelEdit() {
@@ -191,19 +279,30 @@ function confirmCancelEdit() {
     if (username.length > 20) {
         username = username.substring(0, 20) + '...';
     }
-    document.getElementById('cancel-confirm-username').innerText = username;
 
     document.getElementById('modal-edit').classList.add('hidden');
-    document.getElementById('modal-cancel-confirm').classList.remove('hidden');
-}
-
-function abortCancelEdit() {
-    document.getElementById('modal-cancel-confirm').classList.add('hidden');
-    document.getElementById('modal-edit').classList.remove('hidden');
-}
-
-function executeCancelEdit() {
-    document.getElementById('modal-cancel-confirm').classList.add('hidden');
+    
+    showConfirmModal({
+        title: 'ยืนยันการยกเลิกบันทึกข้อมูล',
+        headerClass: 'modal-header-confirm modal-header-cancel',
+        bodyHtml: `
+            <h3 class="modal-h3-confirm" style="text-align: center;">
+                คุณต้องยืนยันการยกเลิกบันทึกข้อมูลของ <br> <span class="text-cancel fw-700">${username}</span> ใช่หรือไม่ ?
+            </h3>
+        `,
+        confirmText: 'ยกเลิกบันทึกข้อมูลผู้ใช้',
+        cancelText: 'ยกเลิก',
+        confirmBtnClass: 'btn-action btn-close',
+        cancelBtnClass: 'btn-action btn-cancel',
+        onConfirm: () => {
+            window.showStatusModal('ยกเลิกการบันทึกข้อมูลสำเร็จ', 'ยกเลิกการบันทึกข้อมูลสำเร็จ', 'error-upload'); // matches previous cancel layout loosely
+        removeEditModal();
+        },
+        onCancel: () => {
+            const el = document.getElementById('modal-edit');
+            if (el) el.classList.remove('hidden');
+        }
+    });
 }
 
 function executeSaveUserData() {
@@ -246,39 +345,40 @@ function executeSaveUserData() {
     // Re-Render interface from state
     renderTables();
 
-    // Close modals
-    document.getElementById('modal-confirm-save').classList.add('hidden');
-    document.getElementById('modal-edit').classList.add('hidden');
+    currentUserEditId = null;
+    currentEditType = null;
+    removeEditModal();
+
+    window.showStatusModal('บันทึกข้อมูลสำเร็จ', 'ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว', 'success');
 }
 
-let currentDeleteId = null;
-let currentDeleteType = null;
-
 function openDeleteModal(type, id) {
-    currentDeleteId = id;
-    currentDeleteType = type;
-
     let person = type === 'user' ? users.find(u => u.id === id) : employees.find(e => e.id === id);
     if (!person) return;
 
-    document.getElementById('delete-username-text').innerText = person.name;
-    document.getElementById('modal-delete').classList.remove('hidden');
-}
-
-function confirmDelete() {
-    if (!currentDeleteId || !currentDeleteType) return;
-
-    if (currentDeleteType === 'user') {
-        users = users.filter(u => u.id !== currentDeleteId);
-    } else {
-        employees = employees.filter(e => e.id !== currentDeleteId);
-    }
-
-    renderTables();
-    document.getElementById('modal-delete').classList.add('hidden');
-
-    currentDeleteId = null;
-    currentDeleteType = null;
+    showConfirmModal({
+        title: 'ยืนยันการลบข้อมูล',
+        headerClass: 'modal-header-confirm modal-header-cancel',
+        bodyHtml: `
+            <h3 class="modal-h3-confirm" style="text-align: center;">
+                คุณต้องการลบชื่อผู้ใช้ : <br>
+                <span class="text-cancel fw-700">${person.name}</span> ใช่หรือไม่ ?
+            </h3>
+        `,
+        confirmText: 'ยืนยันการลบ',
+        cancelText: 'ยกเลิก',
+        confirmBtnClass: 'btn-action btn-close',
+        cancelBtnClass: 'btn-action btn-cancel',
+        onConfirm: () => {
+            if (type === 'user') {
+                users = users.filter(u => u.id !== id);
+            } else {
+                employees = employees.filter(e => e.id !== id);
+            }
+            renderTables();
+            window.showStatusModal('ลบข้อมูลสำเร็จ', 'ลบข้อมูลผู้ใช้สำเร็จ', 'error'); 
+        }
+    });
 }
 
 // ─── Register Employee Modal ──────────────────────────────────────────────────

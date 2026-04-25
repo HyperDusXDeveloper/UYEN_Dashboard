@@ -1,13 +1,40 @@
 // receive-print.js
 let receivePrintsData = [];
+let historyData = [];
+
+const RECEIVE_PRINT_OPTIONS_DATA = {
+    paperTypes: [
+        "A0", "A1", "A2", "A3", "A4", "A5", "F4", "นามบัตร (54x90 mm)"
+    ],
+    printTypes: [
+        "กระดาษปอนด์ 70 แกรม (กระดาษปกติ)", "กระดาษปอนด์ 80 แกรม", "กระดาษร้อยปอนด์ (ผิวหยาบ)",
+        "กระดาษร้อยปอนด์ (ผิวเรียบ)", "กระดาษอาร์ตมัน 100g", "กระดาษอาร์ตมัน 120g", "กระดาษอาร์ตมัน 160g",
+        "อาร์ตด้าน 100g", "อาร์ตด้าน 120g", "อาร์ตด้าน 160g", "กระดาษโฟโต้",
+        "สติ๊กเกอร์กระดาษ (ผิวมัน)", "สติ๊กเกอร์กระดาษ (ผิวด้าน)", "สติ๊กเกอร์ PVC (ใส)",
+        "สติ๊กเกอร์ PVC (ทึบ)", "กระดาษคราฟท์ (สีน้ำตาล)"
+    ]
+};
 
 async function loadData() {
     try {
         const jobsList = document.getElementById('jobs-list');
         if (jobsList) jobsList.innerHTML = `<div class="loader-spinner" style="margin: 30px auto; display: block;"></div><div style="text-align:center; margin-bottom: 30px; color:#6b7280;">กำลังโหลดข้อมูลจำลองผ่าน JWT Flow...</div>`;
         
-        receivePrintsData = await fetchApi('/api/receive-prints');
+        const historyTbody = document.getElementById('history-tbody');
+        if (historyTbody) historyTbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 3rem 0;"><div class="loader-spinner" style="margin: 0 auto 10px auto;"></div><p style="color: #64748b; font-weight: 500;">กำลังโหลดข้อมูลจำลองผ่าน JWT Flow...</p></td></tr>`;
+
+        const [rp, rpHistory] = await Promise.all([
+            fetchApi('/api/receive-prints'),
+            fetchApi('/api/record-print-history')
+        ]);
+        
+        receivePrintsData = rp;
+        historyData = rpHistory;
+        
+        populateFormOptions();
+        
         renderJobsList();
+        renderHistoryTable();
         filterJobs();
         checkRemarks();
     } catch (err) {
@@ -24,6 +51,22 @@ function renderJobsList() {
     receivePrintsData.forEach(job => {
         const badgeColorClass = job.status === 'รอพิมพ์เอกสาร' ? 'bg-blue' : (job.status === 'กำลังดำเนินการ' ? 'bg-orange' : 'bg-green');
         const confirmDisabled = job.status === 'ดำเนินการสำเร็จ' ? 'disabled' : '';
+
+        // Formatter for DD - MM - YYYY
+        const pad2 = (n) => String(n).padStart(2, '0');
+        
+        let orderDateStr = job.orderDate;
+        let receiveDateStr = job.receiveDate;
+
+        const od = new Date(job.orderDate);
+        if (!isNaN(od.getTime())) {
+            orderDateStr = `${pad2(od.getDate())} - ${pad2(od.getMonth() + 1)} - ${od.getFullYear()}`;
+        }
+
+        const rd = new Date(job.receiveDate);
+        if (!isNaN(rd.getTime())) {
+            receiveDateStr = `${pad2(rd.getDate())} - ${pad2(rd.getMonth() + 1)} - ${rd.getFullYear()} / <span class="text-purple-accent">${pad2(rd.getHours())} : ${pad2(rd.getMinutes())}</span>`;
+        }
         
         let itemsHtml = '';
         job.items.forEach(item => {
@@ -64,12 +107,12 @@ function renderJobsList() {
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันที่สั่งพิมพ์</span>
-                        <span class="job-header-value">${job.orderDate}</span>
+                        <span class="job-header-value">${orderDateStr}</span>
                     </div>
                     <div class="job-header-divider"></div>
                     <div class="job-header-item">
                         <span class="job-header-label">วันและเวลารับงานพิมพ์</span>
-                        <span class="job-header-value">${job.receiveDate}</span>
+                        <span class="job-header-value">${receiveDateStr}</span>
                     </div>
                     <div class="job-header-right">
                         <button class="btn-confirm-success" id="btn-confirm-${job.id}" onclick="confirmSuccess('${job.id}')" ${confirmDisabled}>ยืนยันพิมพ์งานสำเร็จ</button>
@@ -123,16 +166,29 @@ function setTheme(theme) {
     }
 }
 
-let historyData = [
-    { paper: 'A4', type: 'กระดาษธรรมดา 70 แกรม', qty: 1, amount: 16, note: '-', date: '21/03/2026' },
-    { paper: 'A4', type: 'กระดาษธรรมดา 80 แกรม', qty: 3, amount: 55, note: 'ปรินท์งานสี', date: '21/03/2026' },
-    { paper: 'A4', type: 'กระดาษร้อยปอนด์ (ผิวหยาบ)', qty: 4, amount: 67, note: '-', date: '21/03/2026' },
-    { paper: 'A4', type: 'กระดาษอาร์ตมัน 100g', qty: 10, amount: 166, note: '-', date: '21/03/2026' },
-    { paper: 'A4', type: 'อาร์ตด้าน 120g', qty: 1, amount: 20, note: '-', date: '21/03/2026' },
-    { paper: 'A4', type: 'สติกเกอร์กระดาษ (ผิวมัน)', qty: 2, amount: 30, note: '-', date: '21/03/2026' },
-    { paper: 'A4', type: 'สติกเกอร์ PVC (ใส)', qty: 1, amount: 16, note: '-', date: '21/03/2026' },
-    { paper: 'A4', type: 'กระดาษคราฟท์ (สีน้ำตาล)', qty: 2, amount: 30, note: '-', date: '21/03/2026' }
-];
+
+function populateFormOptions() {
+    const paperSelect = document.getElementById('rec-paper-type');
+    const printSelect = document.getElementById('rec-print-type');
+    
+    if (paperSelect) {
+        RECEIVE_PRINT_OPTIONS_DATA.paperTypes.forEach(opt => {
+            const optionEl = document.createElement('option');
+            optionEl.value = opt;
+            optionEl.textContent = opt;
+            paperSelect.appendChild(optionEl);
+        });
+    }
+    
+    if (printSelect) {
+        RECEIVE_PRINT_OPTIONS_DATA.printTypes.forEach(opt => {
+            const optionEl = document.createElement('option');
+            optionEl.value = opt;
+            optionEl.textContent = opt;
+            printSelect.appendChild(optionEl);
+        });
+    }
+}
 
 function renderHistoryTable() {
     const tbody = document.getElementById('history-tbody');
@@ -141,13 +197,20 @@ function renderHistoryTable() {
     tbody.innerHTML = '';
     historyData.forEach(row => {
         const tr = document.createElement('tr');
+        
+        let dateStr = row.date;
+        const hd = new Date(row.date);
+        if (!isNaN(hd.getTime())) {
+            dateStr = `${String(hd.getDate()).padStart(2, '0')}/${String(hd.getMonth() + 1).padStart(2, '0')}/${hd.getFullYear()}`;
+        }
+
         tr.innerHTML = `
             <td>${row.paper}</td>
             <td>${row.type}</td>
             <td>${row.qty}</td>
             <td>${row.amount}</td>
             <td class="text-color-red" style="font-size:12px;">${row.note}</td>
-            <td>${row.date}</td>
+            <td>${dateStr}</td>
         `;
         tbody.appendChild(tr);
     });

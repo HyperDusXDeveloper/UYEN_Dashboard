@@ -39,6 +39,11 @@ function renderView1() {
     tbody.innerHTML = '';
     
     dailyPrintsData.forEach(item => {
+        let timeStr = item.time;
+        const d = new Date(item.time);
+        if (!isNaN(d.getTime())) {
+            timeStr = `${String(d.getHours()).padStart(2, '0')} : ${String(d.getMinutes()).padStart(2, '0')}`;
+        }
         tbody.innerHTML += `
             <tr>
                 <td class="report-td-left-padded">${item.customer}</td>
@@ -46,7 +51,7 @@ function renderView1() {
                 <td>${item.type}</td>
                 <td>${item.qty}</td>
                 <td>${item.printType}</td>
-                <td>${item.time}</td>
+                <td>${timeStr}</td>
                 <td><span class="text-blue">${item.price}</span> บาท</td>
             </tr>
         `;
@@ -78,9 +83,15 @@ function renderView3() {
     tbody.innerHTML = '';
     
     monthlySalesData.forEach(item => {
+        let dateStr = item.date;
+        const d = new Date(item.date);
+        if (!isNaN(d.getTime())) {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            dateStr = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
         tbody.innerHTML += `
             <tr>
-                <td class="report-td-left-wide-padded">${item.date}</td>
+                <td class="report-td-left-wide-padded">${dateStr}</td>
                 <td>${item.items}</td>
                 <td><span class="text-blue">${item.sales.toLocaleString()}</span> บาท</td>
             </tr>

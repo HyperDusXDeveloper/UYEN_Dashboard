@@ -31,38 +31,48 @@ const MockDatabase = {
     ],
     receiveMaterials: [
         // Dummy data for receive materials log
-        { id: 'RM_01', name: 'Somyot', matName: 'กระดาษ', subType: 'A4', matType: 'กระดาษปอนด์ 70 แกรม (กระดาษปกติ)', qty: 10, date: '12 เม.ย. 2026', note: '-' },
-        { id: 'RM_02', name: 'Somyot', matName: 'หมึกพิมพ์', subType: 'เครื่องอิงค์เจ็ท (Inkjet)', matType: 'สีดำ (Black - K)', qty: 5, date: '12 เม.ย. 2026', note: 'เติมด่วน' }
+        { id: 'RM_01', name: 'Somyot', matName: 'กระดาษ', subType: 'A4', matType: 'กระดาษปอนด์ 70 แกรม (กระดาษปกติ)', qty: 10, date: '2026-04-12T08:00:00Z', note: '-' },
+        { id: 'RM_02', name: 'Somyot', matName: 'หมึกพิมพ์', subType: 'เครื่องอิงค์เจ็ท (Inkjet)', matType: 'สีดำ (Black - K)', qty: 5, date: '2026-04-12T08:00:00Z', note: 'เติมด่วน' }
     ],
     receivePrints: [
         { 
-            id: 'Q_001', theme: 'online', status: 'รอพิมพ์เอกสาร', totalPrice: 23, orderDate: '20 - 03 - 2026', receiveDate: '21 - 03 - 2026 / <span class="text-purple-accent">09 : 00</span>',
+            id: 'Q_001', theme: 'online', status: 'รอพิมพ์เอกสาร', totalPrice: 23, orderDate: '2026-03-20T08:00:00Z', receiveDate: '2026-03-21T09:00:00Z',
             items: [
                 { fileName: 'Sad_Project2.PDF', printTypeHtml: '<span class="text-color-green">สี</span>', docSize: 'A4', docType: 'ร้อยปอนด์', qty: 1, price: 23, note: 'ปริ้นงานสี', fileUrl: 'item/receiveprint1.png' }
             ]
         },
         { 
-            id: 'Q_002', theme: 'online', status: 'รอพิมพ์เอกสาร', totalPrice: 18, orderDate: '20 - 03 - 2026', receiveDate: '21 - 03 - 2026 / <span class="text-purple-accent">09 : 10</span>',
+            id: 'Q_002', theme: 'online', status: 'รอพิมพ์เอกสาร', totalPrice: 18, orderDate: '2026-03-20T08:00:00Z', receiveDate: '2026-03-21T09:10:00Z',
             items: [
                 { fileName: 'Sad_Project2.PDF', printTypeHtml: 'ขาว - ดำ', docSize: 'A4', docType: 'ธรรมดา', qty: 2, price: 9, note: '-', fileUrl: 'item/receiveprint2.png' }
             ]
         },
         { 
-            id: 'Q_004', theme: 'walkin', status: 'รอพิมพ์เอกสาร', totalPrice: 85, orderDate: '21 - 04 - 2026', receiveDate: '21 - 04 - 2026 / <span class="text-purple-accent">10 : 30</span>',
+            id: 'Q_004', theme: 'walkin', status: 'รอพิมพ์เอกสาร', totalPrice: 85, orderDate: '2026-04-21T08:00:00Z', receiveDate: '2026-04-21T10:30:00Z',
             items: [
                 { fileName: 'Walkin_Report.PDF', printTypeHtml: '<span class="text-color-green">สี</span>', docSize: 'A4', docType: 'อาตมัน', qty: 2, price: 42, note: '-', fileUrl: 'item/receiveprint3.png' }
             ]
         }
     ],
+    recordPrintHistory: [
+        { id: 'REC_01', paper: 'A4', type: 'กระดาษธรรมดา 70 แกรม', qty: 1, amount: 16, note: '-', date: '2026-03-21T08:00:00Z' },
+        { id: 'REC_02', paper: 'A4', type: 'กระดาษธรรมดา 80 แกรม', qty: 3, amount: 55, note: 'ปรินท์งานสี', date: '2026-03-21T08:00:00Z' },
+        { id: 'REC_03', paper: 'A4', type: 'กระดาษร้อยปอนด์ (ผิวหยาบ)', qty: 4, amount: 67, note: '-', date: '2026-03-21T08:00:00Z' },
+        { id: 'REC_04', paper: 'A4', type: 'กระดาษอาร์ตมัน 100g', qty: 10, amount: 166, note: '-', date: '2026-03-21T08:00:00Z' },
+        { id: 'REC_05', paper: 'A4', type: 'อาร์ตด้าน 120g', qty: 1, amount: 20, note: '-', date: '2026-03-21T08:00:00Z' },
+        { id: 'REC_06', paper: 'A4', type: 'สติกเกอร์กระดาษ (ผิวมัน)', qty: 2, amount: 30, note: '-', date: '2026-03-21T08:00:00Z' },
+        { id: 'REC_07', paper: 'A4', type: 'สติกเกอร์ PVC (ใส)', qty: 1, amount: 16, note: '-', date: '2026-03-21T08:00:00Z' },
+        { id: 'REC_08', paper: 'A4', type: 'กระดาษคราฟท์ (สีน้ำตาล)', qty: 2, amount: 30, note: '-', date: '2026-03-21T08:00:00Z' }
+    ],
     withdraws: [
         // Dummy data for withdraw log
-        { id: 'WD_01', name: 'Somporn', matName: 'เทป', subType: 'ชนิดใส', matType: 'แกนเล็ก 1 นิ้ว', qty: 2, date: '13 เม.ย. 2026', note: 'ใช้งานออฟฟิศ' },
-        { id: 'WD_02', name: 'Amporn', matName: 'กระดาษ', subType: 'A4', matType: 'กระดาษปอนด์ 70 แกรม (กระดาษปกติ)', qty: 5, date: '05 มี.ค. 2026', note: 'เบิกใช้ในสำนักงาน' }
+        { id: 'WD_01', name: 'Somporn', matName: 'เทป', subType: 'ชนิดใส', matType: 'แกนเล็ก 1 นิ้ว', qty: 2, date: '2026-04-13T08:00:00Z', note: 'ใช้งานออฟฟิศ' },
+        { id: 'WD_02', name: 'Amporn', matName: 'กระดาษ', subType: 'A4', matType: 'กระดาษปอนด์ 70 แกรม (กระดาษปกติ)', qty: 5, date: '2026-03-05T08:00:00Z', note: 'เบิกใช้ในสำนักงาน' }
     ],
     reportDailyPrints: [
-        { customer: 'สมชาติ ทองเหม็น', material: 'A4', type: 'ร้อยปอนด์', qty: 1, printType: 'สี', time: '12 : 49', price: 17 },
-        { customer: 'สมชาย แซ่ตั้ง', material: 'A5', type: 'สติ๊กเกอร์', qty: 1, printType: 'ขาวดำ', time: '15 : 21', price: 34 },
-        { customer: 'User_Genrate(WalkIn)', material: 'A4', type: 'ธรรมดา', qty: 2, printType: 'ขาวดำ', time: '13 : 11', price: 14 }
+        { customer: 'สมชาติ ทองเหม็น', material: 'A4', type: 'ร้อยปอนด์', qty: 1, printType: 'สี', time: '2026-04-24T12:49:00Z', price: 17 },
+        { customer: 'สมชาย แซ่ตั้ง', material: 'A5', type: 'สติ๊กเกอร์', qty: 1, printType: 'ขาวดำ', time: '2026-04-24T15:21:00Z', price: 34 },
+        { customer: 'User_Genrate(WalkIn)', material: 'A4', type: 'ธรรมดา', qty: 2, printType: 'ขาวดำ', time: '2026-04-24T13:11:00Z', price: 14 }
     ],
     reportStock: [
         { material: 'A4', type: 'สติ๊กเกอร์', qty: 1112, price: 15 },
@@ -70,9 +80,9 @@ const MockDatabase = {
         { material: 'A3', type: 'ธรรมดา', qty: 2234, price: 10 }
     ],
     reportMonthlySales: [
-        { date: '18 May 2026', items: 154, sales: 170000 },
-        { date: '17 May 2026', items: 269, sales: 34000 },
-        { date: '16 May 2026', items: 121, sales: 2000 }
+        { date: '2026-05-18T00:00:00Z', items: 154, sales: 170000 },
+        { date: '2026-05-17T00:00:00Z', items: 269, sales: 34000 },
+        { date: '2026-05-16T00:00:00Z', items: 121, sales: 2000 }
     ],
     reports: [
         // Dummy data for reports
@@ -146,6 +156,9 @@ const fetchApi = (endpoint, options = {}) => {
                     break;
                 case "/api/receive-prints":
                     responseData = MockDatabase.receivePrints;
+                    break;
+                case "/api/record-print-history":
+                    responseData = MockDatabase.recordPrintHistory;
                     break;
                 case "/api/withdraws":
                     responseData = MockDatabase.withdraws;

@@ -89,13 +89,18 @@ function renderReceiveTable() {
         const tr = document.createElement('tr');
         if (index % 2 === 1) tr.classList.add('alt-row');
         
+        const dateObj = new Date(item.date);
+        const formattedDate = !isNaN(dateObj.getTime()) 
+            ? `${String(dateObj.getDate()).padStart(2, '0')} ${["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."][dateObj.getMonth()]} ${dateObj.getFullYear()}`
+            : item.date;
+        
         tr.innerHTML = `
             <td>${item.name}</td>
             <td>${item.matName}</td>
             <td>${item.subType || "-"}</td>
             <td>${item.matType}</td>
             <td>${item.qty}</td>
-            <td>${item.date}</td>
+            <td>${formattedDate}</td>
             <td class="dash-red">${item.note}</td>
         `;
         tbody.appendChild(tr);
@@ -374,55 +379,78 @@ function openConfirmModal() {
         return;
     }
 
-    document.getElementById('confirm-name').value = document.getElementById('receive-name').value;
-    document.getElementById('confirm-material-name').value = selectedMaterial;
-    document.getElementById('confirm-material-subtype').value = selectedSubType;
-    document.getElementById('confirm-material-type').value = selectedType;
-    document.getElementById('confirm-qty').value = qtyInput.value;
-    document.getElementById('confirm-note').value = noteInput.value.trim() === '' ? '-' : noteInput.value;
-
+    const nameVal = document.getElementById('receive-name').value;
+    const noteText = noteInput.value.trim() === '' ? '-' : noteInput.value;
     const formattedDate = `${String(selectedDate.getDate()).padStart(2, '0')} ${monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear() + 543}`;
-    document.getElementById('confirm-date').value = formattedDate;
 
-    document.getElementById('modal-confirm-receive').classList.remove('hidden');
-}
+    const bodyHtml = `
+        <div class="mb-15">
+            <label class="modal-label-standard">ชื่อผู้รับวัสดุ</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${nameVal}">
+        </div>
+        <div class="mb-15">
+            <label class="modal-label-standard">วัสดุที่รับ</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${selectedMaterial}">
+        </div>
+        <div class="mb-15">
+            <label class="modal-label-standard">ชนิดวัสดุที่รับ</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${selectedSubType}">
+        </div>
+        <div class="mb-15">
+            <label class="modal-label-standard">ประเภทวัสดุที่รับ</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${selectedType}">
+        </div>
+        <div class="mb-15">
+            <label class="modal-label-standard">จำนวนที่รับ</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${qtyInput.value}">
+        </div>
+        <div class="mb-15">
+            <label class="modal-label-standard">วันที่รับวัสดุ</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${formattedDate}">
+        </div>
+        <div class="mb-15">
+            <label class="modal-label-standard">หมายเหตุ</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${noteText}">
+        </div>
+    `;
 
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.add('hidden');
-}
+    // Save values for table row generation
+    window.__pendingReceiveData = {
+        name: nameVal,
+        matName: selectedMaterial,
+        subType: selectedSubType,
+        matType: selectedType,
+        qty: qtyInput.value,
+        date: `${String(selectedDate.getDate()).padStart(2, '0')} ${["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."][selectedDate.getMonth()]} ${selectedDate.getFullYear()}`,
+        note: noteText
+    };
 
-function showReceiveStatusModal(type) {
-    if (type === 'receive-success') {
-        closeModal('modal-confirm-receive');
-        addReceiveRowToTable();
-        resetReceiveForm();
-        return; // Bypass showing success modal
-    }
-
-    let modalId = '';
-    if (type === 'receive-error') {
-        modalId = 'modal-receive-error';
-    }
-
-    if (modalId) {
-        document.getElementById(modalId).classList.remove('hidden');
-        setTimeout(() => {
-            closeModal(modalId);
-        }, 2000);
-    }
-}
-
-function submitReceive() {
-    showReceiveStatusModal('receive-success');
+    showConfirmModal({
+        title: 'ต้องการ รับวัสดุ ใช่หรือไม่ ?',
+        bodyHtml: bodyHtml,
+        confirmText: 'ยืนยันการรับวัสดุ',
+        cancelText: 'ยกเลิก',
+        confirmBtnClass: 'btn-confirm-receive-action',
+        cancelBtnClass: 'btn-cancel-receive-action',
+        headerClass: 'modal-receive-header',
+        bodyClass: 'modal-receive-body text-center',
+        actionsContainerClass: 'modal-receive-footer flex-center',
+        onConfirm: () => {
+            addReceiveRowToTable();
+            resetReceiveForm();
+            window.showStatusModal('รับวัสดุสำเร็จ', 'ข้อมูลได้รับการบันทึกแล้ว', 'success');
+        }
+    });
 }
 
 function addReceiveRowToTable() {
-    const name = document.getElementById('confirm-name').value || "-";
-    const matName = document.getElementById('confirm-material-name').value || "-";
-    const subType = document.getElementById('confirm-material-subtype').value || "-";
-    const matType = document.getElementById('confirm-material-type').value || "-";
-    const qty = document.getElementById('confirm-qty').value || "0";
-    const note = document.getElementById('confirm-note').value || "-";
+    const data = window.__pendingReceiveData || {};
+    const name = data.name || "-";
+    const matName = data.matName || "-";
+    const subType = data.subType || "-";
+    const matType = data.matType || "-";
+    const qty = data.qty || "0";
+    const note = data.note || "-";
     
     const tbody = document.querySelector('.receive-table tbody');
     if (!tbody) return;
@@ -430,8 +458,6 @@ function addReceiveRowToTable() {
     // Use selectedDate and a RANDOM time between 08:00 and 17:00
     const thaiShortMonths = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
     
-    // Format: 13 ก.พ. 2026
-    const dateStr = `${String(selectedDate.getDate()).padStart(2, '0')} ${thaiShortMonths[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
 
     const newRow = document.createElement('tr');
     

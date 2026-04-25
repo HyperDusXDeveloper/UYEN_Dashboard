@@ -124,73 +124,7 @@
     </main>
 
     <!-- Modals -->
-    <!-- Confirm Withdraw Modal -->
-    <div class="modal-overlay hidden" id="modal-confirm-withdraw">
-        <div class="modal modal-withdraw-confirm">
-            <div class="modal-withdraw-header-blue">
-                <h2 class="modal-withdraw-title">ต้องการเบิกวัสดุ ใช่หรือไม่ ?</h2>
-            </div>
-            <div class="modal-withdraw-body">
-                <div class="mb-15">
-                    <label class="modal-label-standard">ชื่อผู้เบิก</label>
-                    <input type="text" id="confirm-name" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-15">
-                    <label class="modal-label-standard">วัสดุที่เบิก</label>
-                    <input type="text" id="confirm-material-name" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-15">
-                    <label class="modal-label-standard">ชนิดวัสดุที่เบิก</label>
-                    <input type="text" id="confirm-material-subtype" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-15">
-                    <label class="modal-label-standard">ประเภทวัสดุที่เบิก</label>
-                    <input type="text" id="confirm-material-type" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-15">
-                    <label class="modal-label-standard">จำนวนวัสดุที่ต้องการเบิก</label>
-                    <input type="text" id="confirm-qty" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-30">
-                    <label class="modal-label-standard">หมายเหตุ</label>
-                    <input type="text" id="confirm-note" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="modal-withdraw-footer">
-                    <button class="btn-save-success nowrap" onclick="showStatusModal('withdraw-success')">ยืนยันการเบิกวัสดุ</button>
-                    <button class="btn-cancel-abort-action nowrap" onclick="closeModal('modal-confirm-withdraw')">ยกเลิก</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Status Modals -->
-    <!-- Withdraw Success Modal -->
-    <div class="modal-overlay hidden" id="modal-withdraw-success">
-        <div class="modal modal-status-large">
-            <div class="modal-header-status-success p-30">
-                <h2 class="modal-status-title-large">เบิกวัสดุสำเร็จ</h2>
-            </div>
-            <div class="modal-status-body-large">
-                <div class="modal-icon-circle-success-large">✓</div>
-                <h3 class="modal-status-h3-large">ข้อมูลได้รับการบันทึกแล้ว</h3>
-                <p class="modal-p-timer">หน้าต่างจะถูกปิดใน 2 วินาที</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Withdraw Error Modal -->
-    <div class="modal-overlay hidden" id="modal-withdraw-error">
-        <div class="modal modal-status-large">
-            <div class="modal-header-status-error p-30">
-                <h2 class="modal-status-title-large">เบิกวัสดุไม่สำเร็จ</h2>
-            </div>
-            <div class="modal-status-body-large">
-                <div class="modal-icon-circle-error-large">♻</div>
-                <h3 class="modal-status-h3-large">ไม่สามารถเบิกวัสดุได้</h3>
-                <p class="modal-p-timer">หน้าต่างจะถูกปิดใน 2 วินาที</p>
-            </div>
-        </div>
-    </div>
+    <!-- Modals removed -->
 
     <script src="js/mock-api.js"></script>
     <script src="js/utils.js"></script>

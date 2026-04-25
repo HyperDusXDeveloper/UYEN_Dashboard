@@ -112,84 +112,10 @@
             </div>
         </section>
     </main>
-
-    <!-- Modal -->
-    <div class="modal-overlay hidden" id="modal-confirm-receive">
-        <div class="modal modal-450-rounded">
-            <div class="modal-receive-header">
-                <h2 class="modal-receive-title">ต้องการ รับวัสดุ ใช่หรือไม่ ?</h2>
-            </div>
-            <div class="modal-receive-body">
-                <div class="mb-15">
-                    <label class="modal-label-standard">ชื่อผู้รับวัสดุ</label>
-                    <input type="text" id="confirm-name" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-15">
-                    <label class="modal-label-standard">วัสดุที่รับ</label>
-                    <input type="text" id="confirm-material-name" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-15">
-                    <label class="modal-label-standard">ชนิดวัสดุที่รับ</label>
-                    <input type="text" id="confirm-material-subtype" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-15">
-                    <label class="modal-label-standard">ประเภทวัสดุที่รับ</label>
-                    <input type="text" id="confirm-material-type" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-15">
-                    <label class="modal-label-standard">จำนวนที่รับ</label>
-                    <input type="text" id="confirm-qty" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-15">
-                    <label class="modal-label-standard">หมายเหตุ</label>
-                    <input type="text" id="confirm-note" class="modal-input-readonly-gray" readonly>
-                </div>
-                <div class="mb-30">
-                    <label class="modal-label-standard">วันที่รับวัสดุ</label>
-                    <input type="text" id="confirm-date" class="modal-input-readonly-gray" readonly>
-                </div>
-
-                <div class="modal-receive-footer">
-                    <button class="btn-confirm-receive-action" onclick="submitReceive()">ยืนยันการรับวัสดุ</button>
-                    <button class="btn-cancel-receive-action" onclick="closeModal('modal-confirm-receive')">ยกเลิก</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Modals removed -->
     <script src="js/mock-api.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/receive-material.js"></script>
     <script src="js/navbar.js"></script>
-
-    <!-- Status Modals -->
-    <!-- Receive Success Modal -->
-    <div class="modal-overlay hidden" id="modal-receive-success">
-        <div class="modal modal-status-large">
-            <div class="modal-header-status-success p-30">
-                <h2 class="modal-status-title-large">รับวัสดุสำเร็จ</h2>
-            </div>
-            <div class="modal-status-body-large">
-                <div class="modal-icon-circle-success-large">✓</div>
-                <h3 class="modal-status-h3-large">ข้อมูลได้รับการบันทึกแล้ว</h3>
-                <p class="modal-p-timer">หน้าต่างจะถูกปิดใน 2 วินาที</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Receive Error Modal -->
-    <div class="modal-overlay hidden" id="modal-receive-error">
-        <div class="modal modal-status-large">
-            <div class="modal-header-status-error p-30">
-                <h2 class="modal-status-title-large">รับวัสดุไม่สำเร็จ</h2>
-            </div>
-            <div class="modal-status-body-large">
-                <div class="modal-icon-circle-error-large">♻</div>
-                <h3 class="modal-status-h3-large">ไม่สามารถรับวัสดุได้</h3>
-                <p class="modal-p-timer">หน้าต่างจะถูกปิดใน 2 วินาที</p>
-            </div>
-        </div>
-    </div>
 </body>
-
 </html>

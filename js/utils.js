@@ -343,3 +343,111 @@ function clearSingleFieldError(element) {
         });
     }
 }
+
+// ─── Dynamic Modal Generators ────────────────────────────────────────────────
+
+function showStatusModal(title, message, type = 'success', duration = 2000) {
+    const existing = document.getElementById('dynamic-status-modal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'dynamic-status-modal';
+    overlay.className = 'modal-overlay z-2000';
+    
+    // Setup styles based on type
+    let headerClass = 'modal-header-status-success';
+    let iconRegion = '<div class="modal-icon-circle-large-success mb-20"><div class="modal-checkmark-white"></div></div>';
+
+    if (type === 'error') {
+        headerClass = 'modal-header-status-error';
+        iconRegion = '<div class="modal-icon-circle-large-error mb-20"><div class="fw-bold f-30 lh-1 text-white">♻</div></div>';
+    } else if (type === 'warning') {
+        headerClass = 'modal-header-status-warning';
+        iconRegion = '<div class="modal-icon-circle-large-warning mb-20"><div class="fw-bold f-30 lh-1 text-white">♻</div></div>';
+    } else if (type === 'error-upload') {
+        headerClass = 'modal-header-status-error';
+        iconRegion = '<div class="modal-icon-circle-large-error mb-20"><div class="fw-bold f-30 lh-1 pb-8 text-white">⬆</div></div>';
+    }
+
+    overlay.innerHTML = `
+        <div class="modal modal-status-mini">
+            <div class="${headerClass} modal-header-compact">
+                <h2 class="modal-title-status-smaller">${title}</h2>
+            </div>
+            <div class="modal-body-status-compact">
+                ${iconRegion}
+                <h3 class="modal-h3-status fw-700">${message}</h3>
+                <p class="modal-p-timer">หน้าต่างจะถูกปิดใน ${duration/1000} วินาที</p>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Force layout recalculation for nice CSS transitions if defined
+    void overlay.offsetWidth;
+
+    // Close after duration
+    setTimeout(() => {
+        if(overlay.parentElement) {
+            overlay.classList.add('closing');
+            setTimeout(() => overlay.remove(), 250);
+        }
+    }, duration);
+}
+
+function showConfirmModal(options) {
+    const {
+        title = 'ยืนยัน',
+        bodyHtml = '',
+        confirmText = 'ยืนยัน',
+        cancelText = 'ยกเลิก',
+        confirmBtnClass = 'btn-action btn-save',
+        cancelBtnClass = 'btn-action btn-cancel',
+        headerClass = 'modal-header-confirm modal-header-cancel',
+        bodyClass = 'modal-body-standard d-flex flex-col align-center text-center',
+        actionsContainerClass = 'modal-actions-center d-flex gap-15 justify-center mt-20',
+        onConfirm = () => {},
+        onCancel = () => {}
+    } = options;
+
+    const existing = document.getElementById('dynamic-confirm-modal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'dynamic-confirm-modal';
+    overlay.className = 'modal-overlay z-2000';
+    
+    // Using string templates as an easy way to construct complex modals on the fly
+    overlay.innerHTML = `
+        <div class="modal modal-confirm-small p-0">
+            <div class="${headerClass}">
+                <h2 class="modal-title-confirm text-white">${title}</h2>
+            </div>
+            <div class="${bodyClass}">
+                ${bodyHtml}
+                <div class="${actionsContainerClass}">
+                    <button class="${confirmBtnClass}" id="dyn-confirm-btn">${confirmText}</button>
+                    <button type="button" class="${cancelBtnClass}" id="dyn-cancel-btn">${cancelText}</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const closeModal = () => {
+        overlay.classList.add('closing');
+        setTimeout(() => overlay.remove(), 250);
+    };
+
+    document.getElementById('dyn-confirm-btn').addEventListener('click', () => {
+        onConfirm();
+        closeModal();
+    });
+
+    document.getElementById('dyn-cancel-btn').addEventListener('click', () => {
+        onCancel();
+        closeModal();
+    });
+}

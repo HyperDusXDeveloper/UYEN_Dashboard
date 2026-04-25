@@ -23,13 +23,18 @@ function renderWithdrawTable() {
         tr.className = index % 2 === 0 ? 'bg-white' : 'alt-row bg-gray-light';
         const tdClass = index % 2 === 0 ? 'bold-text withdraw-td-std' : 'bold-text withdraw-td-std withdraw-alt-td';
         
+        const dateObj = new Date(item.date);
+        const formattedDate = !isNaN(dateObj.getTime()) 
+            ? `${String(dateObj.getDate()).padStart(2, '0')} ${["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."][dateObj.getMonth()]} ${dateObj.getFullYear()}`
+            : item.date;
+
         tr.innerHTML = `
             <td class="${tdClass}">${item.name}</td>
             <td class="${tdClass}">${item.matName}</td>
             <td class="${tdClass}">${item.subType || "-"}</td>
             <td class="${tdClass}">${item.matType}</td>
             <td class="${tdClass}">${item.qty}</td>
-            <td class="${tdClass}">${item.date}</td>
+            <td class="${tdClass}">${formattedDate}</td>
             <td class="${tdClass}">${item.note}</td>
         `;
         tbody.appendChild(tr);
@@ -381,48 +386,70 @@ function openConfirmModal() {
         return;
     }
 
-    document.getElementById('confirm-name').value = nameInput.value || '';
-    document.getElementById('confirm-material-name').value = selectedMaterial;
-    document.getElementById('confirm-material-subtype').value = selectedSubType;
-    document.getElementById('confirm-material-type').value = selectedType;
-    document.getElementById('confirm-qty').value = qtyInput.value || '';
-    document.getElementById('confirm-note').value = document.getElementById('withdraw-note').value || '';
+    const noteText = document.getElementById('withdraw-note').value || '';
+    const bodyHtml = `
+        <div class="mb-15" style="text-align: left;">
+            <label class="modal-label-standard">ชื่อผู้เบิกวัสดุ</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${nameInput.value}">
+        </div>
+        <div class="mb-15" style="text-align: left;">
+            <label class="modal-label-standard">วัสดุที่ต้องการเบิก</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${selectedMaterial}">
+        </div>
+        <div class="mb-15" style="text-align: left;">
+            <label class="modal-label-standard">ชนิดวัสดุที่ต้องการเบิก</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${selectedSubType}">
+        </div>
+        <div class="mb-15" style="text-align: left;">
+            <label class="modal-label-standard">ประเภทวัสดุที่ต้องการเบิก</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${selectedType}">
+        </div>
+        <div class="mb-15" style="text-align: left;">
+            <label class="modal-label-standard">จำนวนวัสดุที่ต้องการเบิก</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${qtyInput.value}">
+        </div>
+        <div class="mb-30" style="text-align: left;">
+            <label class="modal-label-standard">หมายเหตุ</label>
+            <input type="text" class="modal-input-readonly-gray" readonly value="${noteText}">
+        </div>
+    `;
 
-    document.getElementById('modal-confirm-withdraw').classList.remove('hidden');
-}
+    // Save values for table row generation
+    window.__pendingWithdrawData = {
+        name: nameInput.value,
+        matName: selectedMaterial,
+        subType: selectedSubType,
+        matType: selectedType,
+        qty: qtyInput.value,
+        note: noteText
+    };
 
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.add('hidden');
-}
-
-function showStatusModal(type) {
-    if (type === 'withdraw-success') {
-        closeModal('modal-confirm-withdraw');
-        addWithdrawRowToTable();
-        resetWithdrawForm();
-        return; // Bypass showing success modal
-    }
-
-    let modalId = '';
-    if (type === 'withdraw-error') {
-        modalId = 'modal-withdraw-error';
-    }
-
-    if (modalId) {
-        document.getElementById(modalId).classList.remove('hidden');
-        setTimeout(() => {
-            closeModal(modalId);
-        }, 2000);
-    }
+    showConfirmModal({
+        title: 'ต้องการเบิกวัสดุ ใช่หรือไม่ ?',
+        bodyHtml: bodyHtml,
+        confirmText: 'ยืนยันการเบิกวัสดุ',
+        cancelText: 'ยกเลิก',
+        confirmBtnClass: 'btn-save-success nowrap',
+        cancelBtnClass: 'btn-cancel-abort-action nowrap',
+        headerClass: 'modal-withdraw-header-blue',
+        bodyClass: 'modal-withdraw-body text-center',
+        actionsContainerClass: 'modal-withdraw-footer flex-center',
+        onConfirm: () => {
+            addWithdrawRowToTable();
+            resetWithdrawForm();
+            window.showStatusModal('เบิกวัสดุสำเร็จ', 'ข้อมูลได้รับการบันทึกแล้ว', 'success');
+        }
+    });
 }
 
 function addWithdrawRowToTable() {
-    const name = document.getElementById('confirm-name').value || "-";
-    const matName = document.getElementById('confirm-material-name').value || "-";
-    const subType = document.getElementById('confirm-material-subtype').value || "-";
-    const matType = document.getElementById('confirm-material-type').value || "-";
-    const qty = document.getElementById('confirm-qty').value || "0";
-    const note = document.getElementById('confirm-note').value || "-";
+    const data = window.__pendingWithdrawData || {};
+    const name = data.name || "-";
+    const matName = data.matName || "-";
+    const subType = data.subType || "-";
+    const matType = data.matType || "-";
+    const qty = data.qty || "0";
+    const note = data.note || "-";
 
     const tbody = document.querySelector('.withdraw-table tbody');
     if (!tbody) return;
