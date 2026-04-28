@@ -115,71 +115,28 @@ function injectSettingsModal() {
     document.body.appendChild(overlay);
 }
 
-const INVENTORY_MATERIAL_DATA = {
-    "กระดาษ": {
-        subTypes: ["A0", "A1", "A2", "A3", "A4", "A5", "F4", "นามบัตร (54x90 mm)"],
-        types: [
-            "กระดาษปอนด์ 70 แกรม (กระดาษปกติ)", "กระดาษปอนด์ 80 แกรม", "กระดาษร้อยปอนด์ (ผิวหยาบ)",
-            "กระดาษร้อยปอนด์ (ผิวเรียบ)", "กระดาษอาร์ตมัน 100g", "กระดาษอาร์ตมัน 120g",
-            "กระดาษอาร์ตมัน 160g", "อาร์ตด้าน 100g", "อาร์ตด้าน 120g", "อาร์ตด้าน 160g",
-            "กระดาษโฟโต้", "สติ๊กเกอร์กระดาษ (ผิวมัน)", "สติ๊กเกอร์กระดาษ (ผิวด้าน)",
-            "สติ๊กเกอร์ PVC (ใส)", "สติ๊กเกอร์ PVC (ขาวเงา)", "สติ๊กเกอร์ PVC (ขาวด้าน)",
-            "กระดาษคราฟท์ (สีน้ำตาล)", "เทรซิ่ง (กระดาษไข)"
-        ]
-    },
-    "หมึกพิมพ์": {
-        subTypes: ["เครื่องอิงค์เจ็ท (Inkjet)", "เครื่องเลเซอร์ (Laser)", "อิงค์แทงค์ (Ink Tank)", "หมึกพิมพ์ใบเสร็จ"],
-        types: ["สีดำ (Black - K)", "สีฟ้า (Cyan - C)", "สีชมพู (Magenta - M)", "สีเหลือง (Yellow - Y)", "สีฟ้าอ่อน (Light Cyan)", "สีชมพูอ่อน (Light Magenta)"]
-    },
-    "วัสดุเข้าเล่ม": {
-        subTypes: ["สันห่วงกระดูกงูพลาสติก", "สันเกลียวพลาสติก", "สันรูดพลาสติก", "สันกระดูกงูเหล็ก (สันขดลวดคู่)", "สันเกลียวเหล็ก"],
-        types: [
-            "3 mm", "5 mm", "6 mm", "6.4 mm", "7 mm", "8 mm", "9.5 mm", "10 mm", "11 mm", "12 mm",
-            "12.7 mm", "14 mm", "14.3 mm", "15 mm", "16 mm", "17 mm", "18 mm", "19 mm", "20 mm",
-            "22 mm", "25 mm", "25.4 mm", "28 mm", "30 mm", "32 mm", "38 mm", "45 mm", "50 mm", "51 mm"
-        ]
-    },
-    "วัสดุเคลือบ": {
-        subTypes: ["ขนาด A3", "ขนาด A4", "ขนาด F4", "ขนาด บัตรประชาชน/นามบัตร", "ขนาด A5", "ขนาด B4", "ขนาด B5", "ขนาด A6 (4x6 นิ้ว)"],
-        types: [
-            "แบบใส 75 ไมครอน", "แบบใส 100 ไมครอน", "แบบใส 125 ไมครอน", "แบบใส 150 ไมครอน",
-            "แบบใส 250 ไมครอน", "แบบด้าน (Matte)", "แบบมีกาวในตัว"
-        ]
-    },
-    "อื่น": {
-        subTypes: [
-            "กรรไกร", "คัตเตอร์", "ใบมีดคัตเตอร์", "แผ่นรองตัด", "เครื่องเจาะรูตุ๊ดตู่",
-            "เครื่องเย็บกระดาษ (แม็ก)", "ลวดเย็บกระดาษ", "ที่ถอนลวดเย็บ", "คลิปดำหนีบกระดาษ",
-            "ลวดเสียบกระดาษ", "เทปกาวใส", "เทปขุ่น (เทปเขียนทับได้)", "เทปกาวสองหน้า (แบบบาง)",
-            "เทปกาวสองหน้า (แบบหนา/โฟม)", "เทปผ้า", "กาวน้ำ", "กาวแท่ง", "กาวสองหน้าแบบลูกกลิ้ง",
-            "ซองเอกสารสีน้ำตาล (แบบเรียบ)", "ซองเอกสารสีน้ำตาล (แบบขยายข้าง)", "ซองเอกสารสีขาว",
-            "ซองพลาสติกใส", "ซองกันกระแทก (มีบับเบิ้ล)", "แฟ้มซองสอดพลาสติก"
-        ],
-        typesBySubType: {
-            "ลวดเย็บกระดาษ": ["เบอร์ 10", "เบอร์ 3", "เบอร์ 35", "เบอร์ 23/6", "เบอร์ 23/8", "เบอร์ 23/10", "เบอร์ 23/13", "เบอร์ 23/15", "เบอร์ 23/17", "เบอร์ 23/20", "เบอร์ 23/24"],
-            "คลิปดำหนีบกระดาษ": ["15 mm (เบอร์ 113)", "19 mm (เบอร์ 112)", "25 mm (เบอร์ 111)", "32 mm (เบอร์ 110)", "41 mm (เบอร์ 109)", "51 mm (เบอร์ 108)"],
-            "ซองเอกสารสีน้ำตาล (แบบเรียบ)": ["4.5 x 7 นิ้ว", "7 x 10 นิ้ว", "9 x 12.75 นิ้ว", "9 x 12 นิ้ว", "10 x 13 นิ้ว", "11 x 14 นิ้ว"],
-            "ซองเอกสารสีน้ำตาล (แบบขยายข้าง)": ["4.5 x 7 นิ้ว", "7 x 10 นิ้ว", "9 x 12.75 นิ้ว", "9 x 12 นิ้ว", "10 x 13 นิ้ว", "11 x 14 นิ้ว"],
-            "ซองเอกสารสีขาว": ["4.5 x 7 นิ้ว", "7 x 10 นิ้ว", "9 x 12.75 นิ้ว", "9 x 12 นิ้ว", "10 x 13 นิ้ว", "11 x 14 นิ้ว"],
-            "ซองพลาสติกใส": ["4.5 x 7 นิ้ว", "7 x 10 นิ้ว", "9 x 12.75 นิ้ว", "9 x 12 นิ้ว", "10 x 13 นิ้ว", "11 x 14 นิ้ว"],
-            "ซองกันกระแทก (มีบับเบิ้ล)": ["4.5 x 7 นิ้ว", "7 x 10 นิ้ว", "9 x 12.75 นิ้ว", "9 x 12 นิ้ว", "10 x 13 นิ้ว", "11 x 14 นิ้ว"],
-            "เทปกาวใส": ["1/2 นิ้ว (12 mm)", "3/4 นิ้ว (18 mm)", "1 นิ้ว (24 mm)", "1.5 นิ้ว (36 mm)", "2 นิ้ว (48 mm)"],
-            "เทปขุ่น (เทปเขียนทับได้)": ["1/2 นิ้ว (12 mm)", "3/4 นิ้ว (18 mm)", "1 นิ้ว (24 mm)", "1.5 นิ้ว (36 mm)", "2 นิ้ว (48 mm)"],
-            "เทปกาวสองหน้า (แบบบาง)": ["1/2 นิ้ว (12 mm)", "3/4 นิ้ว (18 mm)", "1 นิ้ว (24 mm)", "1.5 นิ้ว (36 mm)", "2 นิ้ว (48 mm)"],
-            "เทปกาวสองหน้า (แบบหนา/โฟม)": ["1/2 นิ้ว (12 mm)", "3/4 นิ้ว (18 mm)", "1 นิ้ว (24 mm)", "1.5 นิ้ว (36 mm)", "2 นิ้ว (48 mm)"],
-            "เทปผ้า": ["1/2 นิ้ว (12 mm)", "3/4 นิ้ว (18 mm)", "1 นิ้ว (24 mm)", "1.5 นิ้ว (36 mm)", "2 นิ้ว (48 mm)"],
-            "ใบมีดคัตเตอร์": ["ขนาด 9 mm มุม 30 องศา", "ขนาด 9 mm มุม 45 องศา", "ขนาด 18 mm มุม 30 องศา", "ขนาด 18 mm มุม 45 องศา"],
-            "default": ["เล็ก", "กลาง", "ใหญ่"]
-        }
-    }
-};
+let INVENTORY_MATERIAL_DATA = null;
+let unitOptionsList = [];
 
 async function loadData() {
     try {
         const tbody = document.querySelector('.inventory-table tbody');
         if (tbody) tbody.innerHTML = createLoadingSpinner(8);
 
-        inventoryData = await fetchApi('/api/inventory');
+        // Fetch options and data in parallel
+        const [options, inventory] = await Promise.all([
+            fetchApi('/api/material-options'),
+            fetchApi('/api/inventory')
+        ]);
+
+        INVENTORY_MATERIAL_DATA = options.inventory;
+        unitOptionsList = options.units;
+        inventoryData = inventory;
+
+        // Initialize dropdowns with fetched options
+        initUnitDropdowns();
+        initInventoryDropdowns();
+
         renderInventoryTable();
     } catch (err) {
         alert(err.message);
@@ -354,6 +311,8 @@ function sortByStatus(type) {
 }
 
 function openSettingsModal(btn) {
+    injectSettingsModal();
+
     currentRowToEdit = btn.closest('tr');
 
     const name = currentRowToEdit.querySelector('.item-name') ? currentRowToEdit.querySelector('.item-name').innerText.trim() : '';
@@ -407,6 +366,8 @@ function closeModal(modalId) {
 let currentMaterialActionType = null;
 
 function openAddMaterialModal() {
+    injectAddMaterialModal();
+
     // Reset fields
     document.getElementById('text-add-material').innerText = 'ชื่อวัสดุ';
     document.getElementById('text-add-subtype').innerText = 'ชนิดวัสดุ';
@@ -538,9 +499,11 @@ function initiateCancelMaterial(type) {
         cancelBtnClass: 'btn-action btn-cancel',
         onConfirm: () => {
             if (currentMaterialActionType === 'add') {
-                removeModalCompletely('modal-add-material');
+                const modal = document.getElementById('modal-add-material');
+                if (modal) modal.remove();
             } else {
-                removeModalCompletely('modal-settings');
+                const modal = document.getElementById('modal-settings');
+                if (modal) modal.remove();
             }
         },
         onCancel: () => {
@@ -636,7 +599,6 @@ function saveNewMaterial() {
         updateItemCount();
     }
 
-    showStatusModal('บันทึกข้อมูลวัสดุสำเร็จ', 'ข้อมูลวัสดุได้รับการบันทึกแล้ว', 'success');
     checkStockColors();
 }
 
@@ -810,7 +772,6 @@ function saveMaterialData() {
         if (qtyTd) qtyTd.innerText = qty;
     }
 
-    // showStatusModal('success'); // Removed 2s popup
     checkStockColors();
 }
 
@@ -855,11 +816,10 @@ function confirmDeleteMaterial() {
         currentRowToDelete.remove();
         currentRowToDelete = null;
         updateItemCount();
-        showStatusModal('ลบวัสดุสำเร็จ', 'ข้อมูลถูกลบสำเร็จแล้ว', 'success');
     }
 }
 
-const unitOptionsList = ['เล่ม', 'รีม', 'แผ่น', 'แพ็ค', 'หลอด', 'ขวด', 'เส้น', 'กล่อง', 'ด้าม', 'ตัว', 'ใบ', 'ซอง', 'ชิ้น', 'แท่ง', 'ตลับ', 'อัน', 'ม้วน', 'ก้อน', 'ถุง', 'กระป๋อง', 'ชุด'].sort((a, b) => a.localeCompare(b, 'th'));
+// unitOptionsList is fetched dynamically in loadData()
 
 function toggleUnitDropdown(listId) {
     document.querySelectorAll('.dropdown-list-standard').forEach(el => {
@@ -963,6 +923,5 @@ function validateInteger(input) {
 
 window.onload = function () {
     loadData();
-    initUnitDropdowns();
-    initInventoryDropdowns();
+    // Dropdowns are initialized inside loadData() after options are fetched
 };

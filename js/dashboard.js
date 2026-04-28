@@ -106,7 +106,7 @@ function injectEditModal() {
                         </div>
                     </div>
                     <div id="footer-right-side" class="d-flex align-end justify-end">
-                        <div class="modal-actions-right d-flex gap-12" style="margin-top: 0;">
+                        <div class="modal-actions-right d-flex gap-12" style="margin-top: 10;">
                             <button type="submit" class="btn-action btn-save-success">บันทึกข้อมูล</button>
                             <button type="button" class="btn-action btn-close-danger" onclick="confirmCancelEdit()">ยกเลิก</button>
                         </div>
@@ -252,6 +252,7 @@ function confirmSaveUserData() {
     
     showConfirmModal({
         title: 'ยืนยันการบันทึกข้อมูล',
+        headerClass: 'modal-header-confirm modal-header-save',
         bodyHtml: `
             <h3 class="modal-h3-confirm" style="text-align: center;">
                 คุณต้องการบันทึกข้อมูลของ <br> <span class="text-save fw-700">${displayName}</span>
@@ -295,7 +296,6 @@ function confirmCancelEdit() {
         confirmBtnClass: 'btn-action btn-close',
         cancelBtnClass: 'btn-action btn-cancel',
         onConfirm: () => {
-            window.showStatusModal('ยกเลิกการบันทึกข้อมูลสำเร็จ', 'ยกเลิกการบันทึกข้อมูลสำเร็จ', 'error-upload'); // matches previous cancel layout loosely
         removeEditModal();
         },
         onCancel: () => {
@@ -349,7 +349,6 @@ function executeSaveUserData() {
     currentEditType = null;
     removeEditModal();
 
-    window.showStatusModal('บันทึกข้อมูลสำเร็จ', 'ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว', 'success');
 }
 
 function openDeleteModal(type, id) {
@@ -376,7 +375,6 @@ function openDeleteModal(type, id) {
                 employees = employees.filter(e => e.id !== id);
             }
             renderTables();
-            window.showStatusModal('ลบข้อมูลสำเร็จ', 'ลบข้อมูลผู้ใช้สำเร็จ', 'error'); 
         }
     });
 }

@@ -2,18 +2,7 @@
 let receivePrintsData = [];
 let historyData = [];
 
-const RECEIVE_PRINT_OPTIONS_DATA = {
-    paperTypes: [
-        "A0", "A1", "A2", "A3", "A4", "A5", "F4", "นามบัตร (54x90 mm)"
-    ],
-    printTypes: [
-        "กระดาษปอนด์ 70 แกรม (กระดาษปกติ)", "กระดาษปอนด์ 80 แกรม", "กระดาษร้อยปอนด์ (ผิวหยาบ)",
-        "กระดาษร้อยปอนด์ (ผิวเรียบ)", "กระดาษอาร์ตมัน 100g", "กระดาษอาร์ตมัน 120g", "กระดาษอาร์ตมัน 160g",
-        "อาร์ตด้าน 100g", "อาร์ตด้าน 120g", "อาร์ตด้าน 160g", "กระดาษโฟโต้",
-        "สติ๊กเกอร์กระดาษ (ผิวมัน)", "สติ๊กเกอร์กระดาษ (ผิวด้าน)", "สติ๊กเกอร์ PVC (ใส)",
-        "สติ๊กเกอร์ PVC (ทึบ)", "กระดาษคราฟท์ (สีน้ำตาล)"
-    ]
-};
+let RECEIVE_PRINT_OPTIONS_DATA = null;
 
 async function loadData() {
     try {
@@ -23,11 +12,13 @@ async function loadData() {
         const historyTbody = document.getElementById('history-tbody');
         if (historyTbody) historyTbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 3rem 0;"><div class="loader-spinner" style="margin: 0 auto 10px auto;"></div><p style="color: #64748b; font-weight: 500;">กำลังโหลดข้อมูลจำลองผ่าน JWT Flow...</p></td></tr>`;
 
-        const [rp, rpHistory] = await Promise.all([
+        const [options, rp, rpHistory] = await Promise.all([
+            fetchApi('/api/print-options'),
             fetchApi('/api/receive-prints'),
             fetchApi('/api/record-print-history')
         ]);
         
+        RECEIVE_PRINT_OPTIONS_DATA = options;
         receivePrintsData = rp;
         historyData = rpHistory;
         
